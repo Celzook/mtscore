@@ -3,6 +3,7 @@ name = "mtscore"
 version = "0.1.0"
 description = "자산 독립적 멀티에셋 마켓타이밍 스코어링 엔진"
 requires-python = ">=3.11"
+license = {text = "MIT"}
 dependencies = ["pandas>=2.2", "numpy>=1.26", "scipy>=1.11", "pyyaml>=6"]
 
 [project.optional-dependencies]
