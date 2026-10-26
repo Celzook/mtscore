@@ -1,17 +1,17 @@
-# commodity 프로파일 초안
+# commodity 프로파일
 asset_class: commodity
 blocks:
   oversold:
     price:
-      - {name: disparity_60, direction: -, fields: [close], params: {window: 60}}
-      - {name: return_z_20, direction: -, fields: [close], params: {window: 20, z_lookback: 252}}
+      - {name: disparity_60, indicator: disparity, direction: -, fields: [close], params: {window: 60}}
+      - {name: return_z_20, indicator: return_z, direction: -, fields: [close], params: {window: 20}}
     positioning:
-      - {name: spec_positioning, direction: -, fields: [cot_net]}
+      - {name: spec_positioning, indicator: positioning_z, direction: -, fields: [cot_net]}
   valuation:
     real_price:
-      - {name: real_price_gap_lt, direction: -, fields: [close, cpi], params: {lookback_years: 10}}
+      - {name: real_price_level, indicator: ratio, direction: -, fields: [close, cpi]}   # 실질가격의 자기 역사 백분위
   fundamental:
     curve:
-      - {name: backwardation, direction: +, fields: [close, close_c2]}
+      - {name: backwardation, indicator: ratio_minus_one, direction: +, fields: [close, close_c2]}
     inventory:
-      - {name: inventory_change, direction: -, fields: [inventory], status: na_until_found}   # WTI 전용, FRED 중단·EIA 미확인
+      - {name: inventory_change, indicator: pct_change_months, direction: -, fields: [inventory], params: {months: 1}, status: na_until_found}   # WTI 전용

@@ -5,10 +5,9 @@ percentile:
   rolling_years: 10
 missing:
   daily_ffill_max_bdays: 5
-  lowfreq_hold: until_next_release   # 월별·주별 필드는 as_of 부터 다음 공표 전까지 유지
-weights:
-  sub_block: equal
-  indicator: equal
+  lowfreq_threshold_days: 5          # 그 관측까지 기준일 간격 중앙값이 5일(달력일) 초과면 저빈도: 다음 공표 전까지 유지
+  lowfreq_max_hold_bdays: 70         # 저빈도라도 70 자산 달력일(약 3.3개월) 안에 다음 공표가 없으면 결측(중단 시리즈 방지)
+# 가중치: 하위블록 동일가중 → 하위블록 내 지표 동일가중이 기본. 자산별 override 는 universe.yaml overrides.weights
 bands:
   extreme: 90
   alert: 75
@@ -16,7 +15,7 @@ bands:
   contra_extreme: 10
 regime:
   threshold: 50
-  partial_label: 부분판정
+  partial_label: 부분판정   # N/A 블록이 있을 때 regime.display 에 덧붙는 표기
   matrix:   # (oversold, valuation, fundamental) → label, null = 무관
     - {o: high, v: high, f: high, label: 최우선 매수}
     - {o: high, v: high, f: low, label: 저평가 패닉 분할 진입}
@@ -26,7 +25,7 @@ regime:
     - {o: low, v: null, f: low, label: 고점 경계}
     - {o: low, v: low, f: null, label: 비중 축소}
 currency_variant: both     # oversold_only | fundamental_only | both — Phase 3 비교 후 확정
-confirm_trigger: {enabled: false}
+confirm_trigger: {enabled: false}   # 미구현 — 사용자 결정(2026-10-26): 나중에. 엔진은 이 키를 읽지 않는다
 backtest:
   horizons: [21, 63, 126, 252]
   event_cooldown_bdays: 20

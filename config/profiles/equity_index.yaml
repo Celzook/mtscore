@@ -1,45 +1,47 @@
-# equity_index 프로파일 초안 (Phase 0, 사용자 확인 전)
-# direction: + 클수록 매수 매력 / - 작을수록 매수 매력
-# status: na_until_found = 소스 미확보(불가·미확인) → 커버리지에 사유와 함께 N/A. 확보 매트릭스(outputs/phase0/coverage_matrix.md) 기준.
+# equity_index 프로파일 (Phase 1 형식, 지표 구성은 Phase 0 초안 — 사용자 확인 전)
+# 항목: name(지표 이름) · indicator(계산 함수, 생략 시 name) · direction(+ 클수록 매수 매력 / - 작을수록)
+#       fields(패널 field 이름, 계산 함수 입력 순서) · params · status(active | na_until_found) · flags · weight
+# status na_until_found = 소스 미확보(불가·미확인, outputs/phase0/coverage_matrix.md) → 커버리지에 사유와 함께 N/A
 asset_class: equity_index
 blocks:
   oversold:
     price:
-      - {name: disparity_20, direction: -, fields: [close], params: {window: 20}}
-      - {name: disparity_60, direction: -, fields: [close], params: {window: 60}}
-      - {name: disparity_200, direction: -, fields: [close], params: {window: 200}}
-      - {name: drawdown_52w_over_rv, direction: -, fields: [close], params: {lookback: 252, rv_window: 60}}
-      - {name: return_z_5, direction: -, fields: [close], params: {window: 5, z_lookback: 252}}
-      - {name: return_z_20, direction: -, fields: [close], params: {window: 20, z_lookback: 252}}
-      - {name: rsi_14, direction: -, fields: [close], params: {window: 14}}
-      - {name: rsi_2, direction: -, fields: [close], params: {window: 2}}
-    breadth:  # 구성종목 데이터가 있을 때만. KOSPI200 은 KRX 로그인 여부에 따라 PIT/생존편향 결정
-      - {name: pct_above_ma20, direction: -, fields: [breadth_above_ma20]}
-      - {name: pct_above_ma200, direction: -, fields: [breadth_above_ma200]}
-      - {name: pct_new_low_52w, direction: +, fields: [breadth_new_low_52w]}
-      - {name: adr_20, direction: -, fields: [breadth_adv, breadth_dec]}
+      - {name: disparity_20, indicator: disparity, direction: -, fields: [close], params: {window: 20}}
+      - {name: disparity_60, indicator: disparity, direction: -, fields: [close], params: {window: 60}}
+      - {name: disparity_200, indicator: disparity, direction: -, fields: [close], params: {window: 200}}
+      - {name: drawdown_52w_over_rv, indicator: drawdown_over_rv, direction: -, fields: [close], params: {lookback: 252, rv_window: 60}}
+      - {name: return_z_5, indicator: return_z, direction: -, fields: [close], params: {window: 5}}
+      - {name: return_z_20, indicator: return_z, direction: -, fields: [close], params: {window: 20}}
+      - {name: rsi_14, indicator: rsi, direction: -, fields: [close], params: {window: 14}}
+      - {name: rsi_2, indicator: rsi, direction: -, fields: [close], params: {window: 2}}
+    breadth:  # 구성종목 집계는 어댑터가 field 로 공급(KOSPI200: pykrx 과거 구성종목)
+      - {name: pct_above_ma20, indicator: level, direction: -, fields: [breadth_above_ma20]}
+      - {name: pct_above_ma200, indicator: level, direction: -, fields: [breadth_above_ma200]}
+      - {name: pct_new_low_52w, indicator: level, direction: +, fields: [breadth_new_low_52w]}
+      - {name: adr_20, indicator: adr, direction: -, fields: [breadth_adv, breadth_dec], params: {window: 20}}
     vol_sentiment:
-      - {name: vol_index_level, direction: +, fields: [vol_index]}
-      - {name: vol_index_over_rv, direction: +, fields: [vol_index, close], params: {rv_window: 20}}
-      - {name: vol_term_inversion, direction: +, fields: [vol_index, vol_index_3m]}   # S&P500: VIX/VIX3M(가능). KOSPI200: 미확인 → 필드 없으면 자동 제외
-      - {name: put_call, direction: +, fields: [put_call], status: na_until_found}      # 미확인
-      - {name: credit_spread_level, direction: +, fields: [credit_spread]}
-      - {name: home_ccy_shock_20, direction: +, fields: [fx_home], params: {window: 20}, flags: [currency]}
-    flows:  # KOSPI200 전용, 소스 미확보
-      - {name: foreign_net_buy_intensity, direction: -, fields: [foreign_net_buy], status: na_until_found}   # naver 410, pykrx 로그인 필요
-      - {name: margin_debt_change, direction: -, fields: [margin_debt], status: na_until_found}              # 미확인
-      - {name: forced_liquidation, direction: +, fields: [forced_liquidation], status: na_until_found}       # 미확인
+      - {name: vol_index_level, indicator: level, direction: +, fields: [vol_index]}
+      - {name: vol_index_over_rv, indicator: vol_over_rv, direction: +, fields: [vol_index, close], params: {rv_window: 20}}
+      - {name: vol_term_inversion, indicator: term_ratio, direction: +, fields: [vol_index, vol_index_3m]}
+      - {name: put_call, indicator: level, direction: +, fields: [put_call], status: na_until_found}
+      - {name: credit_spread_level, indicator: level, direction: +, fields: [credit_spread]}
+      - {name: home_ccy_shock_20, indicator: shock_return, direction: +, fields: [fx_home], params: {window: 20}, flags: [currency]}
+    flows:
+      - {name: foreign_net_buy_intensity, indicator: flow_intensity, direction: -, fields: [foreign_net_buy]}
+      - {name: margin_debt_change, indicator: pct_change_months, direction: -, fields: [margin_debt], params: {months: 1}, status: na_until_found}
+      - {name: forced_liquidation, indicator: level, direction: +, fields: [forced_liquidation], status: na_until_found}
   valuation:
     multiples:
-      - {name: pbr_trailing, direction: -, fields: [pbr]}
-      - {name: per_fwd_12m, direction: -, fields: [fwd_per]}
-      - {name: dividend_yield, direction: +, fields: [div_yield]}
-      - {name: erp, direction: +, fields: [fwd_per, local_10y]}
+      - {name: pbr_trailing, indicator: level, direction: -, fields: [pbr]}
+      - {name: per_fwd_12m, indicator: level, direction: -, fields: [fwd_per]}
+      - {name: dividend_yield, indicator: level, direction: +, fields: [div_yield]}
+      - {name: erp, indicator: erp, direction: +, fields: [fwd_per, local_10y]}
   fundamental:
     earnings:
-      - {name: revision_ratio, direction: +, fields: [eps_rev_up, eps_rev_down], status: na_until_found}
-      - {name: fwd_eps_chg_1m, direction: +, fields: [fwd_eps_12m], params: {months: 1}}
-      - {name: fwd_eps_chg_3m, direction: +, fields: [fwd_eps_12m], params: {months: 3}}
-      - {name: revision_momentum, direction: +, fields: [fwd_eps_12m], params: {months: 1, diff: 1}}
+      - {name: revision_ratio, indicator: revision_ratio, direction: +, fields: [eps_rev_up, eps_rev_down], status: na_until_found}
+      - {name: revision_breadth, indicator: level, direction: +, fields: [eps_up_share]}   # 바텀업 대리지표(가정): 1개월 전보다 NTM EPS 가 오른 종목 시총 비중
+      - {name: fwd_eps_chg_1m, indicator: pct_change_months, direction: +, fields: [fwd_eps_12m], params: {months: 1}}
+      - {name: fwd_eps_chg_3m, indicator: pct_change_months, direction: +, fields: [fwd_eps_12m], params: {months: 3}}
+      - {name: revision_momentum, indicator: revision_momentum, direction: +, fields: [fwd_eps_12m], params: {months: 1}}
     macro:
-      - {name: home_ccy_trend_3m, direction: +, fields: [fx_home], params: {months: 3}, flags: [currency, exporter_only]}
+      - {name: home_ccy_trend_3m, indicator: pct_change_months, direction: +, fields: [fx_home], params: {months: 3}, flags: [currency]}   # 수출 비중 큰 시장만(자국통화 약세 = 이익 우호)

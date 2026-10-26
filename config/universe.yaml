@@ -1,19 +1,26 @@
-# 유니버스 초안 (Phase 0). 소스·필드 매핑은 Phase 2 어댑터에서 확정. 미결 사항은 question 키에 적는다.
+# 유니버스 (Phase 0 결정 반영). 소스 매핑은 Phase 2 어댑터에서 확정. 미결 사항은 question 키에 적는다.
+# 키
+#   asset_id · name · asset_class · currency · return_field
+#   refs: {이 자산에서 쓸 field: 다른자산ID.field}  — 다른 자산의 PIT 시계열을 그대로 빌려 쓴다(변환 전 원값)
+#   field_transforms: {field: reciprocal | negate}  — 이 자산 계산 직전에 적용
+#   overrides: {exclude: [지표명 | 블록 | 하위블록 | 블록.하위블록], weights: {지표명 | 블록.하위블록: w}, params: {지표명: {...}}}
+#   그 밖의 키는 meta 로 보존(엔진 계산에 쓰지 않음)
 - asset_id: KOSPI200
   name: 코스피200
   asset_class: equity_index
   currency: KRW
   return_field: close_tr          # .KS200TR(2011~), 이전 구간은 가격지수
-  constituents: KOSPI200          # KRX 로그인 여부에 따라 PIT/생존편향 결정
-  vol_index: VKOSPI
+  constituents: KOSPI200          # pykrx 과거 구성종목(KRX 로그인)
+  refs: {credit_spread: KR_CORP.spread, local_10y: KTB10Y.yield, fx_home: USDKRW.close}
   overrides: {}
 - asset_id: SP500
   name: S&P500
   asset_class: equity_index
   currency: USD
   return_field: close
-  vol_index: VIX
-  overrides: {exclude: [flows, breadth, pbr_trailing, dividend_yield]}   # .SPX PBR·배당 불가(R2)
+  refs: {credit_spread: US_HY.spread, local_10y: UST10Y.yield}
+  overrides:
+    exclude: [flows, breadth, pbr_trailing, dividend_yield, home_ccy_shock_20, home_ccy_trend_3m]   # PBR·배당 불가(R2), 자국통화 지표 해당 없음
 - asset_id: KTB10Y
   name: 국고채 10년
   asset_class: rates
@@ -27,13 +34,15 @@
   currency: USD
   return_field: duration_approx
   duration: 8.5
+  overrides: {}
 - asset_id: USDKRW
-  name: 달러/원
+  name: 달러/원 (원화 매수 관점)
   asset_class: fx
   currency: KRW
-  quote_view: buy_quote           # 원화 매수 관점: 가격 상승 = 원화 과매도
+  quote_view: buy_quote           # 원화 매수 관점: USDKRW 상승 = 원화 과매도
+  return_field: close             # 변환 후(원화 가격) 기준
+  field_transforms: {close: reciprocal}
   overrides: {exclude: [spec_positioning]}   # CFTC KRW 계약 검색 0건(F3)
-  return_field: close_inverted
 - asset_id: GOLD
   name: 금
   asset_class: commodity
@@ -45,6 +54,7 @@
   asset_class: commodity
   currency: USD
   return_field: close             # 연속물 롤 수익 포함 여부는 Phase 2 에서 결정
+  overrides: {}
 - asset_id: US_HY
   name: 미국 하이일드
   asset_class: credit
@@ -52,6 +62,7 @@
   return_field: index_level       # iBoxx USD Liquid HY(.IBLUS0004) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
   spread_source: iboxx_gspread    # YLDTOMAT − 동일 듀레이션 UST 보간. 2023-10~ FRED ICE OAS 와 대조
   ric: .IBLUS0004
+  overrides: {}
 - asset_id: US_IG
   name: 미국 투자등급
   asset_class: credit
@@ -59,9 +70,11 @@
   return_field: index_level       # iBoxx USD Liquid IG(.IBLUS0005) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
   spread_source: iboxx_gspread
   ric: .IBLUS0005
+  overrides: {}
 - asset_id: KR_CORP
   name: 국내 회사채 AA-(3년) − 국고3년
   asset_class: credit
   currency: KRW
   return_field: duration_approx
   duration: 2.7
+  overrides: {}

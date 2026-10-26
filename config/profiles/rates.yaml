@@ -1,18 +1,18 @@
-# rates 프로파일 초안 — 가격 기준: 금리 상승 = 과매도(매수 매력 ↑)
+# rates 프로파일 — 가격 기준: 금리 상승 = 과매도(매수 매력 ↑). yield 단위 %.
 asset_class: rates
 blocks:
   oversold:
     price:
-      - {name: yield_chg_z_20, direction: +, fields: [yield], params: {window: 20, z_lookback: 252}}
-      - {name: yield_chg_z_60, direction: +, fields: [yield], params: {window: 60, z_lookback: 252}}
-      - {name: yield_disparity_60, direction: +, fields: [yield], params: {window: 60}}
+      - {name: yield_chg_z_20, indicator: change_z, direction: +, fields: [yield], params: {window: 20}}
+      - {name: yield_chg_z_60, indicator: change_z, direction: +, fields: [yield], params: {window: 60}}
+      - {name: yield_disparity_60, indicator: level_disparity, direction: +, fields: [yield], params: {window: 60}}
     positioning:
-      - {name: futures_net_spec, direction: -, fields: [cot_net]}   # UST: CFTC 가능 / KTB: 미확인 → universe overrides 로 제외
+      - {name: futures_net_spec, indicator: positioning_z, direction: -, fields: [cot_net]}   # UST: CFTC / KTB: 미확인 → universe overrides 로 제외
   valuation:
     level:
-      - {name: real_yield, direction: +, fields: [real_yield]}       # KR 은 KTB10Y − CPI YoY 대리(가정)
-      - {name: spread_to_policy, direction: +, fields: [yield, policy_rate]}
-      - {name: term_premium, direction: +, fields: [term_premium]}   # US: Kim-Wright 가능 / KR: 미확인 → universe overrides 로 제외
+      - {name: real_yield, indicator: level, direction: +, fields: [real_yield]}       # KR 은 KTB10Y − CPI YoY 대리(가정)
+      - {name: spread_to_policy, indicator: spread, direction: +, fields: [yield, policy_rate]}
+      - {name: term_premium, indicator: level, direction: +, fields: [term_premium]}   # US: Kim-Wright / KR: 미확인 → overrides 로 제외
   fundamental:
     macro:
-      - {name: macro_surprise, direction: -, fields: [macro_surprise], status: na_until_found}
+      - {name: macro_surprise, indicator: level, direction: -, fields: [macro_surprise], status: na_until_found}

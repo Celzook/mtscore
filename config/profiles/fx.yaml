@@ -1,18 +1,18 @@
-# fx 프로파일 초안 — 기준통화 매수 관점. 페어 방향은 universe.yaml 의 quote_view 로 지정
-# USDKRW 는 quote_view: buy_quote(원화 매수) → 가격(USDKRW) 상승 = 원화 과매도
+# fx 프로파일 — 매수 대상 통화 관점의 가격(close)을 입력으로 받는다.
+# USDKRW(원화 매수 관점)는 universe.yaml 의 field_transforms: {close: reciprocal} 로 원화 가격(USD/KRW)으로 바꾼 뒤 계산한다.
 asset_class: fx
 blocks:
   oversold:
     price:
-      - {name: disparity_60, direction: -, fields: [close], params: {window: 60}}
-      - {name: return_z_20, direction: -, fields: [close], params: {window: 20, z_lookback: 252}}
+      - {name: disparity_60, indicator: disparity, direction: -, fields: [close], params: {window: 60}}
+      - {name: return_z_20, indicator: return_z, direction: -, fields: [close], params: {window: 20}}
     positioning:
-      - {name: spec_positioning, direction: -, fields: [cot_net]}   # KRW: CFTC 계약 검색 0건(F3) → universe overrides 로 제외
+      - {name: spec_positioning, indicator: positioning_z, direction: -, fields: [cot_net]}   # KRW: CFTC 계약 검색 0건 → overrides 로 제외
   valuation:
     reer:
-      - {name: reer_gap_lt, direction: -, fields: [reer], params: {lookback_years: 10}}
+      - {name: reer_level, indicator: level, direction: -, fields: [reer]}   # 자기 역사 대비 REER 백분위(높을수록 고평가)
   fundamental:
     macro:
-      - {name: rate_diff_chg_3m, direction: +, fields: [rate_diff], params: {months: 3}}
-      - {name: current_account_trend, direction: +, fields: [current_account], params: {months: 12}}
-      - {name: terms_of_trade_trend, direction: +, fields: [terms_of_trade], status: na_until_found}   # 미확인
+      - {name: rate_diff_chg_3m, indicator: diff_months, direction: +, fields: [rate_diff], params: {months: 3}}   # 매수 통화 금리 − 상대 통화 금리
+      - {name: current_account_trend, indicator: diff_months, direction: +, fields: [current_account_12m], params: {months: 3}}   # 12개월 누적(어댑터 공급)
+      - {name: terms_of_trade_trend, indicator: pct_change_months, direction: +, fields: [terms_of_trade], params: {months: 3}, status: na_until_found}

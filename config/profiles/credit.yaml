@@ -1,12 +1,12 @@
-# credit 프로파일 초안 — 스프레드 확대 = 과매도(매수 매력 ↑)
+# credit 프로파일 — 스프레드 확대 = 과매도(매수 매력 ↑). spread 단위 %p 또는 bp(자산 안에서 일관되면 됨).
 asset_class: credit
 blocks:
   oversold:
     spread:
-      - {name: spread_chg_z_20, direction: +, fields: [spread], params: {window: 20, z_lookback: 252}}
+      - {name: spread_chg_z_20, indicator: change_z, direction: +, fields: [spread], params: {window: 20}}
   valuation:
     level:
-      - {name: spread_level, direction: +, fields: [spread]}
+      - {name: spread_level, indicator: level, direction: +, fields: [spread]}
   fundamental:
     defaults:
-      - {name: default_trend, direction: -, fields: [default_rate], status: na_until_found}
+      - {name: default_trend, indicator: diff_months, direction: -, fields: [default_rate], params: {months: 3}, status: na_until_found}
