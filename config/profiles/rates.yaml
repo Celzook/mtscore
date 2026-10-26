@@ -16,3 +16,6 @@ blocks:
   fundamental:
     macro:
       - {name: macro_surprise, indicator: level, direction: -, fields: [macro_surprise], status: na_until_found}
+      - {name: inflation_momentum, indicator: yoy_momentum, direction: -, fields: [cpi], params: {months: 3}}   # 물가 둔화 = 채권 우호. CPI as_of = 기준월 + 공표 시차(가정)
+      - {name: policy_direction, indicator: diff_months, direction: -, fields: [policy_rate], params: {months: 6}}   # 인하 국면 = 채권 우호(후행 성격)
+      - {name: financial_conditions, indicator: diff_months, direction: +, fields: [nfci], params: {months: 3}}   # 여건 긴축 = 채권 우호. 미국만(KTB 는 overrides 로 제외)

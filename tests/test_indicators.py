@@ -85,3 +85,24 @@ def test_unknown_function_lists_registered():
     with pytest.raises(KeyError, match="등록되지 않은"):
         get_func("nope")
     assert "disparity" in registered()
+
+
+def test_yoy_momentum_known_value():
+    m = pd.date_range("2019-01-31", "2021-12-31", freq="BME")
+    cpi = pd.Series(100.0, index=m)
+    cpi["2020-01-31":] = 102.0          # 2020-01 부터 2% 높은 수준
+    cpi["2021-01-31":] = 102.0          # 2021 전년비 0%
+    held = cpi.reindex(pd.bdate_range(m[0], m[-1])).ffill()
+    out = f("yoy_momentum", held, months=3)
+    # 2020-06 말: YoY 2% (3개월 전 2020-03 도 2%) → 모멘텀 0
+    assert out["2020-06-30"] == pytest.approx(0.0, abs=1e-9)
+    # 2021-03 말: YoY 0%, 3개월 전(2020-12) YoY 2% → −2%p
+    assert out["2021-03-31"] == pytest.approx(-2.0)
+
+
+def test_spread_gap_change():
+    i2 = pd.bdate_range("2020-01-01", "2020-12-31")
+    hy = pd.Series(np.linspace(5.0, 4.0, len(i2)), index=i2)
+    ig = pd.Series(1.0, index=i2)
+    out = f("spread_gap_change", hy, ig, months=3).dropna()
+    assert (out < 0).all()              # 차이 축소 → 음수(프로파일 direction '-' 로 매수 매력 ↑)

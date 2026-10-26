@@ -24,7 +24,6 @@ blocks:
       - {name: vol_index_over_rv, indicator: vol_over_rv, direction: +, fields: [vol_index, close], params: {rv_window: 20}}
       - {name: vol_term_inversion, indicator: term_ratio, direction: +, fields: [vol_index, vol_index_3m]}
       - {name: put_call, indicator: level, direction: +, fields: [put_call], status: na_until_found}
-      - {name: credit_spread_level, indicator: level, direction: +, fields: [credit_spread]}
       - {name: home_ccy_shock_20, indicator: shock_return, direction: +, fields: [fx_home], params: {window: 20}, flags: [currency]}
     flows:
       - {name: foreign_net_buy_intensity, indicator: flow_intensity, direction: -, fields: [foreign_net_buy]}

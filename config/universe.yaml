@@ -11,14 +11,14 @@
   currency: KRW
   return_field: close_tr          # .KS200TR(2011~), 이전 구간은 가격지수
   constituents: KOSPI200          # pykrx 과거 구성종목(KRX 로그인)
-  refs: {credit_spread: KR_CORP.spread, local_10y: KTB10Y.yield, fx_home: USDKRW.close}
+  refs: {local_10y: KTB10Y.yield, fx_home: USDKRW.close}
   overrides: {}
 - asset_id: SP500
   name: S&P500
   asset_class: equity_index
   currency: USD
   return_field: close
-  refs: {credit_spread: US_HY.spread, local_10y: UST10Y.yield}
+  refs: {local_10y: UST10Y.yield}
   overrides:
     exclude: [flows, breadth, pbr_trailing, dividend_yield, home_ccy_shock_20, home_ccy_trend_3m]   # PBR·배당 불가(R2), 자국통화 지표 해당 없음
 - asset_id: KTB10Y
@@ -27,7 +27,7 @@
   currency: KRW
   return_field: duration_approx   # −D×Δy + carry, 가정
   duration: 8.5                   # 가정: 10년 국고 수정듀레이션 근사, Phase 2 에서 확인
-  overrides: {exclude: [futures_net_spec, term_premium]}   # KTB 포지셔닝·한국 기간프리미엄 미확인
+  overrides: {exclude: [futures_net_spec, term_premium, financial_conditions]}   # KTB 포지셔닝·한국 기간프리미엄 미확인, NFCI 는 미국 지표
 - asset_id: UST10Y
   name: 미국채 10년
   asset_class: rates
@@ -48,7 +48,12 @@
   asset_class: commodity
   currency: USD
   return_field: close
-  overrides: {exclude: [inventory_change]}   # 재고 지표는 WTI 전용(해당 없음)
+  refs: {real_yield_us: UST10Y.real_yield}
+  overrides:
+    exclude: [inventory_change, backwardation]   # 재고는 WTI 전용, 금 커브는 금리 캐리만 반영(사용자 결정 2026-10-26)
+    add:
+      fundamental.real_rate:
+        - {name: real_rate_change, indicator: diff_months, direction: -, fields: [real_yield_us], params: {months: 3}}   # 실질금리 하락 = 금 우호
 - asset_id: WTI
   name: WTI 원유
   asset_class: commodity
@@ -62,6 +67,7 @@
   return_field: index_level       # iBoxx USD Liquid HY(.IBLUS0004) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
   spread_source: iboxx_gspread    # YLDTOMAT − 동일 듀레이션 UST 보간. 2023-10~ FRED ICE OAS 와 대조
   ric: .IBLUS0004
+  refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread}
   overrides: {}
 - asset_id: US_IG
   name: 미국 투자등급
@@ -70,6 +76,7 @@
   return_field: index_level       # iBoxx USD Liquid IG(.IBLUS0005) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
   spread_source: iboxx_gspread
   ric: .IBLUS0005
+  refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread}
   overrides: {}
 - asset_id: KR_CORP
   name: 국내 회사채 AA-(3년) − 국고3년
@@ -77,4 +84,5 @@
   currency: KRW
   return_field: duration_approx
   duration: 2.7
+  refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread}   # spread_low_grade(BBB−−국고3년)는 자체 필드, KRCORP=KQ 확인 필요
   overrides: {}

@@ -6,6 +6,7 @@ blocks:
     price:
       - {name: disparity_60, indicator: disparity, direction: -, fields: [close], params: {window: 60}}
       - {name: return_z_20, indicator: return_z, direction: -, fields: [close], params: {window: 20}}
+      - {name: rsi_14, indicator: rsi, direction: -, fields: [close], params: {window: 14}}   # 사용자 결정 2026-10-26
     positioning:
       - {name: spec_positioning, indicator: positioning_z, direction: -, fields: [cot_net]}   # KRW: CFTC 계약 검색 0건 → overrides 로 제외
   valuation:
