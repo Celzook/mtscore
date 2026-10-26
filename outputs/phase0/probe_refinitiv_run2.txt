@@ -1,0 +1,76 @@
+SPX_EPS_NTM 201 2010-01-17 2026-09-21 
+SPX_TR.NumEstRevisingUp 1 None None ['Unable to collect data for some field(s).']
+SPX_TR.NumEstRevisingDown 1 None None ['Unable to collect data for some field(s).']
+SPX_TR.EPSNumUpRevisions 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+SPX_TR.EPSNumDownRevisions 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+SPX_TR.NumberOfUpRevisions 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+SPX_TR.EPSNumIncEstimates 201 2010-01-17 2026-09-21 
+SPX_TR.EPSMeanChg 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+SPX_TR.EPSNumUp 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+SPX_TR.EPSNumDown 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+SPX_TR.EPSMeanPctChg 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+SPX_TR.PriceToBVPerShare 0 None None ['Unable to resolve all requested identifiers.', 'Unable to resolve all requested identifiers.']
+SPX_TR.DividendYield 0 None None 
+SPX_TR.PtoEPSMeanEst 201 2010-01-29 2026-09-30 
+SPX_TR.IndexDividendYield 0 None None ['The formula must contain at least one field or function.', 'The formula must contain at least one field or function.']
+005930_TR.EPSMean 198 2010-04-21 2026-09-30 
+005930_TR.NumEstRevisingUp 1 None None ['Unable to collect data for some field(s).']
+005930_TR.NumEstRevisingDown 1 None None ['Unable to collect data for some field(s).']
+005930_TR.CompanyMarketCap 201 2010-01-29 2026-09-30 
+005930_TR.PriceToBVPerShare 201 2010-01-29 2026-09-30 
+005930_TR.DividendYield 200 2010-02-26 2026-09-30 
+005930_TR.BVPSMean 198 2010-04-21 2026-09-30 
+005930_TR.DPSMean 201 2010-01-29 2026-09-30 
+KS200_constituents_hist 0 None None 
+KODEX200_holdings_now 202 None None 
+2026-10-26 18:28:03,016 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:03,016 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:05,386 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:05,386 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:07,770 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:07,770 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:09,684 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:09,684 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:12,135 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:12,135 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:14,526 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:14,526 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:14,904 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:14,904 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:17,278 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:17,278 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:19,647 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:19,647 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:20,020 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:20,020 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:22,382 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:22,383 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:24,839 P[17040] [MainThread 19300] Error with 1GC-NCL-NET=COT: Invalid RIC
+COT_gold 0 None None
+2026-10-26 18:28:24,839 P[17040] [MainThread 19300] 1GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:25,242 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:25,242 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:27,683 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:27,683 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:30,270 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:30,270 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:30,698 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:30,698 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:33,067 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:33,067 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:35,452 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:35,453 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:35,886 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:35,886 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:38,252 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:38,253 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:40,675 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:40,675 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:45,281 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:45,281 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:47,662 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+2026-10-26 18:28:47,662 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+2026-10-26 18:28:50,089 P[17040] [MainThread 19300] Error with GC-NCL-NET=COT: Invalid RIC
+COT_gold_alt 0 None None
+2026-10-26 18:28:50,089 P[17040] [MainThread 19300] GC-NCL-NET=COT: Invalid RIC | 
+wrote \\wsl.localhost\Ubuntu\home\infomax\Desktop\Infomax\_project\mtscore\probes\..\outputs\phase0\probe_refinitiv.json

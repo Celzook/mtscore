@@ -1,0 +1,67 @@
+# 유니버스 초안 (Phase 0). 소스·필드 매핑은 Phase 2 어댑터에서 확정. 미결 사항은 question 키에 적는다.
+- asset_id: KOSPI200
+  name: 코스피200
+  asset_class: equity_index
+  currency: KRW
+  return_field: close_tr          # .KS200TR(2011~), 이전 구간은 가격지수
+  constituents: KOSPI200          # KRX 로그인 여부에 따라 PIT/생존편향 결정
+  vol_index: VKOSPI
+  overrides: {}
+- asset_id: SP500
+  name: S&P500
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  vol_index: VIX
+  overrides: {exclude: [flows, breadth, pbr_trailing, dividend_yield]}   # .SPX PBR·배당 불가(R2)
+- asset_id: KTB10Y
+  name: 국고채 10년
+  asset_class: rates
+  currency: KRW
+  return_field: duration_approx   # −D×Δy + carry, 가정
+  duration: 8.5                   # 가정: 10년 국고 수정듀레이션 근사, Phase 2 에서 확인
+  overrides: {exclude: [futures_net_spec, term_premium]}   # KTB 포지셔닝·한국 기간프리미엄 미확인
+- asset_id: UST10Y
+  name: 미국채 10년
+  asset_class: rates
+  currency: USD
+  return_field: duration_approx
+  duration: 8.5
+- asset_id: USDKRW
+  name: 달러/원
+  asset_class: fx
+  currency: KRW
+  quote_view: buy_quote           # 원화 매수 관점: 가격 상승 = 원화 과매도
+  overrides: {exclude: [spec_positioning]}   # CFTC KRW 계약 검색 0건(F3)
+  return_field: close_inverted
+- asset_id: GOLD
+  name: 금
+  asset_class: commodity
+  currency: USD
+  return_field: close
+  overrides: {exclude: [inventory_change]}   # 재고 지표는 WTI 전용(해당 없음)
+- asset_id: WTI
+  name: WTI 원유
+  asset_class: commodity
+  currency: USD
+  return_field: close             # 연속물 롤 수익 포함 여부는 Phase 2 에서 결정
+- asset_id: US_HY
+  name: 미국 하이일드
+  asset_class: credit
+  currency: USD
+  return_field: index_level       # iBoxx USD Liquid HY(.IBLUS0004) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
+  spread_source: iboxx_gspread    # YLDTOMAT − 동일 듀레이션 UST 보간. 2023-10~ FRED ICE OAS 와 대조
+  ric: .IBLUS0004
+- asset_id: US_IG
+  name: 미국 투자등급
+  asset_class: credit
+  currency: USD
+  return_field: index_level       # iBoxx USD Liquid IG(.IBLUS0005) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
+  spread_source: iboxx_gspread
+  ric: .IBLUS0005
+- asset_id: KR_CORP
+  name: 국내 회사채 AA-(3년) − 국고3년
+  asset_class: credit
+  currency: KRW
+  return_field: duration_approx
+  duration: 2.7

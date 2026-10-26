@@ -1,0 +1,45 @@
+# equity_index 프로파일 초안 (Phase 0, 사용자 확인 전)
+# direction: + 클수록 매수 매력 / - 작을수록 매수 매력
+# status: na_until_found = 소스 미확보(불가·미확인) → 커버리지에 사유와 함께 N/A. 확보 매트릭스(outputs/phase0/coverage_matrix.md) 기준.
+asset_class: equity_index
+blocks:
+  oversold:
+    price:
+      - {name: disparity_20, direction: -, fields: [close], params: {window: 20}}
+      - {name: disparity_60, direction: -, fields: [close], params: {window: 60}}
+      - {name: disparity_200, direction: -, fields: [close], params: {window: 200}}
+      - {name: drawdown_52w_over_rv, direction: -, fields: [close], params: {lookback: 252, rv_window: 60}}
+      - {name: return_z_5, direction: -, fields: [close], params: {window: 5, z_lookback: 252}}
+      - {name: return_z_20, direction: -, fields: [close], params: {window: 20, z_lookback: 252}}
+      - {name: rsi_14, direction: -, fields: [close], params: {window: 14}}
+      - {name: rsi_2, direction: -, fields: [close], params: {window: 2}}
+    breadth:  # 구성종목 데이터가 있을 때만. KOSPI200 은 KRX 로그인 여부에 따라 PIT/생존편향 결정
+      - {name: pct_above_ma20, direction: -, fields: [breadth_above_ma20]}
+      - {name: pct_above_ma200, direction: -, fields: [breadth_above_ma200]}
+      - {name: pct_new_low_52w, direction: +, fields: [breadth_new_low_52w]}
+      - {name: adr_20, direction: -, fields: [breadth_adv, breadth_dec]}
+    vol_sentiment:
+      - {name: vol_index_level, direction: +, fields: [vol_index]}
+      - {name: vol_index_over_rv, direction: +, fields: [vol_index, close], params: {rv_window: 20}}
+      - {name: vol_term_inversion, direction: +, fields: [vol_index, vol_index_3m]}   # S&P500: VIX/VIX3M(가능). KOSPI200: 미확인 → 필드 없으면 자동 제외
+      - {name: put_call, direction: +, fields: [put_call], status: na_until_found}      # 미확인
+      - {name: credit_spread_level, direction: +, fields: [credit_spread]}
+      - {name: home_ccy_shock_20, direction: +, fields: [fx_home], params: {window: 20}, flags: [currency]}
+    flows:  # KOSPI200 전용, 소스 미확보
+      - {name: foreign_net_buy_intensity, direction: -, fields: [foreign_net_buy], status: na_until_found}   # naver 410, pykrx 로그인 필요
+      - {name: margin_debt_change, direction: -, fields: [margin_debt], status: na_until_found}              # 미확인
+      - {name: forced_liquidation, direction: +, fields: [forced_liquidation], status: na_until_found}       # 미확인
+  valuation:
+    multiples:
+      - {name: pbr_trailing, direction: -, fields: [pbr]}
+      - {name: per_fwd_12m, direction: -, fields: [fwd_per]}
+      - {name: dividend_yield, direction: +, fields: [div_yield]}
+      - {name: erp, direction: +, fields: [fwd_per, local_10y]}
+  fundamental:
+    earnings:
+      - {name: revision_ratio, direction: +, fields: [eps_rev_up, eps_rev_down], status: na_until_found}
+      - {name: fwd_eps_chg_1m, direction: +, fields: [fwd_eps_12m], params: {months: 1}}
+      - {name: fwd_eps_chg_3m, direction: +, fields: [fwd_eps_12m], params: {months: 3}}
+      - {name: revision_momentum, direction: +, fields: [fwd_eps_12m], params: {months: 1, diff: 1}}
+    macro:
+      - {name: home_ccy_trend_3m, direction: +, fields: [fx_home], params: {months: 3}, flags: [currency, exporter_only]}

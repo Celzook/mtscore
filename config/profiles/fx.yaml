@@ -1,0 +1,18 @@
+# fx 프로파일 초안 — 기준통화 매수 관점. 페어 방향은 universe.yaml 의 quote_view 로 지정
+# USDKRW 는 quote_view: buy_quote(원화 매수) → 가격(USDKRW) 상승 = 원화 과매도
+asset_class: fx
+blocks:
+  oversold:
+    price:
+      - {name: disparity_60, direction: -, fields: [close], params: {window: 60}}
+      - {name: return_z_20, direction: -, fields: [close], params: {window: 20, z_lookback: 252}}
+    positioning:
+      - {name: spec_positioning, direction: -, fields: [cot_net]}   # KRW: CFTC 계약 검색 0건(F3) → universe overrides 로 제외
+  valuation:
+    reer:
+      - {name: reer_gap_lt, direction: -, fields: [reer], params: {lookback_years: 10}}
+  fundamental:
+    macro:
+      - {name: rate_diff_chg_3m, direction: +, fields: [rate_diff], params: {months: 3}}
+      - {name: current_account_trend, direction: +, fields: [current_account], params: {months: 12}}
+      - {name: terms_of_trade_trend, direction: +, fields: [terms_of_trade], status: na_until_found}   # 미확인

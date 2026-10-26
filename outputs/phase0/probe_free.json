@@ -1,0 +1,245 @@
+{
+ "FRED_UST10Y": {
+  "via": "fredgraph DGS10",
+  "rows": 16187,
+  "first": "1962-01-02",
+  "last": "2026-10-22"
+ },
+ "FRED_US_real10Y_TIPS": {
+  "via": "fredgraph DFII10",
+  "rows": 5956,
+  "first": "2003-01-02",
+  "last": "2026-10-22"
+ },
+ "FRED_US_BEI10Y": {
+  "via": "fredgraph T10YIE",
+  "rows": 5957,
+  "first": "2003-01-02",
+  "last": "2026-10-23"
+ },
+ "FRED_US_FedFunds": {
+  "via": "fredgraph DFF",
+  "rows": 26412,
+  "first": "1954-07-01",
+  "last": "2026-10-22"
+ },
+ "FRED_US_termprem_KimWright": {
+  "via": "fredgraph THREEFYTP10",
+  "rows": 9184,
+  "first": "1990-01-02",
+  "last": "2026-10-16"
+ },
+ "FRED_US_HY_OAS": {
+  "via": "fredgraph BAMLH0A0HYM2",
+  "rows": 786,
+  "first": "2023-10-24",
+  "last": "2026-10-22"
+ },
+ "FRED_US_IG_OAS": {
+  "via": "fredgraph BAMLC0A0CM",
+  "rows": 785,
+  "first": "2023-10-24",
+  "last": "2026-10-22"
+ },
+ "FRED_US_HY_yield": {
+  "via": "fredgraph BAMLH0A0HYM2EY",
+  "rows": 786,
+  "first": "2023-10-24",
+  "last": "2026-10-22"
+ },
+ "FRED_VIX": {
+  "via": "fredgraph VIXCLS",
+  "rows": 9301,
+  "first": "1990-01-02",
+  "last": "2026-10-22"
+ },
+ "FRED_US_CPI": {
+  "via": "fredgraph CPIAUCSL",
+  "rows": 956,
+  "first": "1947-01-01",
+  "last": "2026-09-01"
+ },
+ "FRED_US_crude_stocks_wk": {
+  "via": "fredgraph WCESTUS1",
+  "rows": 0,
+  "first": null,
+  "last": null,
+  "errors": [
+   "Error tokenizing data. C error: Expected 1 fields in line 6, saw 2\n"
+  ]
+ },
+ "FRED_KR_REER_BIS_broad": {
+  "via": "fredgraph RBKRBIS",
+  "rows": 391,
+  "first": "1994-01-01",
+  "last": "2026-07-01"
+ },
+ "FRED_US_REER": {
+  "via": "fredgraph RBUSBIS",
+  "rows": 391,
+  "first": "1994-01-01",
+  "last": "2026-07-01"
+ },
+ "FRED_KR_CPI": {
+  "via": "fredgraph KORCPIALLMINMEI",
+  "rows": 767,
+  "first": "1960-01-01",
+  "last": "2023-11-01"
+ },
+ "FRED_KR_10Y_OECD": {
+  "via": "fredgraph IRLTLT01KRM156N",
+  "rows": 312,
+  "first": "2000-10-01",
+  "last": "2026-09-01"
+ },
+ "FRED_US_STLFSI": {
+  "via": "fredgraph STLFSI4",
+  "rows": 1712,
+  "first": "1993-12-31",
+  "last": "2026-10-16"
+ },
+ "FRED_US_NFCI": {
+  "via": "fredgraph NFCI",
+  "rows": 2911,
+  "first": "1971-01-08",
+  "last": "2026-10-16"
+ },
+ "FRED_US_charge_off_proxy": {
+  "via": "fredgraph DRALACBN",
+  "rows": 166,
+  "first": "1985-01-01",
+  "last": "2026-04-01"
+ },
+ "FRED_WTI_spot": {
+  "via": "fredgraph DCOILWTICO",
+  "rows": 9527,
+  "first": "1986-01-02",
+  "last": "2026-10-20"
+ },
+ "FRED_SP500_FRED": {
+  "via": "fredgraph SP500",
+  "rows": 2512,
+  "first": "2016-10-24",
+  "last": "2026-10-21"
+ },
+ "FRED_API_KEY_present": false,
+ "ECOS_key": "sample",
+ "ECOS_KTB10Y_daily": {
+  "via": "817Y002/D/010210000 국고채(10년) [연%]",
+  "rows": 4152,
+  "first": "20100104",
+  "last": "20261023"
+ },
+ "ECOS_KTB3Y_daily": {
+  "via": "817Y002/D/010200000 국고채(3년) [연%]",
+  "rows": 4152,
+  "first": "20100104",
+  "last": "20261023"
+ },
+ "ECOS_KR_corpAAm3Y_daily": {
+  "via": "817Y002/D/010300000 회사채(3년, AA-) [연%]",
+  "rows": 4152,
+  "first": "20100104",
+  "last": "20261023"
+ },
+ "ECOS_KR_base_rate_daily": {
+  "via": "722Y001/D/0101000 한국은행 기준금리 [연%]",
+  "rows": 6139,
+  "first": "20100101",
+  "last": "20261023"
+ },
+ "ECOS_USDKRW_daily": {
+  "via": "731Y001/D/0000001 원/미국달러(매매기준율) [원]",
+  "rows": 4152,
+  "first": "20100104",
+  "last": "20261023"
+ },
+ "ECOS_KR_CPI_monthly": {
+  "via": "901Y009/M/0 총지수 [2020=100]",
+  "rows": 201,
+  "first": "201001",
+  "last": "202609"
+ },
+ "ECOS_KR_current_account_monthly": {
+  "via": "301Y013/M/000000 경상수지 [백만달러]",
+  "rows": 200,
+  "first": "201001",
+  "last": "202608"
+ },
+ "ECOS_KR_REER_monthly": {
+  "via": "731Y005/M/0000003 달러/유로 [통화당 달러]",
+  "rows": 402,
+  "first": "201001",
+  "last": "202609"
+ },
+ "ECOS_KR_BEI_or_linker": {
+  "via": "817Y002/D/010230000 국고채(30년) [연%]",
+  "rows": 3478,
+  "first": "20120911",
+  "last": "20261023"
+ },
+ "ECOS_KR_export_monthly": {
+  "via": "901Y118/M/T002 수출금액 [천불]",
+  "rows": 200,
+  "first": "201001",
+  "last": "202608"
+ },
+ "COT_gold": {
+  "via": "CFTC legacy 088691",
+  "rows": 877,
+  "first": "2010-01-05",
+  "last": "2026-10-20"
+ },
+ "COT_wti": {
+  "via": "CFTC legacy 067651",
+  "rows": 877,
+  "first": "2010-01-05",
+  "last": "2026-10-20"
+ },
+ "COT_UST10Y": {
+  "via": "CFTC legacy 043602",
+  "rows": 877,
+  "first": "2010-01-05",
+  "last": "2026-10-20"
+ },
+ "COT_KRW": {
+  "via": "CFTC: KRW 계약 없음(CME KRW 선물 상장 폐지)",
+  "rows": 0,
+  "first": null,
+  "last": null,
+  "errors": [
+   "no contract code"
+  ]
+ },
+ "COT_SP500_emini": {
+  "via": "CFTC legacy 13874A",
+  "rows": 877,
+  "first": "2010-01-05",
+  "last": "2026-10-20"
+ },
+ "NAVER_KPI200_daily": {
+  "via": "siseJson KPI200",
+  "rows": 4136,
+  "first": "20100104",
+  "last": "20261023"
+ },
+ "NAVER_investor_flow_KOSPI_2010": {
+  "via": "investorDealTrendDay bizdate=20100105",
+  "rows": 0,
+  "first": null,
+  "last": null
+ },
+ "KRX_ID_present": false,
+ "PYKRX_K200_fundamental": {
+  "via": "get_index_fundamental 1028",
+  "rows": 0,
+  "first": null,
+  "last": null
+ },
+ "PYKRX_K200_constituents_2015": {
+  "via": "get_index_portfolio_deposit_file 1028 20150102",
+  "rows": 0,
+  "first": null,
+  "last": null
+ }
+}

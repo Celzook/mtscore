@@ -1,0 +1,199 @@
+{
+ "ICE_.MERH0A0": {
+  "ric": ".MERH0A0",
+  "rows": 0,
+  "error": "No data to return, please check errors: ERROR: No successful response.\n(TS.Interday.UserNotPermission.70112, User does not have permission for this universe)"
+ },
+ "ICE_.MERC0A0": {
+  "ric": ".MERC0A0",
+  "rows": 0,
+  "error": "No data to return, please check errors: ERROR: No successful response.\n(TSCC.QS.UserNotPermission.92000, User has no permission)"
+ },
+ "search": {
+  "ICE HY|SEARCH_ALL": [],
+  "ICE HY|INDEX_INSTRUMENTS": [],
+  "ICE IG|SEARCH_ALL": [],
+  "ICE IG|INDEX_INSTRUMENTS": [],
+  "CDX HY|SEARCH_ALL": [],
+  "CDX HY|INDEX_INSTRUMENTS": [],
+  "CDX IG|SEARCH_ALL": [],
+  "CDX IG|INDEX_INSTRUMENTS": [],
+  "iBoxx HY|SEARCH_ALL": [
+   {
+    "RIC": ".IBLUS0004",
+    "DocumentTitle": "iBoxx USD Liquid High Yield Index, Corporate Bond Index"
+   },
+   {
+    "RIC": ".IBXXGH28",
+    "DocumentTitle": "iBoxx Global Developed Markets Liquid High Yield Capped Index (USD Hedged) TR, FI Index"
+   },
+   {
+    "RIC": ".IBUHYBHC",
+    "DocumentTitle": "iBoxx USD Liquid High Yield BRL Hedge Carry Index (BRL), Equity Index"
+   },
+   {
+    "RIC": ".IBLUS0004",
+    "DocumentTitle": "iBoxx USD Liquid High Yield Index, Corporate Bond Index, LSEG Contributed Fixed Income Indices"
+   },
+   {
+    "RIC": ".IBXXSHY1",
+    "DocumentTitle": "iBoxx USD Liquid High Yield 0-5Y Index TR, FI Index"
+   },
+   {
+    "RIC": ".IBLUS0006",
+    "DocumentTitle": "iBoxx USD Liquid High Yield BB Index, Corporate Bond Index, LSEG Contributed Fixed Income Indices"
+   },
+   {
+    "RIC": ".IBLUS0008",
+    "DocumentTitle": "iBoxx USD Liquid High Yield CCC Index, Corporate Bond Index, LSEG Contributed Fixed Income Indices"
+   },
+   {
+    "RIC": ".IBLUS0047",
+    "DocumentTitle": "iBoxx USD Liquid High Yield Non-Financials BB 3-5, Corporate Bond Index, LSEG Contributed Fixed Income Indices"
+   }
+  ],
+  "iBoxx HY|INDEX_INSTRUMENTS": [
+   {
+    "RIC": ".IBLUS0004",
+    "DocumentTitle": "iBoxx USD Liquid High Yield Index, Corporate Bond Index"
+   },
+   {
+    "RIC": ".IBXXGH28",
+    "DocumentTitle": "iBoxx Global Developed Markets Liquid High Yield Capped Index (USD Hedged) TR, FI Index"
+   },
+   {
+    "RIC": ".IBUHYBHC",
+    "DocumentTitle": "iBoxx USD Liquid High Yield BRL Hedge Carry Index (BRL), Equity Index"
+   }
+  ]
+ },
+ "cand_.IBLUS0004": {
+  "ric": ".IBLUS0004",
+  "rows": 4385,
+  "first": "2010-01-04",
+  "last": "2026-10-23",
+  "columns": [
+   "TRDPRC_1",
+   "HIGH_1",
+   "LOW_1",
+   "MOD_DURTN",
+   "OPEN_PRC",
+   "YLDTOMAT",
+   "ZSPREAD",
+   "OA_CONVX",
+   "DURATION",
+   "AVG_LIFE",
+   "EFF_DURTN",
+   "CONVEXITY"
+  ]
+ },
+ "cand_.IBXXGH28": {
+  "ric": ".IBXXGH28",
+  "rows": 1302,
+  "first": "2021-09-16",
+  "last": "2026-10-23",
+  "columns": [
+   "TRDPRC_1",
+   "OPEN_PRC",
+   "HIGH_1",
+   "LOW_1",
+   "MKTVAL_UNS",
+   "MTD_CPN",
+   "MOD_DURTN",
+   "DURATION",
+   "AVG_LIFE",
+   "RFR_ASP_M",
+   "AST_SWPSPD",
+   "OAS"
+  ]
+ },
+ "cand_.IBUHYBHC": {
+  "ric": ".IBUHYBHC",
+  "rows": 2930,
+  "first": "2015-01-02",
+  "last": "2026-10-23",
+  "columns": [
+   "TRDPRC_1"
+  ]
+ },
+ "cand_.IBXXSHY1": {
+  "ric": ".IBXXSHY1",
+  "rows": 3212,
+  "first": "2013-09-23",
+  "last": "2026-10-23",
+  "columns": [
+   "TRDPRC_1",
+   "OPEN_PRC",
+   "HIGH_1",
+   "LOW_1",
+   "YIELD",
+   "MOD_DURTN",
+   "YLDTOMAT",
+   "DURATION",
+   "AVG_LIFE",
+   "RFR_ASP_M",
+   "AST_SWPSPD",
+   "OAS"
+  ]
+ },
+ "cand_.IBLUS0006": {
+  "ric": ".IBLUS0006",
+  "rows": 3080,
+  "first": "2014-12-03",
+  "last": "2026-10-23",
+  "columns": [
+   "TRDPRC_1",
+   "HIGH_1",
+   "LOW_1",
+   "MOD_DURTN",
+   "OPEN_PRC",
+   "YLDTOMAT",
+   "ZSPREAD",
+   "OA_CONVX",
+   "DURATION",
+   "AVG_LIFE",
+   "EFF_DURTN",
+   "CONVEXITY"
+  ]
+ },
+ "cand_.IBLUS0008": {
+  "ric": ".IBLUS0008",
+  "rows": 3080,
+  "first": "2014-12-03",
+  "last": "2026-10-23",
+  "columns": [
+   "TRDPRC_1",
+   "HIGH_1",
+   "LOW_1",
+   "MOD_DURTN",
+   "OPEN_PRC",
+   "YLDTOMAT",
+   "ZSPREAD",
+   "OA_CONVX",
+   "DURATION",
+   "AVG_LIFE",
+   "EFF_DURTN",
+   "CONVEXITY"
+  ]
+ },
+ "cand_.IBLUS0047": {
+  "ric": ".IBLUS0047",
+  "rows": 2487,
+  "first": "2017-03-27",
+  "last": "2026-10-23",
+  "columns": [
+   "TRDPRC_1",
+   "HIGH_1",
+   "LOW_1",
+   "MOD_DURTN",
+   "OPEN_PRC",
+   "YLDTOMAT",
+   "ZSPREAD",
+   "OA_CONVX",
+   "DURATION",
+   "AVG_LIFE",
+   "EFF_DURTN",
+   "CONVEXITY"
+  ]
+ }
+}

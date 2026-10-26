@@ -1,0 +1,12 @@
+# credit 프로파일 초안 — 스프레드 확대 = 과매도(매수 매력 ↑)
+asset_class: credit
+blocks:
+  oversold:
+    spread:
+      - {name: spread_chg_z_20, direction: +, fields: [spread], params: {window: 20, z_lookback: 252}}
+  valuation:
+    level:
+      - {name: spread_level, direction: +, fields: [spread]}
+  fundamental:
+    defaults:
+      - {name: default_trend, direction: -, fields: [default_rate], status: na_until_found}

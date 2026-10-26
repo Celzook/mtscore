@@ -1,0 +1,5 @@
+date,asset_id,field,value,as_of,source
+2026-09-30,KOSPI200,fwd_eps_12m,,2026-09-30,FnGuide
+2026-09-30,KOSPI200,put_call,,2026-09-30,KRX
+2026-09-30,KOSPI200,margin_debt,,2026-10-01,KOFIA
+2026-09-30,US_HY,spread,,2026-09-30,ICE BofA (단말 export)

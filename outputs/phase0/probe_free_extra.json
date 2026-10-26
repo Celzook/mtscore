@@ -1,0 +1,36 @@
+{
+ "FRED_BAA10Y": {
+  "status": 200,
+  "rows": 10202,
+  "first": "1986-01-02",
+  "last": "2026-10-22"
+ },
+ "FRED_AAA10Y": {
+  "status": 200,
+  "rows": 10949,
+  "first": "1983-01-03",
+  "last": "2026-10-22"
+ },
+ "CFTC_KRW_search": {
+  "status": "ok",
+  "contracts": []
+ },
+ "NAVER_investorDealTrendDay[bizdate=20100105&sosok=01&page=1]": {
+  "status": 410,
+  "bytes": 1499,
+  "date_matches": 0
+ },
+ "NAVER_investorDealTrendDay[bizdate=20261023&sosok=01&page=1]": {
+  "status": 410,
+  "bytes": 1499,
+  "date_matches": 0
+ },
+ "NAVER_investorDealTrendDay[noparam]": {
+  "status": 410,
+  "bytes": 1499,
+  "date_matches": 0
+ },
+ "PYKRX_investor_value_KOSPI": {
+  "rows": 0
+ }
+}

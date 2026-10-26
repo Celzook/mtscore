@@ -1,0 +1,30 @@
+KS200_close 4137 2010-01-04 2026-10-23
+KS200TR_close 3886 2011-01-03 2026-10-23
+VKOSPI 4137 2010-01-04 2026-10-23
+USDKRW_KFTC 4147 2010-01-04 2026-10-23
+USDKRW_NY 4386 2010-01-01 2026-10-23
+KTB10Y_KQ 4149 2010-01-04 2026-10-23
+KTB3Y_KQ 4150 2010-01-04 2026-10-23
+KRCORP_AAm3Y_KQ 4150 2010-01-04 2026-10-23
+KR_base_rate 4142 2010-01-04 2026-10-23
+UST10Y 4206 2010-01-04 2026-10-23
+GOLD_c1 4234 2010-01-04 2026-10-23
+GOLD_c2 4234 2010-01-04 2026-10-23
+WTI_c1 4234 2010-01-04 2026-10-23
+WTI_c2 4233 2010-01-04 2026-10-23
+K200_fut_c1 4136 2010-01-04 2026-10-23
+DXY 4369 2010-01-04 2026-10-23
+SPX_close_daily 4386 2009-12-31 2026-10-23 
+VIX_close_daily 0 None None 
+SPX_EPS_NTM 201 2010-01-17 2026-09-21 
+SPX_TR.NumEstRevisingUp 1 None None ['Unable to collect data for some field(s).']
+SPX_TR.NumEstRevisingDown 1 None None ['Unable to collect data for some field(s).']
+Traceback (most recent call last):
+  File "\\wsl.localhost\Ubuntu\home\infomax\Desktop\Infomax\_project\mtscore\probes\probe_refinitiv.py", line 106, in <module>
+    gd(f"SPX_{f}", [".SPX"], [f + ".date", f], dict(M, Period="NTM") if "EPS" in f or "Revising" in f else M)
+  File "\\wsl.localhost\Ubuntu\home\infomax\Desktop\Infomax\_project\mtscore\probes\probe_refinitiv.py", line 80, in gd
+    dcol = [c for c in d.columns if c.lower() == "date" or c.lower().endswith(".date")]
+                                    ^^^^^^^
+AttributeError: 'float' object has no attribute 'lower'
+
+[exited with code 0]

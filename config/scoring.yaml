@@ -1,0 +1,33 @@
+# 스코어링 공통 설정 (프롬프트 §6 기본값)
+percentile:
+  method: expanding        # 비교용 rolling
+  min_history_years: 3
+  rolling_years: 10
+missing:
+  daily_ffill_max_bdays: 5
+  lowfreq_hold: until_next_release   # 월별·주별 필드는 as_of 부터 다음 공표 전까지 유지
+weights:
+  sub_block: equal
+  indicator: equal
+bands:
+  extreme: 90
+  alert: 75
+  contra_alert: 25
+  contra_extreme: 10
+regime:
+  threshold: 50
+  partial_label: 부분판정
+  matrix:   # (oversold, valuation, fundamental) → label, null = 무관
+    - {o: high, v: high, f: high, label: 최우선 매수}
+    - {o: high, v: high, f: low, label: 저평가 패닉 분할 진입}
+    - {o: high, v: low, f: high, label: 단기 반등 트레이드}
+    - {o: high, v: low, f: low, label: 가치함정 경계}
+    - {o: low, v: high, f: high, label: 보유 분할 매수}
+    - {o: low, v: null, f: low, label: 고점 경계}
+    - {o: low, v: low, f: null, label: 비중 축소}
+currency_variant: both     # oversold_only | fundamental_only | both — Phase 3 비교 후 확정
+confirm_trigger: {enabled: false}
+backtest:
+  horizons: [21, 63, 126, 252]
+  event_cooldown_bdays: 20
+  min_n_warning: 10

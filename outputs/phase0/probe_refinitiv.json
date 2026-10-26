@@ -1,0 +1,308 @@
+{
+ "SPX_EPS_NTM": {
+  "via": "get_data ['.SPX'] ['TR.EPSMean.date', 'TR.EPSMean'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 201,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Earnings Per Share - Mean"
+  ],
+  "first": "2010-01-17",
+  "last": "2026-09-21"
+ },
+ "SPX_TR.NumEstRevisingUp": {
+  "via": "get_data ['.SPX'] ['TR.NumEstRevisingUp.date', 'TR.NumEstRevisingUp'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 1,
+  "columns": [
+   "Instrument",
+   "DATE",
+   "Number of Analysts Revising Up"
+  ],
+  "errors": [
+   "Unable to collect data for some field(s)."
+  ]
+ },
+ "SPX_TR.NumEstRevisingDown": {
+  "via": "get_data ['.SPX'] ['TR.NumEstRevisingDown.date', 'TR.NumEstRevisingDown'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 1,
+  "columns": [
+   "Instrument",
+   "DATE",
+   "Number of Analysts Revising Down"
+  ],
+  "errors": [
+   "Unable to collect data for some field(s)."
+  ]
+ },
+ "SPX_TR.EPSNumUpRevisions": {
+  "via": "get_data ['.SPX'] ['TR.EPSNumUpRevisions.date', 'TR.EPSNumUpRevisions'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.EPSNUMUPREVISIONS.DATE",
+   "TR.EPSNUMUPREVISIONS"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "SPX_TR.EPSNumDownRevisions": {
+  "via": "get_data ['.SPX'] ['TR.EPSNumDownRevisions.date', 'TR.EPSNumDownRevisions'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.EPSNUMDOWNREVISIONS.DATE",
+   "TR.EPSNUMDOWNREVISIONS"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "SPX_TR.NumberOfUpRevisions": {
+  "via": "get_data ['.SPX'] ['TR.NumberOfUpRevisions.date', 'TR.NumberOfUpRevisions'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.NUMBEROFUPREVISIONS.DATE",
+   "TR.NUMBEROFUPREVISIONS"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "SPX_TR.EPSNumIncEstimates": {
+  "via": "get_data ['.SPX'] ['TR.EPSNumIncEstimates.date', 'TR.EPSNumIncEstimates'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 201,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Earnings Per Share - Number of Included Estimates"
+  ],
+  "first": "2010-01-17",
+  "last": "2026-09-21"
+ },
+ "SPX_TR.EPSMeanChg": {
+  "via": "get_data ['.SPX'] ['TR.EPSMeanChg.date', 'TR.EPSMeanChg'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.EPSMEANCHG.DATE",
+   "TR.EPSMEANCHG"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "SPX_TR.EPSNumUp": {
+  "via": "get_data ['.SPX'] ['TR.EPSNumUp.date', 'TR.EPSNumUp'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.EPSNUMUP.DATE",
+   "TR.EPSNUMUP"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "SPX_TR.EPSNumDown": {
+  "via": "get_data ['.SPX'] ['TR.EPSNumDown.date', 'TR.EPSNumDown'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.EPSNUMDOWN.DATE",
+   "TR.EPSNUMDOWN"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "SPX_TR.EPSMeanPctChg": {
+  "via": "get_data ['.SPX'] ['TR.EPSMeanPctChg.date', 'TR.EPSMeanPctChg'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.EPSMEANPCTCHG.DATE",
+   "TR.EPSMEANPCTCHG"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "SPX_TR.PriceToBVPerShare": {
+  "via": "get_data ['.SPX'] ['TR.PriceToBVPerShare.date', 'TR.PriceToBVPerShare'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.PRICETOBVPERSHARE.DATE",
+   "TR.PRICETOBVPERSHARE"
+  ],
+  "errors": [
+   "Unable to resolve all requested identifiers.",
+   "Unable to resolve all requested identifiers."
+  ]
+ },
+ "SPX_TR.DividendYield": {
+  "via": "get_data ['.SPX'] ['TR.DividendYield.date', 'TR.DividendYield'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M'}",
+  "rows": 0,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Dividend yield"
+  ]
+ },
+ "SPX_TR.PtoEPSMeanEst": {
+  "via": "get_data ['.SPX'] ['TR.PtoEPSMeanEst.date', 'TR.PtoEPSMeanEst'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 201,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Price / EPS (Mean Estimate)"
+  ],
+  "first": "2010-01-29",
+  "last": "2026-09-30"
+ },
+ "SPX_TR.IndexDividendYield": {
+  "via": "get_data ['.SPX'] ['TR.IndexDividendYield.date', 'TR.IndexDividendYield'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M'}",
+  "rows": 0,
+  "columns": [
+   "nan",
+   "TR.INDEXDIVIDENDYIELD.DATE",
+   "TR.INDEXDIVIDENDYIELD"
+  ],
+  "errors": [
+   "The formula must contain at least one field or function.",
+   "The formula must contain at least one field or function."
+  ]
+ },
+ "005930_TR.EPSMean": {
+  "via": "get_data ['005930.KS'] ['TR.EPSMean.date', 'TR.EPSMean'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 198,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Earnings Per Share - Mean"
+  ],
+  "first": "2010-04-21",
+  "last": "2026-09-30"
+ },
+ "005930_TR.NumEstRevisingUp": {
+  "via": "get_data ['005930.KS'] ['TR.NumEstRevisingUp.date', 'TR.NumEstRevisingUp'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 1,
+  "columns": [
+   "Instrument",
+   "DATE",
+   "Number of Analysts Revising Up"
+  ],
+  "errors": [
+   "Unable to collect data for some field(s)."
+  ]
+ },
+ "005930_TR.NumEstRevisingDown": {
+  "via": "get_data ['005930.KS'] ['TR.NumEstRevisingDown.date', 'TR.NumEstRevisingDown'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'NTM'}",
+  "rows": 1,
+  "columns": [
+   "Instrument",
+   "DATE",
+   "Number of Analysts Revising Down"
+  ],
+  "errors": [
+   "Unable to collect data for some field(s)."
+  ]
+ },
+ "005930_TR.CompanyMarketCap": {
+  "via": "get_data ['005930.KS'] ['TR.CompanyMarketCap.date', 'TR.CompanyMarketCap'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M'}",
+  "rows": 201,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Company Market Cap"
+  ],
+  "first": "2010-01-29",
+  "last": "2026-09-30"
+ },
+ "005930_TR.PriceToBVPerShare": {
+  "via": "get_data ['005930.KS'] ['TR.PriceToBVPerShare.date', 'TR.PriceToBVPerShare'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M'}",
+  "rows": 201,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Price To Book Value Per Share (Daily Time Series Ratio)"
+  ],
+  "first": "2010-01-29",
+  "last": "2026-09-30"
+ },
+ "005930_TR.DividendYield": {
+  "via": "get_data ['005930.KS'] ['TR.DividendYield.date', 'TR.DividendYield'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M'}",
+  "rows": 200,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Dividend yield"
+  ],
+  "first": "2010-02-26",
+  "last": "2026-09-30"
+ },
+ "005930_TR.BVPSMean": {
+  "via": "get_data ['005930.KS'] ['TR.BVPSMean.date', 'TR.BVPSMean'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'FY1'}",
+  "rows": 198,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Book Value Per Share - Mean"
+  ],
+  "first": "2010-04-21",
+  "last": "2026-09-30"
+ },
+ "005930_TR.DPSMean": {
+  "via": "get_data ['005930.KS'] ['TR.DPSMean.date', 'TR.DPSMean'] {'SDate': '2010-01-01', 'EDate': '2026-10-23', 'Frq': 'M', 'Period': 'FY1'}",
+  "rows": 201,
+  "columns": [
+   "Instrument",
+   "Date",
+   "Dividend Per Share - Mean"
+  ],
+  "first": "2010-01-29",
+  "last": "2026-09-30"
+ },
+ "KS200_constituents_hist": {
+  "via": "get_data ['.KS200'] ['TR.IndexConstituentRIC'] {'SDate': '2015-01-01'}",
+  "rows": 0,
+  "columns": [
+   "Instrument",
+   "Constituent RIC"
+  ]
+ },
+ "KODEX200_holdings_now": {
+  "via": "get_data ['069500.KS'] ['TR.FundHoldingRIC', 'TR.FundPercentageOfFundAssets'] {'EndNum': 300}",
+  "rows": 202,
+  "columns": [
+   "Instrument",
+   "Holding RIC",
+   "Percentage of Fund Assets"
+  ]
+ },
+ "COT_gold": {
+  "via": "get_timeseries 1GC-NCL-NET=COT CLOSE",
+  "rows": 0,
+  "errors": [
+   "2010-01-01: Error code -1 | 1GC-NCL-NET=COT: Invalid RIC | ",
+   "2015-01-01: Error code -1 | 1GC-NCL-NET=COT: Invalid RIC | "
+  ]
+ },
+ "COT_gold_alt": {
+  "via": "get_timeseries GC-NCL-NET=COT CLOSE",
+  "rows": 0,
+  "errors": [
+   "2010-01-01: Error code -1 | GC-NCL-NET=COT: Invalid RIC | ",
+   "2015-01-01: Error code -1 | GC-NCL-NET=COT: Invalid RIC | "
+  ]
+ }
+}

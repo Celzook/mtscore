@@ -1,0 +1,68 @@
+{
+ "holdings": {
+  "n_total": 201,
+  "n_to_85pct": 30,
+  "weight_covered": 85.12
+ },
+ "TR.EPSMean": {
+  "n_with_data": 30,
+  "n_requested": 30,
+  "weight_with_data": 85.12,
+  "weight_with_data_since_2011": 76.54,
+  "first_obs_min": "2009-09-28",
+  "first_obs_median": "2010-06-04",
+  "missing": []
+ },
+ "TR.PriceToBVPerShare": {
+  "n_with_data": 29,
+  "n_requested": 30,
+  "weight_with_data": 83.89,
+  "weight_with_data_since_2011": 77.52,
+  "first_obs_min": "2010-01-29",
+  "first_obs_median": "2010-01-29",
+  "missing": [
+   "055550.KS"
+  ]
+ },
+ "TR.DividendYield": {
+  "n_with_data": 30,
+  "n_requested": 30,
+  "weight_with_data": 85.12,
+  "weight_with_data_since_2011": 78.75,
+  "first_obs_min": "2010-02-26",
+  "first_obs_median": "2010-02-26",
+  "missing": []
+ },
+ "TR.CompanyMarketCap": {
+  "n_with_data": 30,
+  "n_requested": 30,
+  "weight_with_data": 85.12,
+  "weight_with_data_since_2011": 78.75,
+  "first_obs_min": "2010-01-29",
+  "first_obs_median": "2010-01-29",
+  "missing": []
+ },
+ "daily_005930.KS": {
+  "rows_2010_14": 1239,
+  "rows_2022_26": 1174,
+  "first": "2010-01-04"
+ },
+ "daily_000660.KS": {
+  "rows_2010_14": 1239,
+  "rows_2022_26": 1174,
+  "first": "2010-01-04"
+ },
+ "daily_402340.KS": {
+  "error": "Error code -1 | 402340.KS: No data available for the requested date range | "
+ },
+ "daily_009150.KS": {
+  "rows_2010_14": 1239,
+  "rows_2022_26": 1174,
+  "first": "2010-01-04"
+ },
+ "daily_105560.KS": {
+  "rows_2010_14": 1239,
+  "rows_2022_26": 1174,
+  "first": "2010-01-04"
+ }
+}
