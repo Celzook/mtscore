@@ -1,0 +1,31 @@
+패널 149,597행, as_of 최대 2026-10-27
+[base] 백테스트 286.2초, horizons [21, 63, 126, 252]
+  수익률 규칙 KOSPI200: close_tr 수준 비율
+  수익률 규칙 SP500: close 수준 비율
+  수익률 규칙 KTB10Y: −8.5×Δyield/100 + yield/100/252 일별 근사(가정: 듀레이션 고정, 볼록성 무시)
+  수익률 규칙 UST10Y: −8.5×Δyield/100 + yield/100/252 일별 근사(가정: 듀레이션 고정, 볼록성 무시)
+  수익률 규칙 USDKRW: close(역수) 수준 비율
+  수익률 규칙 GOLD: close 수준 비율
+  수익률 규칙 WTI: close 수준 비율
+  수익률 규칙 US_HY: index_level 수준 비율
+  수익률 규칙 US_IG: index_level 수준 비율
+  수익률 규칙 KR_CORP: −2.7×Δspread/100 + spread/100/252 일별 근사(가정: 듀레이션 고정, 볼록성 무시)
+  판정 규칙 base: KR_CORP/oversold=역방향, KR_CORP/valuation=지지, SP500/oversold=지지, US_HY/valuation=지지, US_IG/fundamental=역방향
+  판정 규칙 A_nonoverlap_halves: KR_CORP/oversold=역방향, US_HY/valuation=지지, US_IG/fundamental=역방향
+  판정 규칙 B_t2.58: KR_CORP/oversold=역방향, KR_CORP/valuation=지지, SP500/oversold=지지, US_HY/valuation=지지, US_IG/fundamental=역방향
+  판정 규칙 C_nonoverlap_t: KOSPI200/valuation=지지, KR_CORP/oversold=역방향, SP500/oversold=지지, US_HY/valuation=지지
+  플라시보 SD / NW SE: 중앙 1.26, 10~90% 0.90~1.67
+[exp] 통화 변형 3개 완료
+[exp] rolling 백분위 37.5초
+[exp] 제외 후보: 없음
+[exp] 자산별 제외 후보 KOSPI200: ['disparity_20']
+[exp] 자산별 제외 후보 SP500: 없음
+[exp] KOSPI200 이익 민감도 완료
+sub_block_agg.oversold.confluence: 이 설정의 어느 프로파일에도 없는 하위블록(오타인지 확인)
+[exp] 역발상 변형 pre_rework 완료
+[exp] 역발상 변형 only_confluence 완료
+sub_block_agg.oversold.confluence: 이 설정의 어느 프로파일에도 없는 하위블록(오타인지 확인)
+[exp] 역발상 변형 only_rv 완료
+[exp] 역발상 변형 current 완료
+[exp] 추세 게이트 완료
+총 377.3초

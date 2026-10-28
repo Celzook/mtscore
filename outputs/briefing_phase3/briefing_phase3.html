@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ko" data-print data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mtscore Phase 3 브리핑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@700;800&display=swap">
+<style>
+/* Layout: 연구 노트 — 왼쪽 고정 목차 + 본문 한 단. 표·히트맵은 자체 가로 스크롤. */
+:root {
+  --paper: #f5f6f4; --sheet: #fcfcfb; --ink: #15191b; --ink-2: #4f585b; --ink-3: #7a8386;
+  --rule: #d8dcd9; --rule-2: #e8ebe8; --accent: #1d5f86; --accent-soft: #e2edf4;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
+  --pos: #2a78d6; --neg: #e34948; --mid: #f0efec; --muted-line: #c9cecb;
+  --good: #0ca30c; --warn: #b77c00; --crit: #d03b3b;
+  --o1: #86b6ef; --o2: #2a78d6; --o3: #104281;
+  --f-display: "Nanum Myeongjo", "Noto Serif KR", "AppleMyungjo", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --pos: #3987e5; --neg: #e66767; --mid: #383835; --muted-line: #3d4447;
+  --good: #2fbf2f; --warn: #e0a526; --crit: #e66767; --o1: #184f95; --o2: #3987e5; --o3: #9ec5f4; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --pos: #3987e5; --neg: #e66767; --mid: #383835; --muted-line: #3d4447;
+  --good: #2fbf2f; --warn: #e0a526; --crit: #e66767; --o1: #184f95; --o2: #3987e5; --o3: #9ec5f4; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { word-break: keep-all; overflow-wrap: anywhere; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 64px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, select:focus-visible, th:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num, td.n, .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+header.masthead { min-width: 0; max-width: 1320px; margin: 0 auto; padding-block: 40px 28px; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+h1 { word-break: keep-all; font-family: var(--f-display); font-weight: 800; font-size: clamp(30px, 4.4vw, 46px); line-height: 1.18; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.lede { max-width: 72ch; color: var(--ink-2); margin: 0; font-size: 16px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 6px 0 0; padding: 0; list-style: none; }
+.facts li { display: grid; gap: 0; }
+.facts b { font-family: var(--f-body); font-weight: 600; font-size: 22px; }
+.facts span { font-size: 12px; color: var(--ink-3); }
+
+.shell { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; }
+nav.toc { min-width: 0; position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; padding-block: 28px; font-size: 13px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; counter-reset: s; }
+nav.toc a { display: block; padding: 4px 8px; border-radius: 4px; color: var(--ink-2); text-decoration: none; }
+nav.toc a:hover { background: var(--rule-2); color: var(--ink); }
+main { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+section { padding-block: 32px 12px; border-bottom: 1px solid var(--rule); min-width: 0; }
+section:last-child { border-bottom: 0; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 25px; margin: 0 0 6px; text-wrap: balance; }
+h3 { font-size: 15px; font-weight: 600; margin: 22px 0 8px; }
+.sub { color: var(--ink-2); max-width: 78ch; margin: 0 0 16px; }
+.note { font-size: 13px; color: var(--ink-3); max-width: 90ch; }
+
+.findings { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; counter-reset: f; }
+.findings li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; counter-increment: f; }
+.findings li::before { content: counter(f); font-family: var(--f-mono); font-size: 13px; color: var(--accent); padding-top: 2px; }
+.findings p { margin: 0; max-width: 84ch; }
+.findings strong { font-weight: 600; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 0 0 14px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--sheet); }
+.seg button { font: inherit; font-size: 13px; padding: 6px 12px; border: 0; background: transparent; color: var(--ink-2); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+select { font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); color: var(--ink); max-width: 100%; }
+label.ctl { font-size: 12px; color: var(--ink-3); display: inline-flex; gap: 8px; align-items: center; }
+
+.tableview { margin-top: 10px; }
+.tableview summary { font-size: 13px; color: var(--ink-2); }
+.tablewrap.mx td, .tablewrap.mx th { padding: 4px 8px; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--rule-2); vertical-align: top; }
+th { font-weight: 500; color: var(--ink-3); font-size: 12px; white-space: nowrap; background: var(--sheet); position: sticky; top: 0; }
+th.sortable { cursor: pointer; }
+th.sortable::after { content: " ↕"; color: var(--muted-line); }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr.bench td { color: var(--ink-2); background: var(--rule-2); }
+tr:last-child td { border-bottom: 0; }
+td.neg, td.pos { color: var(--ink); }
+.chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--rule); white-space: nowrap; color: var(--ink-2); }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.b { color: var(--accent); border-color: var(--accent); }
+.chip.good { color: var(--good); border-color: var(--good); }
+.chip.warn { color: var(--warn); border-color: var(--warn); }
+.chip.crit { color: var(--crit); border-color: var(--crit); }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; min-width: 0; }
+.panel h3 { margin: 0 0 4px; }
+.chart { width: 100%; height: 300px; }
+.chart.tall { height: 420px; }
+.scrollchart { overflow-x: auto; }
+.scrollchart .chart { min-width: 900px; }
+.desc { font-size: 14px; color: var(--ink-2); margin: 0 0 12px; max-width: 86ch; }
+.kpis { display: flex; flex-wrap: wrap; gap: 6px 24px; margin: 4px 0 14px; padding: 0; list-style: none; }
+.kpis li { display: grid; }
+.kpis b { font-family: var(--f-body); font-weight: 600; font-size: 19px; }
+.kpis span { font-size: 12px; color: var(--ink-3); }
+
+.timeline { display: grid; gap: 6px; min-width: 760px; }
+.tl-row { display: grid; grid-template-columns: 170px minmax(0, 1fr) 190px; gap: 10px; align-items: center; font-size: 12px; }
+.tl-strip { display: flex; height: 16px; border-radius: 3px; overflow: hidden; }
+.tl-strip i { flex: 1 1 0; display: block; }
+.tl-leg { color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.tl-leg i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.tl-axis { display: grid; grid-template-columns: 170px minmax(0, 1fr) 190px; gap: 10px; font-size: 11px; color: var(--ink-3); font-family: var(--f-mono); }
+.tl-axis div { display: flex; justify-content: space-between; }
+
+.legendbar { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-3); flex-wrap: wrap; }
+.legendbar .ramp { width: 160px; height: 10px; border-radius: 2px; }
+details { border-top: 1px solid var(--rule-2); padding-block: 8px; }
+details summary { cursor: pointer; font-weight: 500; }
+.paper-title { font-weight: 500; }
+.small { font-size: 12px; color: var(--ink-3); }
+ul.plain { margin: 0; padding-left: 18px; max-width: 86ch; display: grid; gap: 6px; }
+
+@media screen and (max-width: 980px) {
+  html:not([data-print]) .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  html:not([data-print]) nav.toc { position: static; padding-block: 12px 0; overflow-x: auto; }
+  html:not([data-print]) nav.toc ol { display: flex; gap: 4px; width: max-content; }
+  html:not([data-print]) nav.toc a { white-space: nowrap; border: 1px solid var(--rule); }
+  html:not([data-print]) .grid2 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ---------- 인쇄(PDF) ----------
+   print 빌드(report_print.html)는 <html data-print data-theme="light"> 로 열린다. 화면에서도 A4 가로 본문폭(269mm ≈ 1017px)
+   그대로 그려서 차트(SVG)가 인쇄 폭과 같은 크기로 만들어지게 한다. 일반 리포트를 브라우저에서 인쇄할 때도 @media print 가 적용된다. */
+.print-only { display: none; }
+html[data-print] .print-only { display: block; }
+html[data-print] .screen-only { display: none !important; }
+html[data-print] body { width: 1017px; margin: 0 auto; padding: 0; font-size: 13px; line-height: 1.55; }
+html[data-print] header.masthead, html[data-print] .shell { max-width: none; }
+html[data-print] .shell { display: block; }
+html[data-print] nav.toc, html[data-print] .controls, html[data-print] .tableview { display: none !important; }
+html[data-print] section { padding-block: 0 8px; border-bottom: 0; }
+html[data-print] h2 { font-size: 22px; margin-bottom: 4px; }
+html[data-print] .sub, html[data-print] .desc { max-width: none; font-size: 12.5px; }
+html[data-print] .note { max-width: none; }
+html[data-print] .findings p { max-width: none; }
+html[data-print] table { font-size: 11.5px; }
+html[data-print] th, html[data-print] td { padding: 4px 8px; }
+html[data-print] h3 { margin: 10px 0 4px; }
+html[data-print] section { padding-block: 0; }
+html[data-print] th { position: static; }
+html[data-print] th.sortable::after { content: none; }
+html[data-print] #hyp-table td, html[data-print] #hyp-table th, html[data-print] #hyp-extra td, html[data-print] #hyp-extra th { font-size: 10.5px; padding: 3px 6px; }
+html[data-print] #hyp-table td:nth-child(1) { width: 125px; }
+html[data-print] #hyp-table td:nth-child(2) { width: 190px; }
+html[data-print] #hyp-table td:nth-child(3) { width: 230px; }
+html[data-print] #pb-table td, html[data-print] #pb-table th { padding: 3px 6px; font-size: 10.5px; }
+html[data-print] #pap-table td { padding: 3px 6px; }
+html[data-print] #appx table { table-layout: fixed; }
+html[data-print] #appx th:first-child, html[data-print] #appx td:first-child { width: 300px; }
+html[data-print] #uni-table td { padding: 2px 8px; font-size: 10.5px; }
+html[data-print] .scrollchart .chart { min-width: 0; }
+html[data-print] .timeline { min-width: 0; }
+html[data-print] .panel { padding: 8px 10px; }
+html[data-print] .chart { height: 240px; }
+html[data-print] .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+html[data-print] #pap-table td { font-size: 10.5px; }
+html[data-print] .chart.tall { height: 430px; }
+html[data-print] .cover { min-height: 640px; display: grid; align-content: center; gap: 18px; border-bottom: 0; }
+html[data-print] .cover h1 { font-size: 40px; }
+html[data-print] .cover .lede { font-size: 15px; max-width: 80ch; }
+.cover-meta { font-size: 13px; color: var(--ink-2); }
+.cover-toc { columns: 2; column-gap: 40px; font-size: 13px; color: var(--ink-2); padding-left: 18px; margin: 4px 0 0; }
+.print-cap { font-size: 12px; color: var(--ink-3); margin: 2px 0 6px; }
+@page { size: A4 landscape; margin: 12mm 14mm 14mm;
+  @bottom-left { content: "mtscore Phase 3 판단 자료 · 백테스트 2013~2026 · 브랜치 phase3-backtest(미커밋)"; font-family: "IBM Plex Sans KR", sans-serif; font-size: 8pt; color: #7a8386; }
+  @bottom-right { content: counter(page) " / " counter(pages); font-family: "IBM Plex Mono", monospace; font-size: 8pt; color: #7a8386; } }
+@page :first { @bottom-left { content: none; } @bottom-right { content: none; } }
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { padding: 0; }
+  nav.toc, .controls, .tableview, .screen-hint { display: none !important; }
+  th.sortable::after { content: none; }
+  .shell { display: block; max-width: none; }
+  header.masthead { max-width: none; }
+  main > section { break-before: page; border-bottom: 0; }
+  main > section:first-child { break-before: auto; }
+  header.cover { break-after: page; }
+  h2, h3 { break-after: avoid; }
+  .panel, .grid2, figure, .tl-row, .print-block { break-inside: avoid; }
+  tr { break-inside: avoid; }
+  thead { display: table-header-group; }
+  .tablewrap { overflow: visible; border-color: var(--rule); }
+  a { color: inherit; text-decoration: none; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+}
+
+/* ---- Phase 2 브리핑 덮어쓰기 ---- */
+html[data-print], html[data-print] body { background: #fff; }
+html[data-print] body { width: 1017px; }
+:root { --f-mono: "IBM Plex Mono", "IBM Plex Sans KR", "Malgun Gothic", ui-monospace, monospace; }
+html[data-print] main { display: block; }
+html[data-print] main > section { padding-block: 4px 2px; }
+.bhead { padding-block: 4px 10px; gap: 6px; }
+html[data-print] .bhead h1 { font-size: 26px; }
+html[data-print] .bhead .lede { font-size: 12.5px; max-width: none; line-height: 1.5; }
+.bhead .facts b { font-size: 18px; }
+html[data-print] .findings { display: block; margin-top: 6px; }
+html[data-print] .findings li { margin-bottom: 4px; }
+html[data-print] .findings p { font-size: 12px; }
+html[data-print] .sumt td { font-size: 11px; padding: 1.5px 6px; vertical-align: middle; }
+html[data-print] .sumt .chip { font-size: 11px; padding: 0 7px; }
+html[data-print] .sumt td.why { font-size: 10.2px; line-height: 1.33; color: var(--ink); }
+html[data-print] td.sc { text-align: center; }
+html[data-print] td.sc b { display: block; font-family: var(--f-mono); font-size: 13px; font-weight: 600; }
+html[data-print] td.sc .bd { display: block; font-size: 9.5px; color: var(--ink-3); }
+html[data-print] td.sc.hi2 { background: #d5e6f7; } html[data-print] td.sc.hi1 { background: #e9f1fa; } html[data-print] td.sc.lo1 { background: #fbecea; } html[data-print] td.sc.lo2 { background: #f6d6d2; }
+.mini { display: inline-block; font-size: 11px; padding: 0 7px; border-radius: 4px; border: 1px solid var(--rule); color: var(--ink-2); margin-left: 3px; }
+.mini b { font-family: var(--f-mono); color: var(--ink); }
+.mini.hi2 { background: #d5e6f7; } .mini.hi1 { background: #e9f1fa; } .mini.lo1 { background: #fbecea; } .mini.lo2 { background: #f6d6d2; }
+.judge { margin: 6px 0 2px; padding: 4px 8px 4px 10px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 4px 4px 0; break-inside: avoid; }
+.judge .jt { font-weight: 600; font-size: 11.5px; color: var(--accent); margin-bottom: 1px; }
+.judge ul { margin: 0; padding-left: 16px; }
+.judge li { font-size: 10.8px; line-height: 1.42; margin: 0; }
+.panel.asset { margin: 5px 0 0; padding: 4px 10px 5px; break-inside: avoid; }
+.ahead { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-bottom: 3px; }
+.ahead h3 { margin: 0 6px 0 0; font-size: 15px; }
+.ahead .an { font-weight: 400; font-size: 11.5px; color: var(--ink-3); }
+.agrid { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 12px; }
+.awhy { font-size: 11px; line-height: 1.45; margin: 0 0 3px; }
+html[data-print] .indt td, html[data-print] .indt th { font-size: 10px; padding: 1px 5px; line-height: 1.3; }
+html[data-print] .indt td.dir { color: var(--ink-2); font-size: 9.5px; }
+html[data-print] .indt tr.blk td { background: var(--rule-2); font-weight: 500; font-size: 10.5px; color: var(--ink); }
+html[data-print] .indt .sb, html[data-print] .dect .sb { color: var(--ink-3); font-size: 8.5px; margin-left: 5px; }
+html[data-print] .dect tr.blk td { background: var(--rule-2); font-weight: 500; font-size: 10.5px; }
+.tnote { font-size: 9.5px; color: var(--ink-3); margin: 3px 0 0; line-height: 1.4; }
+h4 { font-size: 11.5px; font-weight: 600; margin: 4px 0 1px; color: var(--ink-2); }
+ul.na { margin: 0; padding-left: 16px; font-size: 10.5px; line-height: 1.45; }
+p.na0, p.exl { font-size: 10.5px; margin: 0; color: var(--ink-2); }
+p.exl { color: var(--ink-3); margin-top: 2px; }
+.svgc { display: block; font-family: var(--f-body); }
+.svgc .ax { font-size: 9.5px; fill: var(--ink-3); font-family: var(--f-mono); }
+.svgc .lb { font-size: 10px; fill: var(--ink); }
+.svgleg { display: flex; gap: 2px 12px; flex-wrap: wrap; font-size: 10.5px; color: var(--ink-2); margin: 2px 0 0; align-items: center; }
+.svgleg i { display: inline-block; width: 10px; height: 3px; border-radius: 1px; margin-right: 4px; vertical-align: 3px; }
+.svgleg .small { font-size: 9.5px; }
+html[data-print] .srct td { font-size: 10px; padding: 1.5px 6px; line-height: 1.35; }
+html[data-print] .srct td.srcs code { font-size: 9.5px; }
+html[data-print] .cct td, html[data-print] .cct th { font-size: 10px; padding: 1px 6px; line-height: 1.3; }
+html[data-print] .cct td.dir { font-size: 9.5px; color: var(--ink-2); }
+html[data-print] .dect td { font-size: 10.5px; padding: 1px 6px; vertical-align: middle; line-height: 1.35; }
+html[data-print] .dect .chip { font-size: 10px; padding: 0 6px; line-height: 1.35; }
+html[data-print] .askt td, html[data-print] .nat td { font-size: 10.5px; padding: 1.5px 7px; line-height: 1.4; }
+code { font-family: var(--f-mono); font-size: .92em; }
+.cols2 { columns: 2; column-gap: 28px; }
+.cols2 ul.plain { display: block; }
+html[data-print] .cols2 ul.plain li { font-size: 10.8px; line-height: 1.4; break-inside: avoid; }
+ul.plain { max-width: none; gap: 2px; }
+html[data-print] ul.plain li { font-size: 11.5px; line-height: 1.5; }
+html[data-print] h3 { margin: 8px 0 3px; font-size: 13.5px; }
+html[data-print] .desc { font-size: 11.5px; margin: 0 0 4px; }
+html[data-print] .sub { font-size: 11.5px; margin: 0 0 6px; }
+.note { margin-top: 10px; }
+@page :first { @bottom-left { content: none; } @bottom-right { content: counter(page) " / " counter(pages); font-family: "IBM Plex Mono", monospace; font-size: 8pt; color: #7a8386; } }
+@media print {
+  main > section { break-before: auto !important; }
+  main > section.pg { break-before: page !important; }
+  .panel { break-inside: avoid; }
+}
+.vt td { font-size: 10.6px; padding: 2px 6px; vertical-align: top; line-height: 1.3; }
+.vt td.vc .chip { font-size: 10.5px; padding: 0 6px; }
+.vt td.vc .vw { display: block; font-size: 9.6px; color: var(--ink-2); margin-top: 1px; }
+.vt td.vnone { color: var(--ink-3); }
+.vt td.vnone .chip { border-color: var(--rule); color: var(--ink-3); }
+.vt td.vgood { background: #e6f4e6; } .vt td.vcrit { background: #fbecea; } .vt td.vwarn { background: #fbf3e2; } .vt td.vmuted { background: #eef3f7; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 8px; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.grid3 .panel h3 { margin-top: 0; }
+.grid3 ul.plain li, .grid2 .desc { font-size: 10.8px; line-height: 1.45; }
+.pt td { font-size: 11px; padding: 2px 7px; font-family: var(--f-mono); }
+.pt td:first-child { font-family: var(--f-body); }
+.cgrid { display: grid; grid-template-columns: 300px 300px minmax(0, 1fr); gap: 12px; align-items: start; }
+.ct { font-size: 10px; color: var(--ink-2); margin-bottom: 1px; }
+.evt td, .evt th { font-size: 9.8px; padding: 1px 5px; }
+.xt td, .xt th { font-size: 10px; padding: 1px 6px; }
+.rt td { font-size: 10.8px; padding: 2px 7px; }
+h2.cont { font-size: 18px; }
+.vt td.vnone { font-size: 10px; }
+.sub.leg { font-size: 10.5px; margin-bottom: 4px; }
+.sub.leg .chip { font-size: 10px; padding: 0 6px; }
+html[data-print] .vt td { padding: 1.5px 6px; }
+.xw td { font-family: var(--f-mono); font-size: 10px; white-space: nowrap; }
+.xw td:first-child { font-family: var(--f-body); }
+html[data-print] .askt td { font-size: 11.4px; line-height: 1.5; vertical-align: top; padding: 4px 7px; }
+html[data-print] #limits .cols2 ul.plain li { font-size: 12px; line-height: 1.55; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<header class="masthead bhead">
+  <div class="eyebrow">mtscore · Phase 3 백테스트 판단 자료 · 점수 2013-01-04~2026-10-27 · 브랜치 phase3-backtest(미커밋)</div>
+  <h1>점수가 이후 수익을 예측하는가 — 10개 자산 × 3개 점수 검증 결과</h1>
+  <p class="lede">높은 점수(과거 대비 ‘싸다·많이 빠졌다’) 뒤에 수익이 실제로 높았는지 2013~2026 일별 자료로 확인했다. 21·63·126·252영업일 뒤 수익과 점수의 순위상관(IC)을 우연히 나올 수 있는 IC 분포(점수를 시간축으로 2,000번 굴린 플라시보)와 비교했다. <b>결론: 근거가 있는 것은 밸류에이션 점수(특히 크레딧)뿐이고, 과매도·펀더멘털 점수는 대부분 예측력이 확인되지 않는다.</b></p>
+</header><main><section id="concl"><h2>1. 결론 — 점수가 이후 수익을 예측하나</h2>
+<p class="sub leg">신뢰 수준 — <span class="chip good">견고</span> 대안 규칙·플라시보 모두 통과 · <span class="chip warn">조건부</span> 한 기간만 또는 구조적 주의 · <span class="chip crit">역방향</span> 높은 점수 뒤 수익이 낮음 · <span class="chip b">약함</span> 보정 후 비유의 또는 252일만</p>
+<div class="tablewrap"><table class="vt"><colgroup><col style="width:92px"><col><col><col></colgroup><thead><tr><th>자산</th><th>과매도</th><th>밸류에이션</th><th>펀더멘털</th></tr></thead><tbody><tr><td><b>KOSPI200</b></td><td class="vc vnone">근거 없음</td><td class="vc vmuted"><span class="chip b">252일만</span><span class="vw">252일 IC 0.41(q 0.007); 짧은 기간은 근거 없음. 표본 13개</span></td><td class="vc vnone">근거 없음</td></tr><tr><td><b>S&amp;P500</b></td><td class="vc vwarn"><span class="chip warn">21일만 견고</span><span class="vw">21일 IC 0.17(q 0.007); 63일 q 0.17, 그 뒤는 근거 없음</span></td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td></tr><tr><td><b>국고 10년</b></td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td></tr><tr><td><b>미국채 10년</b></td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td></tr><tr><td><b>원화(USDKRW)</b></td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td></tr><tr><td><b>금</b></td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td></tr><tr><td><b>WTI</b></td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td></tr><tr><td><b>미국 HY</b></td><td class="vc vnone">근거 없음</td><td class="vc vgood"><span class="chip good">근거 있음(견고)</span><span class="vw">4개 기간 IC 0.25~0.56, 셀 q 0.007, 판정 규칙 4개 모두 통과. 단, 점수와 수익이 같은 스프레드에 묶여 일부는 평균회귀</span></td><td class="vc vnone">근거 없음</td></tr><tr><td><b>미국 IG</b></td><td class="vc vnone">근거 없음</td><td class="vc vnone">근거 없음</td><td class="vc vmuted"><span class="chip b">약한 역방향</span><span class="vw">NW 기준 역방향이나 플라시보 보정 후 비유의(셀 q 0.36)</span></td></tr><tr><td><b>국내 회사채</b></td><td class="vc vcrit"><span class="chip crit">21·63일 역방향</span><span class="vw">IC −0.32·−0.32(q 0.007): 스프레드가 벌어진 뒤 더 벌어졌다</span></td><td class="vc vwarn"><span class="chip warn">통계적 지지·기계적</span><span class="vw">셀 q 0.007이지만 점수(스프레드 백분위)와 수익(스프레드 변화)이 같은 변수 — 평균회귀에 가깝고 후반부가 주도</span></td><td class="vc vnone">근거 없음</td></tr></tbody></table></div>
+<ol class="findings"><li><p>30개 칸 중 <b>24개는 ‘근거 없음’</b>이다. 점수가 높든 낮든 이후 수익과 통계적으로 구분되는 관계가 보이지 않았다.</p></li><li><p>10개 자산을 합쳐 보면 밸류에이션은 21·63일 IC 0.08·0.11(플라시보 p <0.001·0.002)로 견고하다. 126·252일은 p 0.056·0.029로 약하다. 과매도·펀더멘털은 합쳐도 IC 가 0 근처다(p 0.42 이상).</p></li><li><p>가장 강한 결과(국내 회사채·미국 HY 밸류)는 점수와 수익이 같은 스프레드에서 나온다. ‘스프레드가 넓으면 이후 좁아진다’는 평균회귀가 섞여 있어, 예측력으로 과대평가하면 안 된다.</p></li><li><p>판정 규칙은 결과를 본 뒤에 정했다. 다른 규칙 3개로 바꿔도 남는 것은 <b>미국 HY 밸류(지지)</b>와 <b>국내 회사채 과매도(역방향)</b> 두 칸뿐이다(4절).</p></li></ol>
+</section><section id="blocks" class="pg"><h2>2. 블록별 해설 — 무엇을 믿고 무엇을 믿지 말까</h2>
+<p class="sub">굵은 숫자 = 플라시보 p&lt;0.05(점수를 시간축으로 2,000번 굴려 만든 ‘우연 IC’ 분포에서 관측값보다 극단인 비율). IC 는 점수 순위와 이후 수익 순위의 상관(−1~1)이다. 0.1 이면 ‘약하지만 의미 있는’ 수준이다.</p>
+<div class="tablewrap"><table class="pt"><thead><tr><th>자산군(풀링)</th><th>과매도 IC 21·63·126·252</th><th>밸류에이션 IC</th><th>펀더멘털 IC</th></tr></thead><tbody><tr><td>전체 10개</td><td>−0.01 · −0.01 · −0.04 · −0.01</td><td><b>0.08</b> · <b>0.11</b> · 0.13 · <b>0.23</b></td><td>−0.01 · −0.03 · −0.04 · −0.06</td></tr><tr><td>주가지수 2</td><td><b>0.08</b> · 0.05 · 0.03 · 0.00</td><td><b>0.13</b> · 0.11 · 0.08 · 0.25</td><td>0.05 · 0.04 · 0.01 · −0.12</td></tr><tr><td>금리 2</td><td>−0.02 · −0.04 · −0.07 · 0.03</td><td>0.05 · 0.07 · 0.13 · 0.25</td><td>−0.02 · −0.02 · 0.04 · 0.11</td></tr><tr><td>크레딧 3</td><td>−0.05 · −0.08 · −0.11 · −0.04</td><td><b>0.16</b> · <b>0.24</b> · <b>0.32</b> · <b>0.47</b></td><td>−0.07 · −0.15 · −0.16 · −0.15</td></tr><tr><td>원자재 2</td><td>0.00 · 0.05 · −0.04 · −0.03</td><td>−0.01 · 0.00 · −0.04 · −0.05</td><td>0.01 · 0.04 · 0.04 · −0.03</td></tr><tr><td>원화 1</td><td>−0.07 · 0.03 · 0.09 · 0.05</td><td>0.03 · −0.03 · −0.04 · −0.01</td><td>0.00 · −0.01 · −0.03 · −0.08</td></tr></tbody></table></div>
+<div class="grid3">
+<div class="panel"><h3>밸류에이션 — 근거 있음(주로 크레딧)</h3><ul class="plain">
+<li>크레딧 3개를 합친 IC 가 4개 기간 모두 플라시보 p <0.001 이하다. 주가지수는 21일만 유의하다.</li>
+<li>점수가 50 이상일 때와 미만일 때 이후 수익 차가 40개 자산×기간 중 32개에서 양수다(유의 양수 9, 유의 음수 0).</li>
+<li>쓰는 법: ‘싸다’ 신호를 <b>수개월 이상</b> 보유 판단의 근거로 쓸 수 있다. 다만 크레딧은 평균회귀 성분이 크다.</li></ul></div>
+<div class="panel"><h3>과매도 — 일반적으로 근거 없음</h3><ul class="plain">
+<li>전체 풀링 IC 는 4개 기간 모두 0 근처다. 예외는 S&amp;P500 21일 하나다.</li>
+<li>국내 회사채는 <b>반대</b>다. 스프레드가 급히 벌어진 뒤 더 벌어졌다.</li>
+<li>50 분할 차는 17/40개만 양수이고 유의 음수가 3개다. 쓰는 법: 과매도 점수 단독으로 ‘사라’는 신호로 쓰지 않는다.</li></ul></div>
+<div class="panel"><h3>펀더멘털 — 근거 없음</h3><ul class="plain">
+<li>전체 풀링 IC 는 음수 쪽(유의 아님)이다. 미국 IG 는 역방향에 가깝다(보정 후 비유의).</li>
+<li>50 분할 차는 21/40개 양수, 유의 음수 3개다.</li>
+<li>쓰는 법: 국면 이름 안에서 펀더멘털 high/low 의 의미는 현재 근거로는 약하다.</li></ul></div>
+</div>
+<div class="judge"><div class="jt">의미</div><ul><li>점수를 ‘무엇을 살지’가 아니라 ‘지금 자기 역사에서 어디인지’를 보는 지표로 쓰는 것이 현재 근거와 맞다. 밸류 점수만 예측 근거로 해석할 여지가 있다.</li><li>국면 매트릭스는 세 점수를 같은 무게로 쓴다. 과매도·펀더멘털의 근거가 없다는 결과를 매트릭스에 반영할지는 별도 결정이다(이번에는 바꾸지 않음).</li></ul></div>
+</section><section id="regime" class="pg"><h2>국면 이름별 이후 수익(참고)과 임계값 50</h2>
+<p class="sub">10개 자산의 일별 국면 라벨별로, 그 자산의 무조건 평균 대비 초과수익(%p)을 합쳤다. 겹치는 표본이고 <b>검정하지 않은 기술 통계</b>다.</p>
+<div class="tablewrap"><table class="rt"><thead><tr><th>국면(임계 50)</th><th class="n">자산-일 n(126일)</th><th class="n">21일</th><th class="n">63일</th><th class="n">126일</th><th class="n">252일</th></tr></thead><tbody><tr><td>최우선 매수 <span class='sb'>과·밸·펀 高·高·高</span></td><td class="n">3,219</td><td class="n">+0.34</td><td class="n">+1.08</td><td class="n">+0.89</td><td class="n">+3.10</td></tr><tr><td>저평가 패닉 분할 진입 <span class='sb'>과·밸·펀 高·高·低</span></td><td class="n">3,645</td><td class="n">−0.16</td><td class="n">+0.67</td><td class="n">−0.23</td><td class="n">+0.93</td></tr><tr><td>단기 반등 트레이드 <span class='sb'>과·밸·펀 高·低·高</span></td><td class="n">4,443</td><td class="n">−0.18</td><td class="n">−0.62</td><td class="n">−1.34</td><td class="n">−4.48</td></tr><tr><td>가치함정 경계 <span class='sb'>과·밸·펀 高·低·低</span></td><td class="n">4,287</td><td class="n">−0.08</td><td class="n">+0.13</td><td class="n">+0.13</td><td class="n">−0.08</td></tr><tr><td>보유 분할 매수 <span class='sb'>과·밸·펀 低·高·高</span></td><td class="n">3,310</td><td class="n">+0.38</td><td class="n">−0.33</td><td class="n">+0.38</td><td class="n">+1.76</td></tr><tr><td>고점 경계 <span class='sb'>과·밸·펀 低·–·低</span></td><td class="n">7,599</td><td class="n">0.00</td><td class="n">−0.29</td><td class="n">−0.08</td><td class="n">+1.76</td></tr><tr><td>비중 축소 <span class='sb'>과·밸·펀 低·低·–</span></td><td class="n">6,154</td><td class="n">−0.03</td><td class="n">+0.22</td><td class="n">+0.98</td><td class="n">−1.60</td></tr></tbody></table></div>
+<ul class="plain"><li>‘최우선 매수’(세 점수 모두 50 이상)가 252일 +3.10%p 로 가장 높고, ‘단기 반등 트레이드’(과매도만 높고 밸류 낮음)가 −4.48%p 로 가장 낮다. 밸류 점수의 유효성과 같은 방향이다.</li>
+<li>라벨 순서가 기대와 어긋나는 곳도 있다(‘고점 경계’ 252일 +1.76%p). 국면 이름을 매매 지시로 읽을 근거는 아직 약하다.</li>
+<li>밸류 점수가 50 이상인 날은 S&amp;P500 2%·미국 HY 17% 뿐이라, 이 두 자산은 ‘최우선 매수’가 거의 나오지 않는다(7절 결정 2).</li></ul>
+<h3>블록 점수 분포와 50 분할의 수익 차(63일)</h3>
+<div class="tablewrap"><table class="xt"><thead><tr><th>자산</th><th class="n">과매도 중앙값</th><th class="n">≥50 비율</th><th class="n">≥50−<50 63일 %p</th><th class="n">밸류 중앙값</th><th class="n">≥50 비율</th><th class="n">≥50−<50 63일 %p</th><th class="n">펀더 중앙값</th><th class="n">≥50 비율</th><th class="n">≥50−<50 63일 %p</th></tr></thead><tbody><tr><td>KOSPI200</td><td class="n">47</td><td class="n">45%</td><td class="n">−2.5</td><td class="n">50</td><td class="n">50%</td><td class="n">−0.8</td><td class="n">54</td><td class="n">60%</td><td class="n">−0.2</td></tr><tr><td>S&amp;P500</td><td class="n">45</td><td class="n">43%</td><td class="n">+2.2</td><td class="n">12</td><td class="n">2%</td><td class="n">+7.5</td><td class="n">53</td><td class="n">55%</td><td class="n">+0.3</td></tr><tr><td>국고 10년</td><td class="n">52</td><td class="n">53%</td><td class="n">−0.3</td><td class="n">42</td><td class="n">30%</td><td class="n">+0.2</td><td class="n">51</td><td class="n">52%</td><td class="n">−0.3</td></tr><tr><td>미국채 10년</td><td class="n">51</td><td class="n">52%</td><td class="n">0.0</td><td class="n">46</td><td class="n">43%</td><td class="n">+0.4</td><td class="n">47</td><td class="n">44%</td><td class="n">0.0</td></tr><tr><td>원화(USDKRW)</td><td class="n">53</td><td class="n">54%</td><td class="n">+0.5</td><td class="n">43</td><td class="n">45%</td><td class="n">+0.4</td><td class="n">51</td><td class="n">53%</td><td class="n">−0.1</td></tr><tr><td>금</td><td class="n">48</td><td class="n">45%</td><td class="n">+0.1</td><td class="n">39</td><td class="n">46%</td><td class="n">−2.4</td><td class="n">37</td><td class="n">36%</td><td class="n">+1.9</td></tr><tr><td>WTI</td><td class="n">53</td><td class="n">55%</td><td class="n">+2.8</td><td class="n">65</td><td class="n">74%</td><td class="n">+3.5</td><td class="n">61</td><td class="n">68%</td><td class="n">+0.8</td></tr><tr><td>미국 HY</td><td class="n">46</td><td class="n">45%</td><td class="n">+0.2</td><td class="n">14</td><td class="n">17%</td><td class="n">+2.5</td><td class="n">51</td><td class="n">54%</td><td class="n">−0.5</td></tr><tr><td>미국 IG</td><td class="n">46</td><td class="n">45%</td><td class="n">+0.2</td><td class="n">23</td><td class="n">30%</td><td class="n">+0.9</td><td class="n">51</td><td class="n">54%</td><td class="n">−1.5</td></tr><tr><td>국내 회사채</td><td class="n">48</td><td class="n">47%</td><td class="n">−0.2</td><td class="n">54</td><td class="n">57%</td><td class="n">+0.2</td><td class="n">54</td><td class="n">56%</td><td class="n">0.0</td></tr></tbody></table></div>
+<p class="tnote">중앙값이 50 에서 멀면 국면의 high/low 가 한쪽으로 쏠린다. 수익 차는 점수 ≥50 인 날과 &lt;50 인 날의 63일 평균 수익 차(겹치는 표본).</p>
+</section><section id="cases" class="pg"><h2>3. 자산별 핵심 — 근거가 있거나 반대로 나온 칸</h2>
+<p class="sub">막대 = 점수 구간별 이후 평균 수익(겹치는 일별 표본). ‘전체’는 그 자산의 무조건 평균이다. 크레딧 수익은 iBoxx 총수익(US), 국고 대비 초과수익 근사(국내 회사채)다.</p>
+<div class="panel asset"><div class="ahead"><h3>미국 HY · 밸류에이션</h3><span class="chip good">근거 있음(견고)</span><span class="an">4개 기간 IC 0.25~0.56, 셀 q 0.007, 판정 규칙 4개 모두 통과. 단, 점수와 수익이 같은 스프레드에 묶여 일부는 평균회귀</span></div>
+<div class="cgrid"><div><div class="ct">63일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="US_HY valuation 63일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−10%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+10%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="49.0" width="33.3" height="2.0" style="fill:var(--pos);opacity:1"/><text x="60.0" y="46.0" text-anchor="middle" class="lb">+0.6%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 1519</text><rect x="95.4" y="49.5" width="33.3" height="1.5" style="fill:var(--pos);opacity:1"/><text x="112.0" y="46.5" text-anchor="middle" class="lb">+0.5%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 2174</text><rect x="147.4" y="47.2" width="33.3" height="3.8" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="44.2" text-anchor="middle" class="lb">+1.2%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3517</text><rect x="199.4" y="25.9" width="33.3" height="25.1" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="22.9" text-anchor="middle" class="lb">+7.7%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 125</text><rect x="251.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="15.8" text-anchor="middle" class="lb">+9.8%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 70</text></svg></div>
+<div><div class="ct">252일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="US_HY valuation 252일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−20%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+20%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="47.5" width="33.3" height="3.5" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="44.5" text-anchor="middle" class="lb">+2.2%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 1371</text><rect x="95.4" y="46.9" width="33.3" height="4.1" style="fill:var(--pos);opacity:0.45"/><text x="112.0" y="43.9" text-anchor="middle" class="lb">+2.5%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 1986</text><rect x="147.4" y="43.2" width="33.3" height="7.8" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="40.2" text-anchor="middle" class="lb">+4.8%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3328</text><rect x="199.4" y="22.4" width="33.3" height="28.6" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="19.4" text-anchor="middle" class="lb">+17.5%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 125</text><rect x="251.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="15.8" text-anchor="middle" class="lb">+19.7%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 70</text></svg></div>
+<div><div class="ct">최근 3개 이벤트(점수 ≥90 진입, 쿨다운 20일) — 전체 3개, 63일 평균 +7.2%(무조건 대비 +6.1%)</div><div class="tablewrap"><table class="evt"><thead><tr><th>진입일</th><th class="n">점수</th><th class="n">63일 뒤</th><th class="n">252일 뒤</th></tr></thead><tbody><tr><td>2016-01-15</td><td class="n">91.6</td><td class="n">+8.5%</td><td class="n">+19.8%</td></tr><tr><td>2020-03-12</td><td class="n">94.7</td><td class="n">+8.1%</td><td class="n">+16.6%</td></tr><tr><td>2020-04-20</td><td class="n">90.4</td><td class="n">+5.1%</td><td class="n">+14.8%</td></tr></tbody></table></div></div></div>
+<p class="tnote">IC 21일 0.25 · 63일 0.35 · 126일 0.41 · 252일 0.56. 플라시보 q(120개 BH) 21일 0.007 · 63일 0.150 · 126일 0.150 · 252일 0.265. 겹치지 않는 표본 IC 전반부 0.26·후반부 0.68(252일, 후반부 n 7). 흐린 막대 = n&lt;10 또는 독립 표본(n/h)&lt;10.</p></div><div class="panel asset"><div class="ahead"><h3>국내 회사채 · 밸류에이션</h3><span class="chip warn">통계적 지지·기계적</span><span class="an">셀 q 0.007이지만 점수(스프레드 백분위)와 수익(스프레드 변화)이 같은 변수 — 평균회귀에 가깝고 후반부가 주도</span></div>
+<div class="cgrid"><div><div class="ct">63일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="KR_CORP valuation 63일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−0.7%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+0.7%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="48.2" width="33.3" height="2.8" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="45.2" text-anchor="middle" class="lb">+0.06%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 365</text><rect x="95.4" y="48.8" width="33.3" height="2.2" style="fill:var(--pos);opacity:1"/><text x="112.0" y="45.8" text-anchor="middle" class="lb">+0.05%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 790</text><rect x="147.4" y="44.6" width="33.3" height="6.4" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="41.6" text-anchor="middle" class="lb">+0.14%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3338</text><rect x="199.4" y="27.8" width="33.3" height="23.2" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="24.8" text-anchor="middle" class="lb">+0.50%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 535</text><rect x="251.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="15.8" text-anchor="middle" class="lb">+0.69%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 339</text></svg></div>
+<div><div class="ct">252일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="KR_CORP valuation 252일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−3%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+3%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="50.4" width="33.3" height="0.8" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="47.4" text-anchor="middle" class="lb">+0.1%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 365</text><rect x="95.4" y="47.6" width="33.3" height="3.4" style="fill:var(--pos);opacity:0.45"/><text x="112.0" y="44.6" text-anchor="middle" class="lb">+0.3%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 756</text><rect x="147.4" y="44.2" width="33.3" height="6.8" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="41.2" text-anchor="middle" class="lb">+0.6%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3149</text><rect x="199.4" y="24.5" width="33.3" height="26.5" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="21.5" text-anchor="middle" class="lb">+2.2%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 535</text><rect x="251.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="15.8" text-anchor="middle" class="lb">+2.7%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 339</text></svg></div>
+<div><div class="ct">최근 4개 이벤트(점수 ≥90 진입, 쿨다운 20일) — 전체 4개, 63일 평균 −0.7%(무조건 대비 −0.9%)</div><div class="tablewrap"><table class="evt"><thead><tr><th>진입일</th><th class="n">점수</th><th class="n">63일 뒤</th><th class="n">252일 뒤</th></tr></thead><tbody><tr><td>2020-03-23</td><td class="n">90.5</td><td class="n">−1.2%</td><td class="n">+1.1%</td></tr><tr><td>2021-02-25</td><td class="n">90.1</td><td class="n">+1.0%</td><td class="n">+1.7%</td></tr><tr><td>2022-08-02</td><td class="n">90.1</td><td class="n">−1.1%</td><td class="n">+1.6%</td></tr><tr><td>2022-09-05</td><td class="n">90.0</td><td class="n">−1.7%</td><td class="n">+1.6%</td></tr></tbody></table></div></div></div>
+<p class="tnote">IC 21일 0.16 · 63일 0.26 · 126일 0.45 · 252일 0.64. 플라시보 q(120개 BH) 21일 0.444 · 63일 0.007 · 126일 0.007 · 252일 0.007. 겹치지 않는 표본 IC 전반부 0.43·후반부 0.71(252일, 후반부 n 6). 흐린 막대 = n&lt;10 또는 독립 표본(n/h)&lt;10.</p></div></section>
+<section class="pg"><h2 class="cont">3. 자산별 핵심(계속) — 단기 과매도</h2><div class="panel asset"><div class="ahead"><h3>S&amp;P500 · 과매도</h3><span class="chip warn">21일만 견고</span><span class="an">21일 IC 0.17(q 0.007); 63일 q 0.17, 그 뒤는 근거 없음</span></div>
+<div class="cgrid"><div><div class="ct">21일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="SP500 oversold 21일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−3%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+3%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="33.7" width="33.3" height="17.3" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="30.7" text-anchor="middle" class="lb">+1.4%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 8</text><rect x="95.4" y="43.7" width="33.3" height="7.3" style="fill:var(--pos);opacity:1"/><text x="112.0" y="40.7" text-anchor="middle" class="lb">+0.6%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 589</text><rect x="147.4" y="37.6" width="33.3" height="13.4" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="34.6" text-anchor="middle" class="lb">+1.1%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3466</text><rect x="199.4" y="24.1" width="33.3" height="26.9" style="fill:var(--pos);opacity:1"/><text x="216.0" y="21.1" text-anchor="middle" class="lb">+2.2%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 481</text><rect x="251.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="15.8" text-anchor="middle" class="lb">+2.6%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 56</text></svg></div>
+<div><div class="ct">63일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="SP500 oversold 63일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−7%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+7%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="23.9" width="33.3" height="27.1" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="20.9" text-anchor="middle" class="lb">+5.6%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 8</text><rect x="95.4" y="42.0" width="33.3" height="9.0" style="fill:var(--pos);opacity:0.45"/><text x="112.0" y="39.0" text-anchor="middle" class="lb">+1.9%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 583</text><rect x="147.4" y="35.4" width="33.3" height="15.6" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="32.4" text-anchor="middle" class="lb">+3.2%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3424</text><rect x="199.4" y="22.8" width="33.3" height="28.2" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="19.8" text-anchor="middle" class="lb">+5.9%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 480</text><rect x="251.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="15.8" text-anchor="middle" class="lb">+6.7%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 56</text></svg></div>
+<div><div class="ct">최근 5개 이벤트(점수 ≥75 진입, 쿨다운 20일) — 전체 69개, 21일 평균 +2.0%(무조건 대비 +0.9%)</div><div class="tablewrap"><table class="evt"><thead><tr><th>진입일</th><th class="n">점수</th><th class="n">21일 뒤</th><th class="n">63일 뒤</th></tr></thead><tbody><tr><td>2026-03-03</td><td class="n">79.7</td><td class="n">−3.5%</td><td class="n">+11.6%</td></tr><tr><td>2026-06-10</td><td class="n">81.5</td><td class="n">+3.4%</td><td class="n">+4.5%</td></tr><tr><td>2026-07-29</td><td class="n">83.1</td><td class="n">+5.7%</td><td class="n">+5.6%</td></tr><tr><td>2026-09-16</td><td class="n">75.1</td><td class="n">+2.5%</td><td class="n">–</td></tr><tr><td>2026-10-16</td><td class="n">76.6</td><td class="n">–</td><td class="n">–</td></tr></tbody></table></div></div></div>
+<p class="tnote">IC 21일 0.17 · 63일 0.19 · 126일 0.14 · 252일 0.03. 플라시보 q(120개 BH) 21일 0.007 · 63일 0.174 · 126일 0.795 · 252일 0.993. 겹치지 않는 표본 IC 전반부 0.42·후반부 −0.39(63일, 후반부 n 27). 흐린 막대 = n&lt;10 또는 독립 표본(n/h)&lt;10.</p></div><div class="panel asset"><div class="ahead"><h3>국내 회사채 · 과매도</h3><span class="chip crit">21·63일 역방향</span><span class="an">IC −0.32·−0.32(q 0.007): 스프레드가 벌어진 뒤 더 벌어졌다</span></div>
+<div class="cgrid"><div><div class="ct">21일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="KR_CORP oversold 21일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−0.5%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+0.5%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="49.8" width="33.3" height="1.2" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="46.8" text-anchor="middle" class="lb">+0.02%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 9</text><rect x="95.4" y="38.1" width="33.3" height="12.9" style="fill:var(--pos);opacity:1"/><text x="112.0" y="35.1" text-anchor="middle" class="lb">+0.20%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 390</text><rect x="147.4" y="48.1" width="33.3" height="2.9" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="45.1" text-anchor="middle" class="lb">+0.05%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3368</text><rect x="199.4" y="51.0" width="33.3" height="5.5" style="fill:var(--neg);opacity:1"/><text x="216.0" y="66.5" text-anchor="middle" class="lb">−0.09%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 527</text><rect x="251.4" y="51.0" width="33.3" height="21.0" style="fill:var(--neg);opacity:0.45"/><text x="268.0" y="82.0" text-anchor="middle" class="lb">−0.33%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 75</text></svg></div>
+<div><div class="ct">63일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="KR_CORP oversold 63일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−0.5%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+0.5%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="49.1" width="33.3" height="1.9" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="46.1" text-anchor="middle" class="lb">+0.03%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 9</text><rect x="95.4" y="25.0" width="33.3" height="26.0" style="fill:var(--pos);opacity:0.45"/><text x="112.0" y="22.0" text-anchor="middle" class="lb">+0.40%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 388</text><rect x="147.4" y="42.3" width="33.3" height="8.7" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="39.3" text-anchor="middle" class="lb">+0.14%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3326</text><rect x="199.4" y="50.3" width="33.3" height="0.8" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="47.3" text-anchor="middle" class="lb">+0.01%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 527</text><rect x="251.4" y="51.0" width="33.3" height="11.3" style="fill:var(--neg);opacity:0.45"/><text x="268.0" y="72.3" text-anchor="middle" class="lb">−0.18%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 75</text></svg></div>
+<div><div class="ct">최근 5개 이벤트(점수 ≥75 진입, 쿨다운 20일) — 전체 35개, 21일 평균 −0.1%(무조건 대비 −0.1%)</div><div class="tablewrap"><table class="evt"><thead><tr><th>진입일</th><th class="n">점수</th><th class="n">21일 뒤</th><th class="n">63일 뒤</th></tr></thead><tbody><tr><td>2024-12-10</td><td class="n">95.1</td><td class="n">0.0%</td><td class="n">+0.4%</td></tr><tr><td>2025-12-10</td><td class="n">79.7</td><td class="n">0.0%</td><td class="n">−0.1%</td></tr><tr><td>2026-02-03</td><td class="n">76.6</td><td class="n">−0.1%</td><td class="n">−0.2%</td></tr><tr><td>2026-03-18</td><td class="n">77.9</td><td class="n">−0.1%</td><td class="n">0.0%</td></tr><tr><td>2026-06-26</td><td class="n">77.0</td><td class="n">−0.1%</td><td class="n">+0.1%</td></tr></tbody></table></div></div></div>
+<p class="tnote">IC 21일 −0.32 · 63일 −0.32 · 126일 −0.24 · 252일 −0.11. 플라시보 q(120개 BH) 21일 0.007 · 63일 0.007 · 126일 0.483 · 252일 0.993. 겹치지 않는 표본 IC 전반부 −0.08·후반부 −0.45(63일, 후반부 n 26). 흐린 막대 = n&lt;10 또는 독립 표본(n/h)&lt;10.</p></div></section>
+<section class="pg"><h2 class="cont">3. 자산별 핵심(계속) — 약한 신호</h2><div class="panel asset"><div class="ahead"><h3>KOSPI200 · 밸류에이션</h3><span class="chip b">252일만</span><span class="an">252일 IC 0.41(q 0.007); 짧은 기간은 근거 없음. 표본 13개</span></div>
+<div class="cgrid"><div><div class="ct">63일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="KOSPI200 valuation 63일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−64%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+64%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="15.8" text-anchor="middle" class="lb">+64.0%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 21</text><rect x="95.4" y="42.6" width="33.3" height="8.4" style="fill:var(--pos);opacity:0.45"/><text x="112.0" y="39.6" text-anchor="middle" class="lb">+16.8%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 309</text><rect x="147.4" y="49.0" width="33.3" height="2.0" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="46.0" text-anchor="middle" class="lb">+3.9%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3307</text><rect x="199.4" y="47.7" width="33.3" height="3.3" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="44.7" text-anchor="middle" class="lb">+6.6%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 312</text><rect x="251.4" y="47.6" width="33.3" height="3.4" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="44.6" text-anchor="middle" class="lb">+6.7%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 63</text></svg></div>
+<div><div class="ct">252일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="KOSPI200 valuation 252일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−76%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+76%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><text x="60.0" y="47.0" text-anchor="middle" class="ax">없음</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 0</text><rect x="95.4" y="51.0" width="33.3" height="3.9" style="fill:var(--neg);opacity:0.45"/><text x="112.0" y="64.9" text-anchor="middle" class="lb">−9.1%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 198</text><rect x="147.4" y="43.2" width="33.3" height="7.8" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="40.2" text-anchor="middle" class="lb">+18.5%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3118</text><rect x="199.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="216.0" y="15.8" text-anchor="middle" class="lb">+76.0%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 312</text><rect x="251.4" y="46.6" width="33.3" height="4.4" style="fill:var(--pos);opacity:0.45"/><text x="268.0" y="43.6" text-anchor="middle" class="lb">+10.5%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 63</text></svg></div>
+<div><div class="ct">최근 3개 이벤트(점수 ≥75 진입, 쿨다운 20일) — 전체 3개, 63일 평균 +4.8%(무조건 대비 +0.9%)</div><div class="tablewrap"><table class="evt"><thead><tr><th>진입일</th><th class="n">점수</th><th class="n">63일 뒤</th><th class="n">252일 뒤</th></tr></thead><tbody><tr><td>2018-06-27</td><td class="n">75.1</td><td class="n">−0.2%</td><td class="n">−8.6%</td></tr><tr><td>2020-03-31</td><td class="n">80.9</td><td class="n">+20.2%</td><td class="n">+84.5%</td></tr><tr><td>2024-09-30</td><td class="n">75.3</td><td class="n">−5.6%</td><td class="n">+55.9%</td></tr></tbody></table></div></div></div>
+<p class="tnote">IC 21일 0.10 · 63일 0.11 · 126일 0.16 · 252일 0.41. 플라시보 q(120개 BH) 21일 0.877 · 63일 0.993 · 126일 0.993 · 252일 0.007. 겹치지 않는 표본 IC 전반부 0.25·후반부 0.77(252일, 후반부 n 6). 흐린 막대 = n&lt;10 또는 독립 표본(n/h)&lt;10.</p></div><div class="panel asset"><div class="ahead"><h3>미국 IG · 펀더멘털</h3><span class="chip b">약한 역방향</span><span class="an">NW 기준 역방향이나 플라시보 보정 후 비유의(셀 q 0.36)</span></div>
+<div class="cgrid"><div><div class="ct">21일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="US_IG fundamental 21일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−2%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+2%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="15.8" text-anchor="middle" class="lb">+1.8%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 141</text><rect x="95.4" y="38.0" width="33.3" height="13.0" style="fill:var(--pos);opacity:1"/><text x="112.0" y="35.0" text-anchor="middle" class="lb">+0.7%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 588</text><rect x="147.4" y="47.0" width="33.3" height="4.0" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="44.0" text-anchor="middle" class="lb">+0.2%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3423</text><rect x="199.4" y="51.0" width="33.3" height="2.8" style="fill:var(--neg);opacity:1"/><text x="216.0" y="63.8" text-anchor="middle" class="lb">−0.2%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 398</text><rect x="251.4" y="51.0" width="33.3" height="17.5" style="fill:var(--neg);opacity:0.45"/><text x="268.0" y="78.5" text-anchor="middle" class="lb">−1.0%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 81</text></svg></div>
+<div><div class="ct">63일 뒤 평균 수익(점수 구간별)</div><svg viewBox="0 0 300 118" width="100%" role="img" class="svgc" aria-label="US_IG fundamental 63일 구간별 평균 수익"><line x1="34" x2="294" y1="51.0" y2="51.0" style="stroke:var(--ink-3)"/><text x="30" y="86.2" text-anchor="end" class="ax">−5%</text><line x1="34" x2="294" y1="83.2" y2="83.2" style="stroke:var(--rule-2)"/><text x="30" y="21.8" text-anchor="end" class="ax">+5%</text><line x1="34" x2="294" y1="18.8" y2="18.8" style="stroke:var(--rule-2)"/><rect x="43.4" y="18.8" width="33.3" height="32.2" style="fill:var(--pos);opacity:0.45"/><text x="60.0" y="15.8" text-anchor="middle" class="lb">+5.0%</text><text x="60.0" y="101" text-anchor="middle" class="lb">≤10</text><text x="60.0" y="112" text-anchor="middle" class="ax">n 141</text><rect x="95.4" y="38.0" width="33.3" height="13.0" style="fill:var(--pos);opacity:0.45"/><text x="112.0" y="35.0" text-anchor="middle" class="lb">+2.0%</text><text x="112.0" y="101" text-anchor="middle" class="lb">≤25</text><text x="112.0" y="112" text-anchor="middle" class="ax">n 588</text><rect x="147.4" y="46.2" width="33.3" height="4.8" style="fill:var(--muted-line);opacity:1"/><text x="164.0" y="43.2" text-anchor="middle" class="lb">+0.8%</text><text x="164.0" y="101" text-anchor="middle" class="lb">전체</text><text x="164.0" y="112" text-anchor="middle" class="ax">n 3381</text><rect x="199.4" y="51.0" width="33.3" height="0.9" style="fill:var(--neg);opacity:0.45"/><text x="216.0" y="61.9" text-anchor="middle" class="lb">−0.1%</text><text x="216.0" y="101" text-anchor="middle" class="lb">≥75</text><text x="216.0" y="112" text-anchor="middle" class="ax">n 372</text><rect x="251.4" y="51.0" width="33.3" height="14.2" style="fill:var(--neg);opacity:0.45"/><text x="268.0" y="75.2" text-anchor="middle" class="lb">−2.2%</text><text x="268.0" y="101" text-anchor="middle" class="lb">≥90</text><text x="268.0" y="112" text-anchor="middle" class="ax">n 81</text></svg></div>
+<div><div class="ct">최근 5개 이벤트(점수 ≥90 진입, 쿨다운 20일) — 전체 5개, 21일 평균 −1.4%(무조건 대비 −1.7%)</div><div class="tablewrap"><table class="evt"><thead><tr><th>진입일</th><th class="n">점수</th><th class="n">21일 뒤</th><th class="n">63일 뒤</th></tr></thead><tbody><tr><td>2020-09-30</td><td class="n">91.5</td><td class="n">−0.3%</td><td class="n">+3.2%</td></tr><tr><td>2020-11-09</td><td class="n">95.7</td><td class="n">+1.6%</td><td class="n">+0.6%</td></tr><tr><td>2020-12-31</td><td class="n">92.9</td><td class="n">−1.8%</td><td class="n">−5.0%</td></tr><tr><td>2021-02-10</td><td class="n">90.7</td><td class="n">−4.4%</td><td class="n">−3.5%</td></tr><tr><td>2026-06-30</td><td class="n">92.2</td><td class="n">−2.3%</td><td class="n">−4.3%</td></tr></tbody></table></div></div></div>
+<p class="tnote">IC 21일 −0.18 · 63일 −0.24 · 126일 −0.24 · 252일 −0.28. 플라시보 q(120개 BH) 21일 0.444 · 63일 0.444 · 126일 0.916 · 252일 0.988. 겹치지 않는 표본 IC 전반부 −0.14·후반부 −0.28(63일, 후반부 n 27). 흐린 막대 = n&lt;10 또는 독립 표본(n/h)&lt;10.</p></div></section><section id="rules" class="pg"><h2>4. 판정이 얼마나 단단한가</h2>
+<p class="sub">판정 규칙은 결과(IC 요약표)를 본 뒤에 정했다. 자산별로 맞추지는 않았지만 사전 등록이 아니므로, 규칙을 바꿨을 때 무엇이 남는지 함께 본다.</p>
+<div class="tablewrap"><table class="rt"><thead><tr><th>판정 규칙</th><th>지지</th><th>역방향</th></tr></thead><tbody><tr><td>기본(2개 기간 NW t≥1.96 + 전·후반 같은 부호)</td><td>국내 회사채 밸류, S&amp;P500 과매, 미국 HY 밸류</td><td>국내 회사채 과매, 미국 IG 펀더</td></tr><tr><td>A: 전·후반 조건을 겹치지 않는 표본 IC 로</td><td>미국 HY 밸류</td><td>국내 회사채 과매, 미국 IG 펀더</td></tr><tr><td>B: t≥2.58</td><td>국내 회사채 밸류, S&amp;P500 과매, 미국 HY 밸류</td><td>국내 회사채 과매, 미국 IG 펀더</td></tr><tr><td>C: 겹치지 않는 표본 t≥1.96</td><td>KOSPI200 밸류, S&amp;P500 과매, 미국 HY 밸류</td><td>국내 회사채 과매</td></tr></tbody></table></div>
+<h3>플라시보 p·다중검정 q 가 작은 칸(나머지 칸은 셀 q ≥ 0.5 이고 기간별 q ≥ 0.2)</h3>
+<div class="tablewrap"><table class="rt"><thead><tr><th>칸</th><th class="n">평균 IC(4기간)</th><th class="n">셀 p</th><th class="n">셀 q(30)</th><th class="n">q 21일</th><th class="n">q 63일</th><th class="n">q 126일</th><th class="n">q 252일</th><th class="n">SD비</th></tr></thead><tbody><tr><td>미국 HY · 밸류에이션</td><td class="n">0.39</td><td class="n"><0.001</td><td class="n">0.007</td><td class="n"><b>0.007</b></td><td class="n">0.150</td><td class="n">0.150</td><td class="n">0.265</td><td class="n">1.53</td></tr><tr><td>국내 회사채 · 밸류에이션</td><td class="n">0.38</td><td class="n"><0.001</td><td class="n">0.007</td><td class="n">0.444</td><td class="n"><b>0.007</b></td><td class="n"><b>0.007</b></td><td class="n"><b>0.007</b></td><td class="n">0.89</td></tr><tr><td>KOSPI200 · 밸류에이션</td><td class="n">0.20</td><td class="n">0.006</td><td class="n">0.060</td><td class="n">0.877</td><td class="n">0.993</td><td class="n">0.993</td><td class="n"><b>0.007</b></td><td class="n">0.83</td></tr><tr><td>국내 회사채 · 과매도</td><td class="n">−0.25</td><td class="n">0.008</td><td class="n">0.060</td><td class="n"><b>0.007</b></td><td class="n"><b>0.007</b></td><td class="n">0.483</td><td class="n">0.993</td><td class="n">1.37</td></tr><tr><td>S&amp;P500 · 과매도</td><td class="n">0.13</td><td class="n">0.060</td><td class="n">0.357</td><td class="n"><b>0.007</b></td><td class="n">0.174</td><td class="n">0.795</td><td class="n">0.993</td><td class="n">1.24</td></tr><tr><td>미국 IG · 펀더멘털</td><td class="n">−0.24</td><td class="n">0.071</td><td class="n">0.357</td><td class="n">0.444</td><td class="n">0.444</td><td class="n">0.916</td><td class="n">0.988</td><td class="n">1.44</td></tr></tbody></table></div>
+<p class="tnote">셀 p = 4개 기간 평균 IC 의 플라시보 p, 셀 q = 30칸 BH-FDR, 기간별 q = 120개 검정 BH-FDR(굵게 &lt;0.05). SD비 = 플라시보 표준편차 ÷ NW 표준오차(기간 중앙값) — 1보다 크면 NW t 가 그만큼 부풀려져 있다.</p>
+<ul class="plain">
+<li><b>표준오차 보정</b>: 점수는 며칠·몇 달씩 이어지는 값이라 일반적인 겹침 보정(Newey-West, lag h−1)이 불확실성을 덜 잡는다. 플라시보 분포의 표준편차가 NW 표준오차의 중앙 1.26배(10~90% 0.90~1.67배)다. 전체 밸류 풀링 252일은 1.46배다. 그래서 NW t 가 아니라 플라시보 p 와 다중검정 보정(BH-FDR q)을 우선한다.</li>
+<li><b>다중검정</b>: 120개 검정(30칸×4기간)에서 5% 수준으로 우연히 유의해 보일 수 있는 수는 약 6개다. q&lt;0.05 로 남는 칸×기간은 8개다.</li>
+<li>검증 레인이 따로 계산한 플라시보와 대조했다. 기간별 p 의 최대 차는 0.03 이고, q&lt;0.10 판정은 120개 모두 같다(<code>placebo_vs_verifier.csv</code>).</li>
+</ul></section><section id="exp" class="pg"><h2>5. 비교 실험 — 바꿔 봤을 때 무엇이 달라졌나</h2>
+<h3>① 역발상 개편(2026-10-28 동시판정·변동성비) — 개선 근거 없음</h3><div class="tablewrap"><table class="xt xw"><colgroup><col style="width:110px"><col><col><col><col></colgroup><thead><tr><th>변형</th><th>전체 10개 과매도 IC</th><th>주가지수</th><th>크레딧</th><th>금리</th></tr></thead><tbody><tr><td>개편 전</td><td>−0.02 · −0.01 · −0.02 · 0.00</td><td>0.10 · 0.07 · 0.07 · 0.05</td><td>−0.07 · −0.08 · −0.09 · −0.07</td><td>−0.04 · −0.05 · −0.06 · 0.04</td></tr><tr><td>동시판정만</td><td>−0.02 · −0.01 · −0.03 · −0.01</td><td>0.08 · 0.06 · 0.05 · 0.01</td><td>−0.06 · −0.07 · −0.08 · −0.03</td><td>−0.05 · −0.06 · −0.08 · 0.01</td></tr><tr><td>변동성비만</td><td>−0.01 · −0.01 · −0.03 · 0.00</td><td>0.10 · 0.06 · 0.05 · 0.02</td><td>−0.06 · −0.09 · −0.14 · −0.07</td><td>0.00 · −0.03 · −0.04 · 0.06</td></tr><tr><td>현행</td><td>−0.01 · −0.01 · −0.04 · −0.01</td><td>0.08 · 0.05 · 0.03 · 0.00</td><td>−0.05 · −0.08 · −0.11 · −0.04</td><td>−0.02 · −0.04 · −0.07 · 0.03</td></tr></tbody></table></div>
+<p class="tnote">과매도 블록 풀링 IC 21·63·126·252일. 주가지수는 개편 전이 4개 기간 모두 높다(차 0.01~0.05, 유의 아님). ‘변동성 급등 = 기회’ 가정은 확인되지 않았다.</p>
+<div class="grid2">
+<div><h3>③ KOSPI200 이익 지표 가중 — 동일가중·두 종목 제외가 더 높다</h3><div class="tablewrap"><table class="xt"><thead><tr><th>KOSPI200 밸류</th><th class="n">21일</th><th class="n">63일</th><th class="n">126일</th><th class="n">252일</th><th class="n">252일 t</th></tr></thead><tbody><tr><td>시총가중(현행)</td><td class="n">0.10</td><td class="n">0.11</td><td class="n">0.16</td><td class="n">0.41</td><td class="n">2.22</td></tr><tr><td>동일가중</td><td class="n">0.08</td><td class="n">0.15</td><td class="n">0.21</td><td class="n">0.52</td><td class="n">4.49</td></tr><tr><td>삼성·하이닉스 제외</td><td class="n">0.10</td><td class="n">0.18</td><td class="n">0.25</td><td class="n">0.56</td><td class="n">4.06</td></tr></tbody></table></div>
+<p class="tnote">시총가중은 삼성전자·SK하이닉스의 낮은 PER 에 끌려간다(Phase 2). 가중을 바꾸면 252일 IC 가 0.41 → 0.52·0.56이다. 결정 C 를 다시 볼 근거이지만, 표본 분할 확인 전에는 바꾸지 않는다.</p>
+<h3>④ 통화 이중반영 3변형 — 고를 근거 없음</h3><div class="tablewrap"><table class="xt"><thead><tr><th>KOSPI200 펀더 IC(t)</th><th class="n">21일</th><th class="n">63일</th><th class="n">126일</th><th class="n">252일</th></tr></thead><tbody><tr><td>both(현행)</td><td class="n">0.04 (0.7)</td><td class="n">−0.01 (−0.1)</td><td class="n">0.00 (0.0)</td><td class="n">−0.12 (−1.0)</td></tr><tr><td>oversold_only</td><td class="n">0.08 (1.3)</td><td class="n">0.09 (0.9)</td><td class="n">0.12 (1.0)</td><td class="n">0.00 (0.0)</td></tr><tr><td>fundamental_only</td><td class="n">0.04 (0.7)</td><td class="n">−0.01 (−0.1)</td><td class="n">0.00 (0.0)</td><td class="n">−0.12 (−1.0)</td></tr></tbody></table></div>
+<p class="tnote">해당 자산은 KOSPI200 하나다. 3개 중 최선을 고르는 구조이고, 최대 |t| 1.33는 우연 범위다.</p></div>
+<div><h3>② 200일선 추세 게이트 — 일관된 개선 없음</h3><div class="tablewrap"><table class="xt"><thead><tr><th>자산</th><th class="n">게이트 없음 63일(n)</th><th class="n">200일선 위만(n)</th></tr></thead><tbody><tr><td>KOSPI200</td><td class="n">+1.1% (53)</td><td class="n">+0.9% (19)</td></tr><tr><td>S&P500</td><td class="n">+4.5% (68)</td><td class="n">+4.7% (52)</td></tr><tr><td>국고 10년</td><td class="n">+0.2% (44)</td><td class="n">+0.7% (15)</td></tr><tr><td>미국채 10년</td><td class="n">+0.4% (36)</td><td class="n">+2.6% (6)</td></tr><tr><td>원화(USDKRW)</td><td class="n">−0.4% (51)</td><td class="n">−1.4% (13)</td></tr><tr><td>금</td><td class="n">−0.3% (24)</td><td class="n">−0.1% (3)</td></tr><tr><td>WTI</td><td class="n">+0.6% (37)</td><td class="n">+0.9% (11)</td></tr><tr><td>미국 HY</td><td class="n">+1.0% (44)</td><td class="n">+1.1% (31)</td></tr><tr><td>미국 IG</td><td class="n">+0.5% (46)</td><td class="n">+0.9% (30)</td></tr><tr><td>국내 회사채</td><td class="n">−0.1% (35)</td><td class="n">0.0% (24)</td></tr></tbody></table></div>
+<p class="tnote">과매도 ≥75 진입 이벤트의 63일 뒤 평균. 2022년에는 게이트가 10개 중 7개 자산의 신호를 모두 걸러 미국채·IG 손실을 피했다. WTI 는 게이트를 건 쪽이 252일 −14.5%로 게이트 없는 −5.8%보다 나빴다.</p>
+<h3>⑤ 백분위 방식 expanding vs rolling 10년 — 차이 미미</h3>
+<p class="desc">두 방식은 2020년 이후에만 갈린다. IC 차이가 큰 셋: 국고 10년 밸류 252일 0.22→0.15, 국고 10년 밸류 126일 0.06→−0.01, 국고 10년 밸류 63일 0.01→−0.04. 판정을 바꾼 칸은 없다 → expanding 유지.</p>
+<h3>⑥ 가격 지표 정리 규칙(상관 &gt; 0.9 쌍 정리) — 제외 없음</h3>
+<p class="desc">주가지수 2개를 합친 전반부 상관 최고는 0.890로 0.9 에 못 미친다 → 후보 없음. 자산별로 보면 KOSPI200 disparity_20 이 후보지만, 빼면 후반부 IC 가 −0.229 → −0.234로 나빠져 유지한다. 8개 그대로.</p></div>
+</div></section><section id="limits" class="pg"><h2>6. 한계 — 이 결과를 읽을 때</h2><div class="cols2"><ul class="plain"><li><b>표준오차</b>: NW(lag h−1)는 지속적인 점수에서 표준오차를 약 1.3배 작게 잡는다. 판정에는 플라시보 p·q 를 썼다.</li><li><b>사후 규칙</b>: 판정 규칙은 결과를 본 뒤 정했다. 대안 규칙 3개에서 모두 남는 칸만 단단하다고 본다(4절).</li><li><b>기계적 스프레드 관계</b>: 국내 회사채(그리고 약하게 미국 HY) 밸류는 점수와 수익이 같은 스프레드에서 나온다. 평균회귀만으로도 IC 가 생긴다.</li><li><b>생존편향</b>: KOSPI200·S&amp;P500 바텀업 지표(Fwd PER·EPS·시장폭)는 현재 구성종목이다. 밸류·펀더멘털 IC 가 과대평가됐을 수 있다.</li><li><b>빈티지 접합</b>: NFCI·기간프리미엄은 최초 공표값을 이어 붙였다. 3개월 차분이 서로 다른 빈티지를 비교한다.</li><li>미국채 10년 밸류는 2019-05 전까지 지표 2개뿐이다. 그 전 IC 0.27~0.64, 그 뒤 0.07~0.25(유의 아님). 강한 신호는 지표 2개 시절의 것이다.</li><li><b>252일은 표본이 짧다</b>: 겹치지 않게 세면 자산당 12~14개, 반기별로는 6~7개다. 1년 뒤 수익에 대한 결론은 모두 약하다.</li><li><b>수익률 근사</b>: 금리는 −듀레이션×금리변화+캐리(듀레이션 고정)다. 국내 회사채는 스프레드 기준 초과수익(총수익 아님)이고, S&amp;P500 은 배당 미포함이다. COT·EIA 공표 지연(셧다운·공휴일)은 반영하지 않았다.</li><li><b>단일 경로</b>: 2013~2026 한 번의 역사다(저금리 → 2022 급등 → 2025~26 KOSPI 급등). 후반부 결과는 이 국면에 좌우된다.</li></ul></div></section><section id="ask" class="pg"><h2>7. 결정해 주실 것</h2>
+<p class="sub">1·2 는 NEXT_STEPS 에 예정된 질문이고 3~5 는 이번 백테스트에서 새로 생겼다. 어느 것도 이번 작업에서 설정에 반영하지 않았다.</p>
+<div class="tablewrap"><table class="askt"><colgroup><col style="width:22px"><col style="width:150px"><col style="width:38%"><col></colgroup><thead><tr><th>#</th><th>결정</th><th>근거</th><th>권고</th></tr></thead><tbody><tr><td>1</td><td>통화 이중반영 변형<br><code>currency_variant</code></td><td>KOSPI200 한 자산, 3개 중 최선 고르기. 최대 |t| 1.33 — 우연 범위다. <b>경험적 근거로는 고를 수 없다.</b></td><td>판단의 문제다. 선택지: both(현행, 통화 충격·추세 모두 반영) / oversold_only(통화 = 단기 충격) / fundamental_only(통화 = 이익 환경). 근거로 고르려면 먼저 분할 규칙을 정한다(2013~19 에서 고르고 2020~26 에서 현행보다 나쁘지 않을 때 채택). 그 전까지는 both 유지가 변경 최소다.</td></tr><tr><td>2</td><td>국면 임계값 50</td><td>밸류 중앙값이 45~55 인 자산은 3개뿐이다(나머지 S&P500 12, 미국 HY 14, 미국 IG 23, 금 39, 국고 10년 42, 원화(USDKRW) 43, WTI 65). 50 분할 수익 차: 밸류 32/40 양수, 과매도 17/40·펀더 21/40(각 유의 음수 3).</td><td><b>50 유지.</b> 다른 값은 시험하지 않았다(튜닝). 밸류 치우침(≥50 인 날 S&amp;P 2%·HY 17%·IG 30%)은 임계값이 아니라 추세 있는 밸류 지표의 정의 문제로 따로 다룬다.</td></tr><tr><td>3</td><td>KOSPI200 이익 가중(결정 C)</td><td>동일가중·두 종목 제외가 밸류 IC 가 높다(252일 t 4.49·4.06 vs 2.22).</td><td><b>재검토 권고.</b> 표본 분할로 확인한 뒤 바꾼다. 그 전까지 현행 유지, 민감도는 함께 표시한다.</td></tr><tr><td>4</td><td>역발상 추가분(동시판정·변동성비)</td><td>과매도 블록 개선 근거가 없다. 주가지수는 개편 전이 4개 기간 모두 약간 높다(유의 아님).</td><td>확정 결정이므로 판단해 주셔야 한다. 근거상으로는 유지(‘효과 미확인’ 표기)와 되돌림 사이에 차이가 없다. 단순함을 원하면 되돌림, 결정 유지를 원하면 표기만 추가한다.</td></tr><tr><td>5</td><td>원화 경상수지 지표 정규화</td><td>12개월 누적 경상수지의 3개월 ‘금액’ 차분이라, 2026 급증(3개월 차 +102,160백만달러, 2025년까지 최대 30,270)에서 백분위가 99.8 로 극단이다. 원자료는 ECOS 실데이터로 확인됐다.</td><td><b>정규화 검토 권고</b>(GDP 대비 또는 변화율). 설정 변경이라 이번에는 바꾸지 않았다.</td></tr></tbody></table></div>
+<p class="tnote">출처: outputs/phase3/*.csv(경상수지 5번만 data/processed/panel.csv.gz·outputs/phase2/latest_indicators.csv)(브랜치 phase3-backtest, 미커밋; 입력 md5 앞 8자리 — verdict.csv c28c3a6c · verdict_rules.csv 5774af6d · ic.csv 00efa55c · ic_cells.csv 26ebe17b · pooled_ic.csv 696322e6 · bands.csv bc0402d9 · events.csv b8b3076b · event_list.csv d4f1b0e7 · regimes_pooled_excess.csv 5ba4899c · threshold50.csv dd684446 · score_distribution.csv d076a779 · exp_currency_variant_ic.csv 18c499b3 · exp_percentile_method_ic.csv 2b1f4c25 · exp_price_exclusion_corr.csv 66aef6d6 · exp_price_exclusion_result.csv cb419a80 · exp_kospi_earnings_ic.csv cd91805e · exp_kospi_earnings_corr.csv 27c23978 · exp_contrarian_pooled_ic.csv f0d8deab · exp_trend_gate.csv 655333dc · exp_trend_gate_2022_banddays.csv 0d8c4670 · ust10y_valuation_split.csv ff8a3f28 · ic_nonoverlap_halves.csv dfdad96e · run_info.json fa2d99c8 · pytest_run.txt f8856e4a). 테스트 217 passed, 17 warnings in 14.59s. 생성 2026-10-28, outputs/briefing_phase3/build_briefing.py.</p>
+</section></main>
+</body>
+</html>

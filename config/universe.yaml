@@ -95,5 +95,6 @@
   currency: KRW
   return_field: duration_approx
   duration: 2.7
+  return_yield_field: spread      # 가정: 스프레드(AA−3년 − 국고3년)로 −D×Δs + s 캐리 = 같은 듀레이션 국고 대비 초과수익 근사(총수익 아님)
   refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread}   # spread_low_grade(BBB−−국고3년)는 자체 필드(KRCORP=KQ, 2010~ 확인 2026-10-28)
   overrides: {}

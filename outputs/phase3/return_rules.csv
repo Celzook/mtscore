@@ -1,0 +1,11 @@
+asset_id,rule
+KOSPI200,close_tr 수준 비율
+SP500,close 수준 비율
+KTB10Y,"−8.5×Δyield/100 + yield/100/252 일별 근사(가정: 듀레이션 고정, 볼록성 무시)"
+UST10Y,"−8.5×Δyield/100 + yield/100/252 일별 근사(가정: 듀레이션 고정, 볼록성 무시)"
+USDKRW,close(역수) 수준 비율
+GOLD,close 수준 비율
+WTI,close 수준 비율
+US_HY,index_level 수준 비율
+US_IG,index_level 수준 비율
+KR_CORP,"−2.7×Δspread/100 + spread/100/252 일별 근사(가정: 듀레이션 고정, 볼록성 무시)"

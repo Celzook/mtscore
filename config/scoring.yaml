@@ -34,3 +34,8 @@ backtest:
   horizons: [21, 63, 126, 252]
   event_cooldown_bdays: 20
   min_n_warning: 10
+  quantiles: 5                 # 전체 표본 분위(사후 집계)
+  carry_days_per_year: 252     # duration_approx 캐리 = 금리/252 per 영업일(가정)
+  trend_gate_window: 200       # 추세 게이트(민감도 전용): 수익 지수 ≥ 200일 SMA
+  placebo_shifts: 2000         # 순환 이동 플라시보 횟수(이동 [252, n−252)), 0 = 끔
+  placebo_seed: 11
