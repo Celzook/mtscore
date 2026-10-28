@@ -72,7 +72,7 @@
   - 크레딧 Fundamental: 같은 지역 주가지수 Fwd EPS 3개월 변화, 하위−상위 등급 스프레드 차이 추세.
   - 금 Fundamental: 커브 대신 미국 실질금리 3개월 변화.
   - USDKRW에 RSI 14를 추가했다.
-  - WTI 재고는 Phase 2에서 EIA·Refinitiv로 확인한다.
+  - WTI 재고는 Phase 2에서 EIA·Refinitiv로 확인한다. → 2026-10-28 lseg `PS-ESPR-EIA`로 확보.
   - 주가지수 가격 지표 8개는 유지한다. Phase 3에서 미리 정한 규칙으로 판단한다: 전반부 상관 > 0.9인 쌍에서 IC가 낮은 쪽을 후보로 두고, 후반부에서 뺀 블록의 IC가 나빠지지 않을 때만 뺀다.
 - 통화 이중반영은 3개 변형을 비교한다(기본값 both). 확인 트리거는 보류한다.
 
@@ -95,6 +95,40 @@
   - 기여도: 최솟값을 낸 지표가 하위블록 비중 전체를 갖고, 나머지는 0이다(기여도 합 = 블록 점수 유지).
   - `bb_pctb`의 σ는 pandas 기본 ddof=1이다(통상 볼린저 ddof=0보다 밴드가 약간 넓다).
 
+## 확정 결정 (2026-10-28) — Phase 2 데이터
+- **KOSPI200 컨센서스·시장폭**: 현재 구성종목(KODEX200 `069500.KS` 보유종목 201개, `TR.FundHoldingRIC`) 바텀업.
+  `fwd_per`·`pbr`·`div_yield`·`fwd_eps_12m`·`eps_up_share`·시장폭 4개. **가정: 생존편향**(과거 구성 아님). KRX 로그인이 생기면 과거 구성종목으로 바꾼다.
+  - `fwd_per` = Σ시총 ÷ Σ(시총×EPS_NTM÷주가), `pbr` = Σ시총 ÷ Σ(시총÷PBR), `div_yield` = 시총가중 평균.
+  - `fwd_eps_12m` = 같은 종목(전월·당월 모두 있음)의 합산 선행이익 증가율 연쇄지수(첫 달 100, 주식 수는 전월 고정). 수준은 임의 단위.
+- **S&P500 eps_up_share**: SPY 보유종목 전체(503개) 바텀업. **가정: 생존편향**.
+  - 정의: 1개월 전보다 NTM EPS 평균이 오른 종목의 시총 비중(가중치 = 전월 표본일 시총, 0~1).
+  - 가정: NTM 창이 매달 앞으로 굴러가 이익 성장 종목은 수정 없이도 오른다(상향 편향). 수준이 아니라 자기 역사 백분위로만 쓴다.
+- **WTI 연속물**: 비율 백어저스트(마지막 값 = 실제 근월물).
+  - 교체일 = NYMEX 최종거래일(인도월 전월 25일의 3영업일 전, 25일이 휴일이면 직전 영업일 기준) 다음 거래일. 영업일 = 관측 거래일(가정).
+  - 교체일 5영업일 전에 다음 월물(그때의 `CLc2`)로 갈아탄다(가정: 2020-04-20 근월물 −37.63 회피).
+  - c1/c2 단순 신호(|c1_t−c2_{t−1}|<|c1_t−c1_{t−1}|)는 잡음으로 연 104회 참이라 단독 사용 불가 → 검증용(규칙 교체일 k=0 에서 참 비율 최대).
+  - `close`는 연속물이라 수준·커브 비교에 맞지 않는다 → WTI만 `real_price_level`·`backwardation`을 빼고 원 근월물(`close_c1_raw`)판 `real_price_level_spot`·`backwardation_spot`을 `universe.yaml`에 추가(설정만 변경).
+- **기본값 수용(가정)**: 듀레이션 KTB·UST 8.5, KR_CORP 2.7. CPI 공표 시차 한국 = 다음 달 5일. 미국 CPI 는 아래 E(ALFRED 실제 공표일)로 대체.
+  iBoxx `TRDPRC_1`은 총수익지수다(`TRTN_PRICE`와 전 구간 동일, 2026-10-28 확인) → 쿠폰을 더하지 않는다.
+- **G-스프레드**(US_HY·US_IG, 아래 A 로 대체됨): `YLDTOMAT` − 같은 수정듀레이션의 액면가 국채 수익률. UST 1·2·3·5·7·10·30년 `=RR` 커브에서 듀레이션 → 만기 → 수익률 순으로 선형 보간(가정).
+  만기 = 듀레이션으로 놓는 단순판은 IG 에서 ICE OAS 와 수준 상관 0.40, 이 방식은 0.77(평균만기 `AVG_LIFE` 매칭은 0.94 — 미채택, 결정 필요).
+- **Refinitiv 월별 컨센서스 as_of**: 반환 날짜가 아니라 **표본일**(월말·스냅숏일)을 쓴다. 반환 날짜는 마지막 변경일이라 다음 달에도 같은 날짜가 다른 값으로 온다(NTM 혼합). 표본일 ≥ 반환 날짜라 더 보수적이다.
+
+## 확정 결정 (2026-10-28) — Phase 2 검증 후 사용자 결정
+- **A. G-스프레드 = 평균만기 매칭**(US_IG·US_HY 모두): `YLDTOMAT` − 지수 `AVG_LIFE`(년) 만기의 UST 커브 수익률(선형 보간).
+  듀레이션 매칭판은 비교용 필드 `spread_dur_matched`로 남긴다(점수 미사용).
+- **B. 금 연속물 = 활성월 비율 백어저스트**: 활성월 G·J·M·Q·V·Z, 첫 통지일(인도월 전월 마지막 영업일) 5영업일 전에 다음 활성월로 교체.
+  `GCc1`은 그달 계약(그달 끝에서 3번째 영업일 = 최종거래일까지)이고 c1~c4 는 연속한 4개 달이다 → 보유 계약의 가격을 c1~c4 중에서 고른다.
+  실질가격은 원 근월물 `close_c1_raw`(`real_price_level_spot`, WTI 와 같은 방식).
+- **C. KOSPI200 이익 지표**: 주 점수는 시총가중(Σ시총/Σ이익) 그대로. 민감도 필드(점수 미사용, Phase 3 비교용):
+  `fwd_per_ew`·`fwd_eps_12m_ew`·`eps_up_share_ew`(동일가중), `*_ex2`(삼성전자·SK하이닉스 제외 시총가중).
+- **D. 승인**: 월별 컨센서스 as_of = 표본일, WTI NYMEX 규칙·5영업일 전 교체, WTI `_spot` 실질가격·커브, EIA 재고.
+  근월물 가격이 0 이하인 날(2020-04-20 WTI −37.63)은 `close_c1_raw`를 결측으로 둔다(`_spot` 지표가 그날 N/A).
+- **E·F. ALFRED 실시간 값**: `CPIAUCSL`·`NFCI`·`THREEFYTP10`은 최신 수정치가 아니라 **최초 공표값**, as_of = 최초 공표 빈티지 날짜.
+  키 없이 `alfred.stlouisfed.org/graph/alfredgraph.csv?id=..&vintage_date=..`로 받는다(요청당 12개 빈티지까지). 평일마다 빈티지를 받아 관측이 처음 나온 날을 찾는다.
+  첫 빈티지 이전 구간은 N/A(수정치로 채우지 않는다).
+- 미국 +1영업일(`DFII10`·`DFF`)은 미국 연방 공휴일·성금요일을 뺀 영업일이다. 정부 셧다운 공표 지연은 반영하지 못한다(가정).
+
 ## 환경
 - `uv` venv `.venv`(Python 3.12). 테스트: `.venv/bin/python -m pytest`.
 - **Refinitiv**는 Windows `python.exe`로만 접속된다(WSL은 불가).
@@ -102,6 +136,9 @@
   - 키는 stdin으로 넣는다: `cat ~/.claude/reference/refinitiv-workspace/.appkey | python.exe probes/probe_refinitiv.py`
   - 레퍼런스: `~/.claude/reference/refinitiv-workspace/README.md`
 - 키는 환경변수 `ECOS_API_KEY`, `FRED_API_KEY`, `KRX_ID`/`KRX_PW`로 넣는다. 코드·로그에 남기지 않는다.
+- Phase 2 실행 순서: `scripts/phase2_collect_refinitiv.py holdings ts spx bottomup_us bottomup_kr kr_daily` → (lseg iBoxx는 `refinitiv.run_jobs`에 `LSEG_PYTHON`·`LSEG_WORKER`) → `phase2_build.py` → `phase2_score.py` → `phase2_crosscheck.py` → `phase2_tables.py`.
+  워커는 `python.exe -I`로 띄운다(`-I` 없으면 어댑터 폴더의 `csv.py`가 표준 `csv`를 가려 pandas import 가 죽는다).
+- KRX: `~/.config/krx_key`는 **KRX Open API `AUTH_KEY`**다(pykrx ID/PW 아님). 헤더 `AUTH_KEY`로 `data-dbg.krx.co.kr/svc/apis/`.
 
 ## 데이터 소스 함정 (Phase 0 실측)
 - **FRED**
@@ -121,3 +158,23 @@
   - USD/KRW 서울 마감은 `KRW=KFTC`다(`KRW=`은 뉴욕 마감).
 - **pykrx** 1.2.9는 KRX 로그인(`KRX_ID`/`KRX_PW`)이 필요하다(지수 펀더멘털·구성종목·투자자 수급 모두 0행).
 - **naver** `investorDealTrendDay`는 HTTP 410이다(2026-10-26 실측, 스킬 문서의 '가능' 기록은 낡은 정보).
+
+## 데이터 소스 함정 (Phase 2 실측, 2026-10-28)
+- **Refinitiv**
+  - 장중에 받으면 오늘 날짜의 미완성 봉이 섞인다(KOFIA 금리는 15:30 이후 확정). 수집 끝 날짜를 마지막 완결 거래일로 둔다.
+  - `get_timeseries`에 RIC 여러 개를 주면 3,000 데이터점 한도를 RIC 끼리 나눈다(20개 × 5년 → 150행). 일봉은 RIC 하나씩 받는다.
+  - `get_data` 다필드 월별(`Frq=M`) 응답은 행이 표본 달마다 정렬돼 온다. 50 RIC/호출까지 잘림 없이 됐다(201행 × 50).
+  - `US20YT=RR`은 2010년 구간 데이터가 없다(2020 재발행 전). 커브는 1·2·3·5·7·10·30년.
+  - `0#.KS200` 체인은 `get_data`에서 412(식별자 해석 실패) → KOSPI200 구성종목은 KODEX200 보유종목으로 받는다.
+  - `.SPX` `TR.PriceClose Frq=D`는 휴장일에 직전 거래일 행을 같은 날짜로 한 번 더 준다 → 반환 날짜로 중복 제거.
+  - `KRCORP=KQ`(BBB− 3년)는 2010-01부터 있다.
+  - EIA 주간 원유 재고는 lseg `ld.discovery.search`(SEARCH_ALL)로 찾은 `PS-ESPR-EIA`(SPR 제외, 백만 배럴, `COMM_LAST`) `get_history`로 2010~ 받는다. `USOILC=ECI`는 주간 변화(배럴).
+  - KR 종목 `get_timeseries CLOSE`는 수정주가다(삼성전자 2018-05 50:1 분할 전 종가 50,400원으로 확인).
+- **ECOS** sample 키 10건 페이징으로 월별 전 구간을 받았다(총건수 일치 확인). 간헐적 접속 timeout 이 있어 재시도가 필요하다.
+- **KRX Open API**(`AUTH_KEY`): 지수 일별(`idx/kospi_dd_trd`)·종목 일별(`sto/stk_bydd_trd`)·ETF 일별은 되고 파생(`idx/drvprod_dd_trd`)은 401.
+  지수 PER·PBR·배당, 투자자별 매매, 과거 구성종목은 응답에 없다.
+- **ALFRED**(키 없음): `alfred.stlouisfed.org/graph/alfredgraph.csv?id=S,S,..&vintage_date=d1,d2,..&cosd=..`.
+  한 요청에 12열까지만 준다(40개를 보내면 앞 12개만). 시리즈 첫 빈티지 이전 날짜가 섞이면 404. 드물게 `cosd`를 무시하고 전 구간을 준다 → 수집 창보다 늦은 '최초 출현'은 버린다.
+  첫 빈티지: NFCI 2011-05-25, THREEFYTP10 2016-05-27(이분 탐색). Kim-Wright 공표 지연은 2016~18년에 최대 140일이었다.
+- **Refinitiv 금 선물**: `GCc1`은 그달(인도월) 계약이라 활성월이 아니다(10-27 `GCc1` = OCT26). 만료 계약은 `GCZ9^1`(2019-12)·`GCG0^2`(2020-02) 꼴로 받지만 2024년 이후 만료분은 이름을 찾지 못했다 → c1~c4 로 구성.
+- **FRED** `DCOILWTICO`(EIA 현물)는 2026년 급한 백워데이션 구간에서 `CLc1`과 최대 7달러 벌어진다(2025년은 중앙 0.7달러). 정의 차다.

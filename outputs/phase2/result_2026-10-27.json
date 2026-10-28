@@ -1,0 +1,3238 @@
+{
+ "schema_version": "1.0",
+ "engine_version": "0.1.0",
+ "as_of": "2026-10-27",
+ "note": "블록 점수는 자산별 자기 과거 분포 대비 백분위(0~100, 클수록 매수 매력)",
+ "assets": [
+  {
+   "asset_id": "KOSPI200",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 73.9133,
+    "valuation": 55.494,
+    "fundamental": 39.9937
+   },
+   "bands": {
+    "oversold": "중립",
+    "valuation": "중립",
+    "fundamental": "중립"
+   },
+   "regime": {
+    "label": "저평가 패닉 분할 진입",
+    "display": "저평가 패닉 분할 진입",
+    "partial": false,
+    "states": {
+     "o": "high",
+     "v": "high",
+     "f": "low"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_20",
+     "raw": -0.0919,
+     "percentile": 1.1529,
+     "score": 98.8471,
+     "weight_in_block": 0.0357,
+     "contribution": 3.5303
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_60",
+     "raw": -0.1391,
+     "percentile": 1.2623,
+     "score": 98.7377,
+     "weight_in_block": 0.0357,
+     "contribution": 3.5263
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_200",
+     "raw": -0.1179,
+     "percentile": 3.566,
+     "score": 96.434,
+     "weight_in_block": 0.0357,
+     "contribution": 3.4441
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "drawdown_52w_over_rv",
+     "raw": -0.6459,
+     "percentile": 30.6042,
+     "score": 69.3958,
+     "weight_in_block": 0.0357,
+     "contribution": 2.4784
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "return_z_5",
+     "raw": 0.1962,
+     "percentile": 56.2659,
+     "score": 43.7341,
+     "weight_in_block": 0.0357,
+     "contribution": 1.5619
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "return_z_20",
+     "raw": -1.9534,
+     "percentile": 4.912,
+     "score": 95.088,
+     "weight_in_block": 0.0357,
+     "contribution": 3.396
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "rsi_2",
+     "raw": 74.7671,
+     "percentile": 65.6152,
+     "score": 34.3848,
+     "weight_in_block": 0.0357,
+     "contribution": 1.228
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.2852,
+     "percentile": 24.7451,
+     "score": 75.2549,
+     "weight_in_block": 0.25,
+     "contribution": 18.8137
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 36.5656,
+     "percentile": 9.7091,
+     "score": 90.2909,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "breadth",
+     "indicator": "pct_above_ma20",
+     "raw": 8.9552,
+     "percentile": 1.2985,
+     "score": 98.7015,
+     "weight_in_block": 0.0625,
+     "contribution": 6.1688
+    },
+    {
+     "block": "oversold",
+     "sub_block": "breadth",
+     "indicator": "pct_above_ma200",
+     "raw": 13.1313,
+     "percentile": 0.5711,
+     "score": 99.4289,
+     "weight_in_block": 0.0625,
+     "contribution": 6.2143
+    },
+    {
+     "block": "oversold",
+     "sub_block": "breadth",
+     "indicator": "pct_new_low_52w",
+     "raw": 11.7347,
+     "percentile": 95.2675,
+     "score": 95.2675,
+     "weight_in_block": 0.0625,
+     "contribution": 5.9542
+    },
+    {
+     "block": "oversold",
+     "sub_block": "breadth",
+     "indicator": "adr_20",
+     "raw": 0.6726,
+     "percentile": 2.6584,
+     "score": 97.3416,
+     "weight_in_block": 0.0625,
+     "contribution": 6.0838
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "vol_index_level",
+     "raw": 51.33,
+     "percentile": 96.7504,
+     "score": 96.7504,
+     "weight_in_block": 0.0625,
+     "contribution": 6.0469
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "vol_index_over_rv",
+     "raw": 1.0243,
+     "percentile": 31.6638,
+     "score": 31.6638,
+     "weight_in_block": 0.0625,
+     "contribution": 1.979
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "home_ccy_shock_20",
+     "raw": -0.029,
+     "percentile": 9.699,
+     "score": 9.699,
+     "weight_in_block": 0.0625,
+     "contribution": 0.6062
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "rv_ratio_20",
+     "raw": 0.9343,
+     "percentile": 46.0999,
+     "score": 46.0999,
+     "weight_in_block": 0.0625,
+     "contribution": 2.8812
+    },
+    {
+     "block": "valuation",
+     "sub_block": "multiples",
+     "indicator": "pbr_trailing",
+     "raw": 1.5378,
+     "percentile": 95.6907,
+     "score": 4.3093,
+     "weight_in_block": 0.25,
+     "contribution": 1.0773
+    },
+    {
+     "block": "valuation",
+     "sub_block": "multiples",
+     "indicator": "per_fwd_12m",
+     "raw": 4.4153,
+     "percentile": 0.0121,
+     "score": 99.9879,
+     "weight_in_block": 0.25,
+     "contribution": 24.997
+    },
+    {
+     "block": "valuation",
+     "sub_block": "multiples",
+     "indicator": "dividend_yield",
+     "raw": 1.2014,
+     "percentile": 17.6908,
+     "score": 17.6908,
+     "weight_in_block": 0.25,
+     "contribution": 4.4227
+    },
+    {
+     "block": "valuation",
+     "sub_block": "multiples",
+     "indicator": "erp",
+     "raw": 18.6163,
+     "percentile": 99.9879,
+     "score": 99.9879,
+     "weight_in_block": 0.25,
+     "contribution": 24.997
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "revision_breadth",
+     "raw": 0.8323,
+     "percentile": 83.0895,
+     "score": 83.0895,
+     "weight_in_block": 0.125,
+     "contribution": 10.3862
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "fwd_eps_chg_1m",
+     "raw": 0.0447,
+     "percentile": 88.0854,
+     "score": 88.0854,
+     "weight_in_block": 0.125,
+     "contribution": 11.0107
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "fwd_eps_chg_3m",
+     "raw": 0.1683,
+     "percentile": 92.8378,
+     "score": 92.8378,
+     "weight_in_block": 0.125,
+     "contribution": 11.6047
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "revision_momentum",
+     "raw": -0.0005,
+     "percentile": 49.8038,
+     "score": 49.8038,
+     "weight_in_block": 0.125,
+     "contribution": 6.2255
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "home_ccy_trend_3m",
+     "raw": -0.0943,
+     "percentile": 1.5334,
+     "score": 1.5334,
+     "weight_in_block": 0.5,
+     "contribution": 0.7667
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "disparity_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "disparity_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "disparity_200",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-10-21",
+     "available": true
+    },
+    {
+     "indicator": "drawdown_52w_over_rv",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "drawdown_over_rv",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-10-21",
+     "available": true
+    },
+    {
+     "indicator": "return_z_5",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "return_z",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-10-28",
+     "available": true
+    },
+    {
+     "indicator": "return_z_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "return_z",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-18",
+     "available": true
+    },
+    {
+     "indicator": "rsi_2",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "rsi",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-07",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-22",
+     "available": true
+    },
+    {
+     "indicator": "pct_above_ma20",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "level",
+     "fields": "breadth_above_ma20",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "pct_above_ma200",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "level",
+     "fields": "breadth_above_ma200",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-10-21",
+     "available": true
+    },
+    {
+     "indicator": "pct_new_low_52w",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "level",
+     "fields": "breadth_new_low_52w",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-01-03",
+     "available": true
+    },
+    {
+     "indicator": "adr_20",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "adr",
+     "fields": "breadth_adv,breadth_dec",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "vol_index_level",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "level",
+     "fields": "vol_index",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "vol_index_over_rv",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "vol_over_rv",
+     "fields": "vol_index,close",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-28",
+     "available": true
+    },
+    {
+     "indicator": "vol_term_inversion",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "term_ratio",
+     "fields": "vol_index,vol_index_3m",
+     "direction": "+",
+     "used": false,
+     "reason": "missing_field:vol_index_3m",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "put_call",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "level",
+     "fields": "put_call",
+     "direction": "+",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "home_ccy_shock_20",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "shock_return",
+     "fields": "fx_home",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "rv_ratio",
+     "fields": "close",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-12",
+     "available": true
+    },
+    {
+     "indicator": "foreign_net_buy_intensity",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "flow_intensity",
+     "fields": "foreign_net_buy",
+     "direction": "-",
+     "used": false,
+     "reason": "missing_field:foreign_net_buy",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "inst_net_buy_intensity",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "flow_intensity",
+     "fields": "inst_net_buy",
+     "direction": "-",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "margin_debt_change",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "pct_change_months",
+     "fields": "margin_debt",
+     "direction": "-",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "forced_liquidation",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "level",
+     "fields": "forced_liquidation",
+     "direction": "+",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "pbr_trailing",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "level",
+     "fields": "pbr",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "per_fwd_12m",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "level",
+     "fields": "fwd_per",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "dividend_yield",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "level",
+     "fields": "div_yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-26",
+     "available": true
+    },
+    {
+     "indicator": "erp",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "erp",
+     "fields": "fwd_per,local_10y",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "revision_ratio",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "revision_ratio",
+     "fields": "eps_rev_up,eps_rev_down",
+     "direction": "+",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "revision_breadth",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "level",
+     "fields": "eps_up_share",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-26",
+     "available": true
+    },
+    {
+     "indicator": "fwd_eps_chg_1m",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "pct_change_months",
+     "fields": "fwd_eps_12m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-03-04",
+     "available": true
+    },
+    {
+     "indicator": "fwd_eps_chg_3m",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "pct_change_months",
+     "fields": "fwd_eps_12m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-05-03",
+     "available": true
+    },
+    {
+     "indicator": "revision_momentum",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "revision_momentum",
+     "fields": "fwd_eps_12m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-02",
+     "available": true
+    },
+    {
+     "indicator": "home_ccy_trend_3m",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "pct_change_months",
+     "fields": "fx_home",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-05",
+     "available": true
+    }
+   ]
+  },
+  {
+   "asset_id": "SP500",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 62.6429,
+    "valuation": 16.8285,
+    "fundamental": 78.8969
+   },
+   "bands": {
+    "oversold": "중립",
+    "valuation": "반대경계",
+    "fundamental": "경계"
+   },
+   "regime": {
+    "label": "단기 반등 트레이드",
+    "display": "단기 반등 트레이드",
+    "partial": false,
+    "states": {
+     "o": "high",
+     "v": "low",
+     "f": "high"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_20",
+     "raw": -0.0009,
+     "percentile": 31.703,
+     "score": 68.297,
+     "weight_in_block": 0.0476,
+     "contribution": 3.2522
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_60",
+     "raw": 0.0022,
+     "percentile": 28.7064,
+     "score": 71.2936,
+     "weight_in_block": 0.0476,
+     "contribution": 3.3949
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_200",
+     "raw": 0.0581,
+     "percentile": 48.7506,
+     "score": 51.2494,
+     "weight_in_block": 0.0476,
+     "contribution": 2.4404
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "drawdown_52w_over_rv",
+     "raw": -0.1223,
+     "percentile": 52.1034,
+     "score": 47.8966,
+     "weight_in_block": 0.0476,
+     "contribution": 2.2808
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "return_z_5",
+     "raw": -0.0768,
+     "percentile": 42.5297,
+     "score": 57.4703,
+     "weight_in_block": 0.0476,
+     "contribution": 2.7367
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "return_z_20",
+     "raw": -0.1464,
+     "percentile": 38.5352,
+     "score": 61.4648,
+     "weight_in_block": 0.0476,
+     "contribution": 2.9269
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "rsi_2",
+     "raw": 77.2646,
+     "percentile": 63.6589,
+     "score": 36.3411,
+     "weight_in_block": 0.0476,
+     "contribution": 1.7305
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.471,
+     "percentile": 31.1345,
+     "score": 68.8655,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 51.215,
+     "percentile": 32.8957,
+     "score": 67.1043,
+     "weight_in_block": 0.3333,
+     "contribution": 22.3681
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "vol_index_level",
+     "raw": 18.39,
+     "percentile": 62.2377,
+     "score": 62.2377,
+     "weight_in_block": 0.0833,
+     "contribution": 5.1865
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "vol_index_over_rv",
+     "raw": 1.8169,
+     "percentile": 84.0828,
+     "score": 84.0828,
+     "weight_in_block": 0.0833,
+     "contribution": 7.0069
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "vol_term_inversion",
+     "raw": 0.9223,
+     "percentile": 70.125,
+     "score": 70.125,
+     "weight_in_block": 0.0833,
+     "contribution": 5.8437
+    },
+    {
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "indicator": "rv_ratio_20",
+     "raw": 0.8046,
+     "percentile": 41.7019,
+     "score": 41.7019,
+     "weight_in_block": 0.0833,
+     "contribution": 3.4752
+    },
+    {
+     "block": "valuation",
+     "sub_block": "multiples",
+     "indicator": "per_fwd_12m",
+     "raw": 19.4201,
+     "percentile": 71.163,
+     "score": 28.837,
+     "weight_in_block": 0.5,
+     "contribution": 14.4185
+    },
+    {
+     "block": "valuation",
+     "sub_block": "multiples",
+     "indicator": "erp",
+     "raw": 0.1563,
+     "percentile": 4.82,
+     "score": 4.82,
+     "weight_in_block": 0.5,
+     "contribution": 2.41
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "revision_breadth",
+     "raw": 0.7453,
+     "percentile": 19.2884,
+     "score": 19.2884,
+     "weight_in_block": 0.25,
+     "contribution": 4.8221
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "fwd_eps_chg_1m",
+     "raw": 0.0748,
+     "percentile": 99.4645,
+     "score": 99.4645,
+     "weight_in_block": 0.25,
+     "contribution": 24.8661
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "fwd_eps_chg_3m",
+     "raw": 0.1335,
+     "percentile": 98.5216,
+     "score": 98.5216,
+     "weight_in_block": 0.25,
+     "contribution": 24.6304
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "indicator": "revision_momentum",
+     "raw": 0.0522,
+     "percentile": 98.313,
+     "score": 98.313,
+     "weight_in_block": 0.25,
+     "contribution": 24.5782
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "disparity_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "disparity_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "disparity_200",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-10-15",
+     "available": true
+    },
+    {
+     "indicator": "drawdown_52w_over_rv",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "drawdown_over_rv",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-10-18",
+     "available": true
+    },
+    {
+     "indicator": "return_z_5",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "return_z",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-10-25",
+     "available": true
+    },
+    {
+     "indicator": "return_z_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "return_z",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-15",
+     "available": true
+    },
+    {
+     "indicator": "rsi_2",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "rsi",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-07",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-22",
+     "available": true
+    },
+    {
+     "indicator": "pct_above_ma20",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "level",
+     "fields": "breadth_above_ma20",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:breadth",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "pct_above_ma200",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "level",
+     "fields": "breadth_above_ma200",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:breadth",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "pct_new_low_52w",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "level",
+     "fields": "breadth_new_low_52w",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:breadth",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "adr_20",
+     "block": "oversold",
+     "sub_block": "breadth",
+     "function": "adr",
+     "fields": "breadth_adv,breadth_dec",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:breadth",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "vol_index_level",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "level",
+     "fields": "vol_index",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2012-12-31",
+     "available": true
+    },
+    {
+     "indicator": "vol_index_over_rv",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "vol_over_rv",
+     "fields": "vol_index,close",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-28",
+     "available": true
+    },
+    {
+     "indicator": "vol_term_inversion",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "term_ratio",
+     "fields": "vol_index,vol_index_3m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2012-12-31",
+     "available": true
+    },
+    {
+     "indicator": "put_call",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "level",
+     "fields": "put_call",
+     "direction": "+",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "home_ccy_shock_20",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "shock_return",
+     "fields": "fx_home",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:home_ccy_shock_20",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "vol_sentiment",
+     "function": "rv_ratio",
+     "fields": "close",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-11",
+     "available": true
+    },
+    {
+     "indicator": "foreign_net_buy_intensity",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "flow_intensity",
+     "fields": "foreign_net_buy",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:flows",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "inst_net_buy_intensity",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "flow_intensity",
+     "fields": "inst_net_buy",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:flows",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "margin_debt_change",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "pct_change_months",
+     "fields": "margin_debt",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:flows",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "forced_liquidation",
+     "block": "oversold",
+     "sub_block": "flows",
+     "function": "level",
+     "fields": "forced_liquidation",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:flows",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "pbr_trailing",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "level",
+     "fields": "pbr",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:pbr_trailing",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "per_fwd_12m",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "level",
+     "fields": "fwd_per",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "dividend_yield",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "level",
+     "fields": "div_yield",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:dividend_yield",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "erp",
+     "block": "valuation",
+     "sub_block": "multiples",
+     "function": "erp",
+     "fields": "fwd_per,local_10y",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "revision_ratio",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "revision_ratio",
+     "fields": "eps_rev_up,eps_rev_down",
+     "direction": "+",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "revision_breadth",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "level",
+     "fields": "eps_up_share",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-03-01",
+     "available": true
+    },
+    {
+     "indicator": "fwd_eps_chg_1m",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "pct_change_months",
+     "fields": "fwd_eps_12m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-03-01",
+     "available": true
+    },
+    {
+     "indicator": "fwd_eps_chg_3m",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "pct_change_months",
+     "fields": "fwd_eps_12m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-29",
+     "available": true
+    },
+    {
+     "indicator": "revision_momentum",
+     "block": "fundamental",
+     "sub_block": "earnings",
+     "function": "revision_momentum",
+     "fields": "fwd_eps_12m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "home_ccy_trend_3m",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "pct_change_months",
+     "fields": "fx_home",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:home_ccy_trend_3m",
+     "first_score_date": null,
+     "available": false
+    }
+   ]
+  },
+  {
+   "asset_id": "KTB10Y",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 24.1846,
+    "valuation": 62.5091,
+    "fundamental": 37.4088
+   },
+   "bands": {
+    "oversold": "반대경계",
+    "valuation": "중립",
+    "fundamental": "중립"
+   },
+   "regime": {
+    "label": "고점 경계",
+    "display": "고점 경계",
+    "partial": false,
+    "states": {
+     "o": "low",
+     "v": "high",
+     "f": "low"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "yield_chg_z_20",
+     "raw": -2.6249,
+     "percentile": 0.725,
+     "score": 0.725,
+     "weight_in_block": 0.1111,
+     "contribution": 0.0806
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "yield_chg_z_60",
+     "raw": -2.9995,
+     "percentile": 0.1671,
+     "score": 0.1671,
+     "weight_in_block": 0.1111,
+     "contribution": 0.0186
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "yield_disparity_60",
+     "raw": -0.2953,
+     "percentile": 5.2908,
+     "score": 5.2908,
+     "weight_in_block": 0.1111,
+     "contribution": 0.5879
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.0808,
+     "percentile": 11.0963,
+     "score": 11.0963,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 26.9505,
+     "percentile": 5.4992,
+     "score": 5.4992,
+     "weight_in_block": 0.3333,
+     "contribution": 1.8331
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "level_rv_ratio_20",
+     "raw": 1.1077,
+     "percentile": 64.9936,
+     "score": 64.9936,
+     "weight_in_block": 0.3333,
+     "contribution": 21.6645
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "real_yield",
+     "raw": 1.1531,
+     "percentile": 58.0944,
+     "score": 58.0944,
+     "weight_in_block": 0.5,
+     "contribution": 29.0472
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "spread_to_policy",
+     "raw": 1.032,
+     "percentile": 66.9238,
+     "score": 66.9238,
+     "weight_in_block": 0.5,
+     "contribution": 33.4619
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "inflation_momentum",
+     "raw": -0.2851,
+     "percentile": 37.0766,
+     "score": 62.9234,
+     "weight_in_block": 0.5,
+     "contribution": 31.4617
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "policy_direction",
+     "raw": 0.5,
+     "percentile": 88.1059,
+     "score": 11.8941,
+     "weight_in_block": 0.5,
+     "contribution": 5.9471
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "yield_chg_z_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "change_z",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-18",
+     "available": true
+    },
+    {
+     "indicator": "yield_chg_z_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "change_z",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-01-13",
+     "available": true
+    },
+    {
+     "indicator": "yield_disparity_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "level_disparity",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-22",
+     "available": true
+    },
+    {
+     "indicator": "level_rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "level_rv_ratio",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-12",
+     "available": true
+    },
+    {
+     "indicator": "futures_net_spec",
+     "block": "oversold",
+     "sub_block": "positioning",
+     "function": "positioning_z",
+     "fields": "cot_net",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:futures_net_spec",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "real_yield",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "level",
+     "fields": "real_yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "spread_to_policy",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "spread",
+     "fields": "yield,policy_rate",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "term_premium",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "level",
+     "fields": "term_premium",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:term_premium",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "macro_surprise",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "level",
+     "fields": "macro_surprise",
+     "direction": "-",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "inflation_momentum",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "yoy_momentum",
+     "fields": "cpi",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-04-04",
+     "available": true
+    },
+    {
+     "indicator": "policy_direction",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "diff_months",
+     "fields": "policy_rate",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-07-05",
+     "available": true
+    },
+    {
+     "indicator": "financial_conditions",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "diff_months",
+     "fields": "nfci",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:financial_conditions",
+     "first_score_date": null,
+     "available": false
+    }
+   ]
+  },
+  {
+   "asset_id": "UST10Y",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 55.2974,
+    "valuation": 80.1294,
+    "fundamental": 45.6225
+   },
+   "bands": {
+    "oversold": "중립",
+    "valuation": "경계",
+    "fundamental": "중립"
+   },
+   "regime": {
+    "label": "저평가 패닉 분할 진입",
+    "display": "저평가 패닉 분할 진입",
+    "partial": false,
+    "states": {
+     "o": "high",
+     "v": "high",
+     "f": "low"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "yield_chg_z_20",
+     "raw": -2.0947,
+     "percentile": 2.4448,
+     "score": 2.4448,
+     "weight_in_block": 0.0833,
+     "contribution": 0.2037
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "yield_chg_z_60",
+     "raw": 0.2787,
+     "percentile": 58.4726,
+     "score": 58.4726,
+     "weight_in_block": 0.0833,
+     "contribution": 4.8727
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "yield_disparity_60",
+     "raw": 0.0618,
+     "percentile": 61.0388,
+     "score": 61.0388,
+     "weight_in_block": 0.0833,
+     "contribution": 5.0866
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.1268,
+     "percentile": 13.7145,
+     "score": 13.7145,
+     "weight_in_block": 0.25,
+     "contribution": 3.4286
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 42.0265,
+     "percentile": 24.5947,
+     "score": 24.5947,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "level_rv_ratio_20",
+     "raw": 1.3989,
+     "percentile": 90.6939,
+     "score": 90.6939,
+     "weight_in_block": 0.25,
+     "contribution": 22.6735
+    },
+    {
+     "block": "oversold",
+     "sub_block": "positioning",
+     "indicator": "futures_net_spec",
+     "raw": -1.2129,
+     "percentile": 23.8711,
+     "score": 76.1289,
+     "weight_in_block": 0.25,
+     "contribution": 19.0322
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "real_yield",
+     "raw": 2.66,
+     "percentile": 99.4534,
+     "score": 99.4534,
+     "weight_in_block": 0.3333,
+     "contribution": 33.1511
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "spread_to_policy",
+     "raw": 1.113,
+     "percentile": 42.0746,
+     "score": 42.0746,
+     "weight_in_block": 0.3333,
+     "contribution": 14.0249
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "term_premium",
+     "raw": 0.9358,
+     "percentile": 98.8601,
+     "score": 98.8601,
+     "weight_in_block": 0.3333,
+     "contribution": 32.9534
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "inflation_momentum",
+     "raw": 0.2353,
+     "percentile": 63.8418,
+     "score": 36.1582,
+     "weight_in_block": 0.3333,
+     "contribution": 12.0527
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "policy_direction",
+     "raw": 0.24,
+     "percentile": 72.617,
+     "score": 27.383,
+     "weight_in_block": 0.3333,
+     "contribution": 9.1277
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "financial_conditions",
+     "raw": 0.056,
+     "percentile": 73.3263,
+     "score": 73.3263,
+     "weight_in_block": 0.3333,
+     "contribution": 24.4421
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "yield_chg_z_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "change_z",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-18",
+     "available": true
+    },
+    {
+     "indicator": "yield_chg_z_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "change_z",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-01-14",
+     "available": true
+    },
+    {
+     "indicator": "yield_disparity_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "level_disparity",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-25",
+     "available": true
+    },
+    {
+     "indicator": "level_rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "level_rv_ratio",
+     "fields": "yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-12",
+     "available": true
+    },
+    {
+     "indicator": "futures_net_spec",
+     "block": "oversold",
+     "sub_block": "positioning",
+     "function": "positioning_z",
+     "fields": "cot_net",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-07-07",
+     "available": true
+    },
+    {
+     "indicator": "real_yield",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "level",
+     "fields": "real_yield",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "spread_to_policy",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "spread",
+     "fields": "yield,policy_rate",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "term_premium",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "level",
+     "fields": "term_premium",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2019-05-28",
+     "available": true
+    },
+    {
+     "indicator": "macro_surprise",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "level",
+     "fields": "macro_surprise",
+     "direction": "-",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "inflation_momentum",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "yoy_momentum",
+     "fields": "cpi",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-04-04",
+     "available": true
+    },
+    {
+     "indicator": "policy_direction",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "diff_months",
+     "fields": "policy_rate",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-07-08",
+     "available": true
+    },
+    {
+     "indicator": "financial_conditions",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "diff_months",
+     "fields": "nfci",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-08-25",
+     "available": true
+    }
+   ]
+  },
+  {
+   "asset_id": "USDKRW",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 10.3178,
+    "valuation": 97.6741,
+    "fundamental": 51.2298
+   },
+   "bands": {
+    "oversold": "반대경계",
+    "valuation": "극단",
+    "fundamental": "중립"
+   },
+   "regime": {
+    "label": "보유 분할 매수",
+    "display": "보유 분할 매수",
+    "partial": false,
+    "states": {
+     "o": "low",
+     "v": "high",
+     "f": "high"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_60",
+     "raw": 0.0286,
+     "percentile": 89.8655,
+     "score": 10.1345,
+     "weight_in_block": 0.1667,
+     "contribution": 1.6891
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "return_z_20",
+     "raw": 0.5466,
+     "percentile": 71.8376,
+     "score": 28.1624,
+     "weight_in_block": 0.1667,
+     "contribution": 4.6937
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.7792,
+     "percentile": 76.5254,
+     "score": 23.4746,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 66.4689,
+     "percentile": 91.2334,
+     "score": 8.7666,
+     "weight_in_block": 0.3333,
+     "contribution": 2.9222
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "rv_ratio_20",
+     "raw": 0.5337,
+     "percentile": 3.0384,
+     "score": 3.0384,
+     "weight_in_block": 0.3333,
+     "contribution": 1.0128
+    },
+    {
+     "block": "valuation",
+     "sub_block": "reer",
+     "indicator": "reer_level",
+     "raw": 85.5,
+     "percentile": 2.3259,
+     "score": 97.6741,
+     "weight_in_block": 1.0,
+     "contribution": 97.6741
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "rate_diff_chg_3m",
+     "raw": -0.608,
+     "percentile": 2.6309,
+     "score": 2.6309,
+     "weight_in_block": 0.5,
+     "contribution": 1.3155
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "macro",
+     "indicator": "current_account_trend",
+     "raw": 102159.8,
+     "percentile": 99.8287,
+     "score": 99.8287,
+     "weight_in_block": 0.5,
+     "contribution": 49.9143
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "disparity_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "return_z_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "return_z",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-18",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-22",
+     "available": true
+    },
+    {
+     "indicator": "rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "rv_ratio",
+     "fields": "close",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-12",
+     "available": true
+    },
+    {
+     "indicator": "spec_positioning",
+     "block": "oversold",
+     "sub_block": "positioning",
+     "function": "positioning_z",
+     "fields": "cot_net",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:spec_positioning",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "reer_level",
+     "block": "valuation",
+     "sub_block": "reer",
+     "function": "level",
+     "fields": "reer",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "rate_diff_chg_3m",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "diff_months",
+     "fields": "rate_diff",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-05",
+     "available": true
+    },
+    {
+     "indicator": "current_account_trend",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "diff_months",
+     "fields": "current_account_12m",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-05",
+     "available": true
+    },
+    {
+     "indicator": "terms_of_trade_trend",
+     "block": "fundamental",
+     "sub_block": "macro",
+     "function": "pct_change_months",
+     "fields": "terms_of_trade",
+     "direction": "+",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    }
+   ]
+  },
+  {
+   "asset_id": "GOLD",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 55.3243,
+    "valuation": 6.0581,
+    "fundamental": 22.6096
+   },
+   "bands": {
+    "oversold": "중립",
+    "valuation": "반대극단",
+    "fundamental": "반대경계"
+   },
+   "regime": {
+    "label": "가치함정 경계",
+    "display": "가치함정 경계",
+    "partial": false,
+    "states": {
+     "o": "high",
+     "v": "low",
+     "f": "low"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_60",
+     "raw": -0.0602,
+     "percentile": 4.5389,
+     "score": 95.4611,
+     "weight_in_block": 0.125,
+     "contribution": 11.9326
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "return_z_20",
+     "raw": -0.338,
+     "percentile": 38.4031,
+     "score": 61.5969,
+     "weight_in_block": 0.125,
+     "contribution": 7.6996
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.1969,
+     "percentile": 17.8055,
+     "score": 82.1945,
+     "weight_in_block": 0.25,
+     "contribution": 20.5486
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 39.1661,
+     "percentile": 15.4858,
+     "score": 84.5142,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "rv_ratio_20",
+     "raw": 0.5819,
+     "percentile": 2.8995,
+     "score": 2.8995,
+     "weight_in_block": 0.25,
+     "contribution": 0.7249
+    },
+    {
+     "block": "oversold",
+     "sub_block": "positioning",
+     "indicator": "spec_positioning",
+     "raw": -0.3698,
+     "percentile": 42.3256,
+     "score": 57.6744,
+     "weight_in_block": 0.25,
+     "contribution": 14.4186
+    },
+    {
+     "block": "valuation",
+     "sub_block": "real_price",
+     "indicator": "real_price_level_spot",
+     "raw": 12.0691,
+     "percentile": 93.9419,
+     "score": 6.0581,
+     "weight_in_block": 1.0,
+     "contribution": 6.0581
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "real_rate",
+     "indicator": "real_rate_change",
+     "raw": 0.23,
+     "percentile": 77.3904,
+     "score": 22.6096,
+     "weight_in_block": 1.0,
+     "contribution": 22.6096
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "disparity_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "return_z_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "return_z",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-18",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-25",
+     "available": true
+    },
+    {
+     "indicator": "rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "rv_ratio",
+     "fields": "close",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-11",
+     "available": true
+    },
+    {
+     "indicator": "spec_positioning",
+     "block": "oversold",
+     "sub_block": "positioning",
+     "function": "positioning_z",
+     "fields": "cot_net",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-07-07",
+     "available": true
+    },
+    {
+     "indicator": "real_price_level",
+     "block": "valuation",
+     "sub_block": "real_price",
+     "function": "ratio",
+     "fields": "close,cpi",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:real_price_level",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "real_price_level_spot",
+     "block": "valuation",
+     "sub_block": "real_price",
+     "function": "ratio",
+     "fields": "close_c1_raw,cpi",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "backwardation",
+     "block": "fundamental",
+     "sub_block": "curve",
+     "function": "ratio_minus_one",
+     "fields": "close,close_c2",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:backwardation",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "inventory_change",
+     "block": "fundamental",
+     "sub_block": "inventory",
+     "function": "pct_change_months",
+     "fields": "inventory",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:inventory_change",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "real_rate_change",
+     "block": "fundamental",
+     "sub_block": "real_rate",
+     "function": "diff_months",
+     "fields": "real_yield_us",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-05",
+     "available": true
+    }
+   ]
+  },
+  {
+   "asset_id": "WTI",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 31.9236,
+    "valuation": 34.6753,
+    "fundamental": 89.5825
+   },
+   "bands": {
+    "oversold": "중립",
+    "valuation": "중립",
+    "fundamental": "경계"
+   },
+   "regime": {
+    "label": "비중 축소",
+    "display": "비중 축소",
+    "partial": false,
+    "states": {
+     "o": "low",
+     "v": "low",
+     "f": "high"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "disparity_60",
+     "raw": 0.1378,
+     "percentile": 94.0733,
+     "score": 5.9267,
+     "weight_in_block": 0.125,
+     "contribution": 0.7408
+    },
+    {
+     "block": "oversold",
+     "sub_block": "price",
+     "indicator": "return_z_20",
+     "raw": 0.4759,
+     "percentile": 67.6837,
+     "score": 32.3163,
+     "weight_in_block": 0.125,
+     "contribution": 4.0395
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.7759,
+     "percentile": 73.4701,
+     "score": 26.5299,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 61.7816,
+     "percentile": 81.8171,
+     "score": 18.1829,
+     "weight_in_block": 0.25,
+     "contribution": 4.5457
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "rv_ratio_20",
+     "raw": 0.6075,
+     "percentile": 9.1689,
+     "score": 9.1689,
+     "weight_in_block": 0.25,
+     "contribution": 2.2922
+    },
+    {
+     "block": "oversold",
+     "sub_block": "positioning",
+     "indicator": "spec_positioning",
+     "raw": -1.2765,
+     "percentile": 18.7792,
+     "score": 81.2208,
+     "weight_in_block": 0.25,
+     "contribution": 20.3052
+    },
+    {
+     "block": "valuation",
+     "sub_block": "real_price",
+     "indicator": "real_price_level_spot",
+     "raw": 0.2971,
+     "percentile": 65.3247,
+     "score": 34.6753,
+     "weight_in_block": 1.0,
+     "contribution": 34.6753
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "curve",
+     "indicator": "backwardation_spot",
+     "raw": 0.0188,
+     "percentile": 94.4628,
+     "score": 94.4628,
+     "weight_in_block": 0.5,
+     "contribution": 47.2314
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "inventory",
+     "indicator": "inventory_change",
+     "raw": -0.0326,
+     "percentile": 15.2979,
+     "score": 84.7021,
+     "weight_in_block": 0.5,
+     "contribution": 42.3511
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "disparity_60",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "disparity",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-01",
+     "available": true
+    },
+    {
+     "indicator": "return_z_20",
+     "block": "oversold",
+     "sub_block": "price",
+     "function": "return_z",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-18",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-01",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "close",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-25",
+     "available": true
+    },
+    {
+     "indicator": "rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "rv_ratio",
+     "fields": "close",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-11",
+     "available": true
+    },
+    {
+     "indicator": "spec_positioning",
+     "block": "oversold",
+     "sub_block": "positioning",
+     "function": "positioning_z",
+     "fields": "cot_net",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2014-07-01",
+     "available": true
+    },
+    {
+     "indicator": "real_price_level",
+     "block": "valuation",
+     "sub_block": "real_price",
+     "function": "ratio",
+     "fields": "close,cpi",
+     "direction": "-",
+     "used": false,
+     "reason": "override_exclude:real_price_level",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "real_price_level_spot",
+     "block": "valuation",
+     "sub_block": "real_price",
+     "function": "ratio",
+     "fields": "close_c1_raw,cpi",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "backwardation",
+     "block": "fundamental",
+     "sub_block": "curve",
+     "function": "ratio_minus_one",
+     "fields": "close,close_c2",
+     "direction": "+",
+     "used": false,
+     "reason": "override_exclude:backwardation",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "backwardation_spot",
+     "block": "fundamental",
+     "sub_block": "curve",
+     "function": "ratio_minus_one",
+     "fields": "close_c1_raw,close_c2",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "inventory_change",
+     "block": "fundamental",
+     "sub_block": "inventory",
+     "function": "pct_change_months",
+     "fields": "inventory",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-02-04",
+     "available": true
+    }
+   ]
+  },
+  {
+   "asset_id": "US_HY",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 78.3424,
+    "valuation": 16.9194,
+    "fundamental": 57.7511
+   },
+   "bands": {
+    "oversold": "경계",
+    "valuation": "반대경계",
+    "fundamental": "중립"
+   },
+   "regime": {
+    "label": "단기 반등 트레이드",
+    "display": "단기 반등 트레이드",
+    "partial": false,
+    "states": {
+     "o": "high",
+     "v": "low",
+     "f": "high"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "spread",
+     "indicator": "spread_chg_z_20",
+     "raw": 0.8188,
+     "percentile": 78.4781,
+     "score": 78.4781,
+     "weight_in_block": 0.3333,
+     "contribution": 26.1594
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.5805,
+     "percentile": 63.7402,
+     "score": 63.7402,
+     "weight_in_block": 0.3333,
+     "contribution": 21.2467
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 55.8652,
+     "percentile": 73.3233,
+     "score": 73.3233,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "level_rv_ratio_20",
+     "raw": 1.8781,
+     "percentile": 92.8088,
+     "score": 92.8088,
+     "weight_in_block": 0.3333,
+     "contribution": 30.9363
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "spread_level",
+     "raw": 3.433,
+     "percentile": 16.9194,
+     "score": 16.9194,
+     "weight_in_block": 1.0,
+     "contribution": 16.9194
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "indicator": "equity_eps_momentum",
+     "raw": 0.1335,
+     "percentile": 98.5129,
+     "score": 98.5129,
+     "weight_in_block": 0.5,
+     "contribution": 49.2564
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "indicator": "quality_gap_trend",
+     "raw": 0.3454,
+     "percentile": 83.0107,
+     "score": 16.9893,
+     "weight_in_block": 0.5,
+     "contribution": 8.4946
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "spread_chg_z_20",
+     "block": "oversold",
+     "sub_block": "spread",
+     "function": "change_z",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-11",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-31",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-25",
+     "available": true
+    },
+    {
+     "indicator": "level_rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "level_rv_ratio",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-04",
+     "available": true
+    },
+    {
+     "indicator": "spread_level",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "level",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "default_trend",
+     "block": "fundamental",
+     "sub_block": "defaults",
+     "function": "diff_months",
+     "fields": "default_rate",
+     "direction": "-",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "equity_eps_momentum",
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "function": "pct_change_months",
+     "fields": "equity_fwd_eps",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-29",
+     "available": true
+    },
+    {
+     "indicator": "quality_gap_trend",
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "function": "spread_gap_change",
+     "fields": "spread_low_grade,spread_high_grade",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-05",
+     "available": true
+    }
+   ]
+  },
+  {
+   "asset_id": "US_IG",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 69.9729,
+    "valuation": 16.8351,
+    "fundamental": 57.7992
+   },
+   "bands": {
+    "oversold": "중립",
+    "valuation": "반대경계",
+    "fundamental": "중립"
+   },
+   "regime": {
+    "label": "단기 반등 트레이드",
+    "display": "단기 반등 트레이드",
+    "partial": false,
+    "states": {
+     "o": "high",
+     "v": "low",
+     "f": "high"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "spread",
+     "indicator": "spread_chg_z_20",
+     "raw": 0.3281,
+     "percentile": 61.9054,
+     "score": 61.9054,
+     "weight_in_block": 0.3333,
+     "contribution": 20.6351
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.6739,
+     "percentile": 67.9372,
+     "score": 67.9372,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 54.1631,
+     "percentile": 67.4564,
+     "score": 67.4564,
+     "weight_in_block": 0.3333,
+     "contribution": 22.4855
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "level_rv_ratio_20",
+     "raw": 1.2951,
+     "percentile": 80.5569,
+     "score": 80.5569,
+     "weight_in_block": 0.3333,
+     "contribution": 26.8523
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "spread_level",
+     "raw": 1.1952,
+     "percentile": 16.8351,
+     "score": 16.8351,
+     "weight_in_block": 1.0,
+     "contribution": 16.8351
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "indicator": "equity_eps_momentum",
+     "raw": 0.1335,
+     "percentile": 98.4783,
+     "score": 98.4783,
+     "weight_in_block": 0.5,
+     "contribution": 49.2392
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "indicator": "quality_gap_trend",
+     "raw": 0.3454,
+     "percentile": 82.88,
+     "score": 17.12,
+     "weight_in_block": 0.5,
+     "contribution": 8.56
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "spread_chg_z_20",
+     "block": "oversold",
+     "sub_block": "spread",
+     "function": "change_z",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-12",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-31",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-25",
+     "available": true
+    },
+    {
+     "indicator": "level_rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "level_rv_ratio",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-04",
+     "available": true
+    },
+    {
+     "indicator": "spread_level",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "level",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "default_trend",
+     "block": "fundamental",
+     "sub_block": "defaults",
+     "function": "diff_months",
+     "fields": "default_rate",
+     "direction": "-",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "equity_eps_momentum",
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "function": "pct_change_months",
+     "fields": "equity_fwd_eps",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-29",
+     "available": true
+    },
+    {
+     "indicator": "quality_gap_trend",
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "function": "spread_gap_change",
+     "fields": "spread_low_grade,spread_high_grade",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-05",
+     "available": true
+    }
+   ]
+  },
+  {
+   "asset_id": "KR_CORP",
+   "date": "2026-10-27",
+   "stale": false,
+   "blocks": {
+    "oversold": 56.6323,
+    "valuation": 66.7148,
+    "fundamental": 62.6995
+   },
+   "bands": {
+    "oversold": "중립",
+    "valuation": "중립",
+    "fundamental": "중립"
+   },
+   "regime": {
+    "label": "최우선 매수",
+    "display": "최우선 매수",
+    "partial": false,
+    "states": {
+     "o": "high",
+     "v": "high",
+     "f": "high"
+    }
+   },
+   "contributions": [
+    {
+     "block": "oversold",
+     "sub_block": "spread",
+     "indicator": "spread_chg_z_20",
+     "raw": -0.3068,
+     "percentile": 33.2274,
+     "score": 33.2274,
+     "weight_in_block": 0.3333,
+     "contribution": 11.0758
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "bb_pctb_20",
+     "raw": 0.5398,
+     "percentile": 51.113,
+     "score": 51.113,
+     "weight_in_block": 0.3333,
+     "contribution": 17.0377
+    },
+    {
+     "block": "oversold",
+     "sub_block": "confluence",
+     "indicator": "rsi_14",
+     "raw": 51.9266,
+     "percentile": 52.2837,
+     "score": 52.2837,
+     "weight_in_block": 0.0,
+     "contribution": 0.0
+    },
+    {
+     "block": "oversold",
+     "sub_block": "volatility",
+     "indicator": "level_rv_ratio_20",
+     "raw": 1.4896,
+     "percentile": 85.5564,
+     "score": 85.5564,
+     "weight_in_block": 0.3333,
+     "contribution": 28.5188
+    },
+    {
+     "block": "valuation",
+     "sub_block": "level",
+     "indicator": "spread_level",
+     "raw": 0.689,
+     "percentile": 66.7148,
+     "score": 66.7148,
+     "weight_in_block": 1.0,
+     "contribution": 66.7148
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "indicator": "equity_eps_momentum",
+     "raw": 0.1683,
+     "percentile": 92.8115,
+     "score": 92.8115,
+     "weight_in_block": 0.5,
+     "contribution": 46.4058
+    },
+    {
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "indicator": "quality_gap_trend",
+     "raw": 0.026,
+     "percentile": 67.4126,
+     "score": 32.5874,
+     "weight_in_block": 0.5,
+     "contribution": 16.2937
+    }
+   ],
+   "coverage": [
+    {
+     "indicator": "spread_chg_z_20",
+     "block": "oversold",
+     "sub_block": "spread",
+     "function": "change_z",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-18",
+     "available": true
+    },
+    {
+     "indicator": "bb_pctb_20",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "bb_pctb",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-29",
+     "available": true
+    },
+    {
+     "indicator": "rsi_14",
+     "block": "oversold",
+     "sub_block": "confluence",
+     "function": "rsi",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-22",
+     "available": true
+    },
+    {
+     "indicator": "level_rv_ratio_20",
+     "block": "oversold",
+     "sub_block": "volatility",
+     "function": "level_rv_ratio",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-11-12",
+     "available": true
+    },
+    {
+     "indicator": "spread_level",
+     "block": "valuation",
+     "sub_block": "level",
+     "function": "level",
+     "fields": "spread",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-01-04",
+     "available": true
+    },
+    {
+     "indicator": "default_trend",
+     "block": "fundamental",
+     "sub_block": "defaults",
+     "function": "diff_months",
+     "fields": "default_rate",
+     "direction": "-",
+     "used": false,
+     "reason": "status:na_until_found",
+     "first_score_date": null,
+     "available": false
+    },
+    {
+     "indicator": "equity_eps_momentum",
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "function": "pct_change_months",
+     "fields": "equity_fwd_eps",
+     "direction": "+",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-05-03",
+     "available": true
+    },
+    {
+     "indicator": "quality_gap_trend",
+     "block": "fundamental",
+     "sub_block": "cycle",
+     "function": "spread_gap_change",
+     "fields": "spread_low_grade,spread_high_grade",
+     "direction": "-",
+     "used": true,
+     "reason": "",
+     "first_score_date": "2013-04-05",
+     "available": true
+    }
+   ]
+  }
+ ]
+}

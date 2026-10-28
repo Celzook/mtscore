@@ -1,0 +1,159 @@
+/home/infomax/Desktop/Infomax/_project/mtscore/scripts/phase2_build.py:173: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+  inv["as_of"] = inv[D] + pd.Timedelta(days=5)
+{
+ "gold_rolls": {
+  "c1_rolls": 201,
+  "active_switches": 101,
+  "close_nan": 0,
+  "cum_factor_first": 1.4574438758349537,
+  "share_in_top5pct_jump_k-1": 0.05,
+  "share_in_top5pct_jump_k0": 0.687,
+  "share_in_top5pct_jump_k1": 0.05
+ },
+ "wti_rolls": {
+  "n": 202,
+  "first": [
+   "2010-01-21",
+   "2010-02-23",
+   "2010-03-23",
+   "2010-04-21",
+   "2010-05-21",
+   "2010-06-23"
+  ],
+  "c1c2_signal_by_offset": {
+   "-3": {
+    "share_true": 0.319,
+    "n": 113
+   },
+   "-2": {
+    "share_true": 0.284,
+    "n": 102
+   },
+   "-1": {
+    "share_true": 0.402,
+    "n": 97
+   },
+   "0": {
+    "share_true": 0.586,
+    "n": 111
+   },
+   "1": {
+    "share_true": 0.409,
+    "n": 115
+   },
+   "2": {
+    "share_true": 0.379,
+    "n": 116
+   },
+   "3": {
+    "share_true": 0.319,
+    "n": 119
+   }
+  },
+  "last": [
+   "2026-05-20",
+   "2026-06-23",
+   "2026-07-22",
+   "2026-08-21",
+   "2026-09-23",
+   "2026-10-21"
+  ],
+  "per_year": 12.02,
+  "min_adj_close": 6.865863456975805,
+  "c1_min": -37.63,
+  "c1_min_date": "2020-04-20",
+  "cum_factor_first": 1.983508032860683
+ },
+ "wti_spot_dropped": [
+  "2020-04-20"
+ ],
+ "sp500_bottomup": {
+  "n_ric": 503,
+  "n_month_min": 403,
+  "n_month_median": 467,
+  "n_last": 501
+ },
+ "kospi200_concentration": {
+  "month": "2026-10",
+  "cap_share": 0.5454,
+  "earn_share": 0.7535,
+  "n": 181
+ },
+ "kospi200_bottomup": {
+  "fwd_per": {
+   "n_min": 47,
+   "n_median": 156,
+   "n_last": 181,
+   "first": "2010-01-30"
+  },
+  "pbr": {
+   "n_min": 130,
+   "n_median": 169,
+   "n_last": 199,
+   "first": "2010-01-30"
+  },
+  "div_yield": {
+   "n_min": 131,
+   "n_median": 169,
+   "n_last": 183,
+   "first": "2010-02-26"
+  },
+  "fwd_eps_12m": {
+   "n_min": 47,
+   "n_median": 155,
+   "n_last": 181,
+   "first": "2010-01-30"
+  },
+  "eps_up_share": {
+   "n_min": 47,
+   "n_median": 155,
+   "n_last": 181,
+   "first": "2010-02-26"
+  }
+ },
+ "kospi200_breadth": {
+  "n_ric": 201,
+  "n_2010": 138,
+  "n_last": 201
+ },
+ "US_HY_tr_check": {
+  "rows_both": 4359,
+  "max_abs_diff": 0.0
+ },
+ "US_IG_tr_check": {
+  "rows_both": 3915,
+  "max_abs_diff": 0.0
+ },
+ "alfred_CPIAUCSL": {
+  "vintage_first": "2007-01-01",
+  "vintage_last": "2026-10-27",
+  "n_obs": 238,
+  "first_obs": "2006-11-01",
+  "last_obs": "2026-09-01",
+  "lag_days_median": 44.0,
+  "lag_days_max": 61,
+  "lag_days_p95": 50.0
+ },
+ "alfred_NFCI": {
+  "vintage_first": "2011-05-25",
+  "vintage_last": "2026-10-27",
+  "n_obs": 805,
+  "first_obs": "2011-05-20",
+  "last_obs": "2026-10-16",
+  "lag_days_median": 5.0,
+  "lag_days_max": 20,
+  "lag_days_p95": 6.0
+ },
+ "alfred_THREEFYTP10": {
+  "vintage_first": "2016-05-27",
+  "vintage_last": "2026-10-27",
+  "n_obs": 2643,
+  "first_obs": "2016-03-31",
+  "last_obs": "2026-10-23",
+  "lag_days_median": 7.0,
+  "lag_days_max": 140,
+  "lag_days_p95": 99.0
+ },
+ "panel_rows": 149597,
+ "build_seconds": 18.1
+}

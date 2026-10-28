@@ -1,0 +1,59 @@
+asset_id,field,source,as_of_rule,note,rows,first,last
+KOSPI200,close,refinitiv:.KS200,as_of = date,,4139,2010-01-04,2026-10-27
+KOSPI200,close_tr,refinitiv:.KS200TR,as_of = date,2011-01~ (이전 구간 없음),3888,2011-01-03,2026-10-27
+KOSPI200,vol_index,refinitiv:.KSVKOSPI,as_of = date,,4139,2010-01-04,2026-10-27
+USDKRW,close,refinitiv:KRW=KFTC,as_of = date,서울 마감. 엔진에서 reciprocal(원화 가격),4149,2010-01-04,2026-10-27
+KTB10Y,yield,refinitiv:KRTSY10Y=KQ,as_of = date,KOFIA 최종호가수익률(%),4151,2010-01-04,2026-10-27
+KTB10Y,policy_rate,refinitiv:KRBASE=BOKK,as_of = date,,4144,2010-01-04,2026-10-27
+UST10Y,yield,refinitiv:US10YT=RR,as_of = date,,4208,2010-01-04,2026-10-27
+GOLD,close,refinitiv:GCc1..GCc4 활성월 비율 백어저스트,as_of = date,"활성월 G·J·M·Q·V·Z, 첫 통지일(인도월 전월 마지막 영업일) 5영업일 전 교체(가정). GCc1 계약월 = 그달 최종거래일(월말 3번째 영업일) 전이면 그달",4234,2010-01-04,2026-10-27
+GOLD,close_c1_raw,refinitiv:GCc1,as_of = date,원 근월물(실질가격용). 0 이하 값은 결측,4234,2010-01-04,2026-10-27
+WTI,close,refinitiv:CLc1/CLc2 ratio back-adjusted,as_of = date,"교체일 = NYMEX 최종거래일 규칙(관측 거래일 기준) 다음 날, 그 5영업일 전에 다음 월물로 갈아탐(가정). c1/c2 신호로 검증",4235,2010-01-04,2026-10-27
+WTI,close_c1_raw,refinitiv:CLc1,as_of = date,원 근월물(실질가격·커브용). 0 이하 값(2020-04-20)은 결측,4235,2010-01-04,2026-10-27
+WTI,close_c2,refinitiv:CLc2,as_of = date,,4235,2010-01-04,2026-10-27
+WTI,inventory,lseg:PS-ESPR-EIA COMM_LAST,"as_of = 기준 금요일 + 5일(수요일 공표, 가정: 공휴일 지연 미반영)","EIA 주간 미국 원유 재고(SPR 제외, 백만 배럴)",981,2008-01-04,2026-10-16
+KR_CORP,spread,refinitiv:KRGUCORP=KQ−KRTSY3Y=KQ,as_of = date,AA−(3년) − 국고3년,4152,2010-01-04,2026-10-27
+KR_CORP,spread_low_grade,refinitiv:KRCORP=KQ−KRTSY3Y=KQ,as_of = date,BBB−(3년) − 국고3년,4151,2010-01-04,2026-10-27
+SP500,close,refinitiv:.SPX TR.PriceClose Frq=D,as_of = date,휴장일 재반환 행은 반환 날짜로 중복 제거,4241,2009-12-31,2026-10-27
+SP500,fwd_eps_12m,refinitiv:.SPX TR.EPSMean(Period=NTM) Frq=M + END 스냅숏,as_of = 표본일(월말·스냅숏일) ≥ 반환 날짜,반환 날짜는 마지막 변경일이라 다음 달에도 반복 → 표본일 사용(보수적),202,2010-01-29,2026-10-27
+SP500,fwd_per,refinitiv:.SPX TR.PtoEPSMeanEst Frq=M + END 스냅숏,as_of = 반환 날짜(월말),,202,2010-01-29,2026-10-27
+SP500,eps_up_share,refinitiv:SPY 보유종목 TR.EPSMean(NTM)·TR.CompanyMarketCap 바텀업,as_of = 그달 표본일 최댓값,"현재 구성종목(생존편향, 가정). 가중치 = 전월 시총",201,2010-02-28,2026-10-27
+KOSPI200,fwd_per,refinitiv:KODEX200 보유종목 바텀업(fwd_per),as_of = 그달 표본일 최댓값,"현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",202,2010-01-30,2026-10-27
+KOSPI200,pbr,refinitiv:KODEX200 보유종목 바텀업(pbr),as_of = 그달 표본일 최댓값,"현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",202,2010-01-30,2026-10-27
+KOSPI200,div_yield,refinitiv:KODEX200 보유종목 바텀업(div_yield),as_of = 그달 표본일 최댓값,"현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",201,2010-02-26,2026-10-27
+KOSPI200,fwd_eps_12m,refinitiv:KODEX200 보유종목 바텀업(fwd_eps_12m),as_of = 그달 표본일 최댓값,"현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28); 연쇄지수(첫 달 100)",202,2010-01-30,2026-10-27
+KOSPI200,eps_up_share,refinitiv:KODEX200 보유종목 바텀업,as_of = 그달 표본일 최댓값,"현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",201,2010-02-26,2026-10-27
+KOSPI200,fwd_per_ew,refinitiv:KODEX200 바텀업 동일가중,as_of = 그달 표본일 최댓값,"민감도(점수 미사용). 현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",202,2010-01-30,2026-10-27
+KOSPI200,fwd_eps_12m_ew,refinitiv:KODEX200 바텀업 동일가중,as_of = 그달 표본일 최댓값,"민감도(점수 미사용). 현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",202,2010-01-30,2026-10-27
+KOSPI200,eps_up_share_ew,refinitiv:KODEX200 바텀업 동일가중,as_of = 그달 표본일 최댓값,"민감도(점수 미사용). 현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",201,2010-02-26,2026-10-27
+KOSPI200,fwd_per_ex2,refinitiv:KODEX200 바텀업 삼성전자(보통·우선)·SK하이닉스 제외 시총가중,as_of = 그달 표본일 최댓값,"민감도(점수 미사용). 현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",202,2010-01-30,2026-10-27
+KOSPI200,fwd_eps_12m_ex2,refinitiv:KODEX200 바텀업 삼성전자(보통·우선)·SK하이닉스 제외 시총가중,as_of = 그달 표본일 최댓값,"민감도(점수 미사용). 현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",202,2010-01-30,2026-10-27
+KOSPI200,eps_up_share_ex2,refinitiv:KODEX200 바텀업 삼성전자(보통·우선)·SK하이닉스 제외 시총가중,as_of = 그달 표본일 최댓값,"민감도(점수 미사용). 현재 KOSPI200 구성종목(KODEX200 보유) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28)",201,2010-02-26,2026-10-27
+KOSPI200,breadth_above_ma20,refinitiv:KODEX200 보유종목 일봉 get_timeseries CLOSE,as_of = date,현재 구성종목 기준 — 생존편향(가정),4119,2010-01-29,2026-10-27
+KOSPI200,breadth_above_ma200,refinitiv:KODEX200 보유종목 일봉 get_timeseries CLOSE,as_of = date,현재 구성종목 기준 — 생존편향(가정),3939,2010-10-20,2026-10-27
+KOSPI200,breadth_new_low_52w,refinitiv:KODEX200 보유종목 일봉 get_timeseries CLOSE,as_of = date,현재 구성종목 기준 — 생존편향(가정),3887,2011-01-03,2026-10-27
+KOSPI200,breadth_adv,refinitiv:KODEX200 보유종목 일봉 get_timeseries CLOSE,as_of = date,현재 구성종목 기준 — 생존편향(가정),4137,2010-01-05,2026-10-27
+KOSPI200,breadth_dec,refinitiv:KODEX200 보유종목 일봉 get_timeseries CLOSE,as_of = date,현재 구성종목 기준 — 생존편향(가정),4137,2010-01-05,2026-10-27
+US_HY,spread,lseg:.IBLUS0004 YLDTOMAT − UST 커브(1·2·3·5·7·10·30년 =RR) 평균만기(AVG_LIFE) 매칭,as_of = date,G-스프레드(%p). 사용자 결정 2026-10-28 A(가정: 만기 사이 선형 보간),4353,2010-01-04,2026-10-27
+US_HY,spread_dur_matched,lseg:.IBLUS0004 YLDTOMAT − 같은 수정듀레이션 액면 국채,as_of = date,비교용(점수에 쓰지 않음),4354,2010-01-04,2026-10-27
+US_HY,index_level,lseg:.IBLUS0004 TRDPRC_1,as_of = date,총수익지수(TRTN_PRICE 와 동일 — Phase 2 확인),4359,2009-12-28,2026-10-27
+US_IG,spread,lseg:.IBLUS0005 YLDTOMAT − UST 커브(1·2·3·5·7·10·30년 =RR) 평균만기(AVG_LIFE) 매칭,as_of = date,G-스프레드(%p). 사용자 결정 2026-10-28 A(가정: 만기 사이 선형 보간),4256,2010-01-04,2026-10-27
+US_IG,spread_dur_matched,lseg:.IBLUS0005 YLDTOMAT − 같은 수정듀레이션 액면 국채,as_of = date,비교용(점수에 쓰지 않음),4282,2010-01-04,2026-10-27
+US_IG,index_level,lseg:.IBLUS0005 TRDPRC_1,as_of = date,총수익지수(TRTN_PRICE 와 동일 — Phase 2 확인),4286,2009-12-28,2026-10-27
+SP500,vol_index,fred:VIXCLS,as_of = date,최신 빈티지(수정치) — 가정,4767,2008-01-02,2026-10-26
+SP500,vol_index_3m,fred:VXVCLS,as_of = date,최신 빈티지(수정치) — 가정,4734,2008-01-02,2026-10-26
+UST10Y,real_yield,fred:DFII10,as_of = 다음 미국 영업일(가정),최신 빈티지(수정치) — 가정,4707,2008-01-02,2026-10-26
+UST10Y,policy_rate,fred:DFF,as_of = 다음 미국 영업일,최신 빈티지(수정치) — 가정,6874,2008-01-01,2026-10-26
+USDKRW,reer,fred:RBKRBIS,as_of = 기준월 1일 + 3개월(가정),최신 빈티지(수정치) — 가정,223,2008-01-01,2026-07-01
+UST10Y,cpi,alfred:CPIAUCSL 최초 공표값,as_of = ALFRED 최초 공표 빈티지 날짜(실측),실시간 값(수정치 미사용). 첫 빈티지 2007-01-01 이전은 N/A,238,2006-11-01,2026-09-01
+GOLD,cpi,alfred:CPIAUCSL 최초 공표값,as_of = ALFRED 최초 공표 빈티지 날짜(실측),실시간 값(수정치 미사용). 첫 빈티지 2007-01-01 이전은 N/A,238,2006-11-01,2026-09-01
+WTI,cpi,alfred:CPIAUCSL 최초 공표값,as_of = ALFRED 최초 공표 빈티지 날짜(실측),실시간 값(수정치 미사용). 첫 빈티지 2007-01-01 이전은 N/A,238,2006-11-01,2026-09-01
+UST10Y,nfci,alfred:NFCI 최초 공표값,as_of = ALFRED 최초 공표 빈티지 날짜(실측),실시간 값(수정치 미사용). 첫 빈티지 2011-05-25 이전은 N/A,805,2011-05-20,2026-10-16
+UST10Y,term_premium,alfred:THREEFYTP10 최초 공표값,as_of = ALFRED 최초 공표 빈티지 날짜(실측),실시간 값(수정치 미사용). 첫 빈티지 2016-05-27 이전은 N/A,2643,2016-03-31,2026-10-23
+KTB10Y,cpi,ecos:901Y009/0,"as_of = 다음 달 5일(익월 초 공표, 사용자 결정)",소비자물가 총지수(2020=100),225,2008-01-01,2026-09-01
+USDKRW,current_account_12m,ecos:301Y013/000000 12개월 합,as_of = 기준월 + 2개월 10일(가정),경상수지(백만달러) 최근 12개월 합,213,2008-12-01,2026-08-01
+KTB10Y,real_yield,파생: KRTSY10Y=KQ − ECOS CPI YoY(그날까지 공표분),as_of = date,대리지표(가정: 사후 물가로 기대인플레이션 대신),4151,2010-01-04,2026-10-27
+USDKRW,rate_diff,파생: KRTSY10Y=KQ − US10YT=RR(t−1일 이전 최신),as_of = date,시장 간 +1일 규칙(서울 마감 시점의 최신 뉴욕 종가),4150,2010-01-05,2026-10-27
+GOLD,cot_net,cftc:6dca-aqww/088691,as_of = 화요일 + 3일(금요일 공표),비상업 롱 − 숏(계약). 공휴일 주 지연 미반영(가정),981,2008-01-08,2026-10-20
+WTI,cot_net,cftc:6dca-aqww/067651,as_of = 화요일 + 3일(금요일 공표),비상업 롱 − 숏(계약). 공휴일 주 지연 미반영(가정),981,2008-01-08,2026-10-20
+UST10Y,cot_net,cftc:6dca-aqww/043602,as_of = 화요일 + 3일(금요일 공표),비상업 롱 − 숏(계약). 공휴일 주 지연 미반영(가정),981,2008-01-08,2026-10-20

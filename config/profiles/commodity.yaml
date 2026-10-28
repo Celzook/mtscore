@@ -19,4 +19,4 @@ blocks:
     curve:
       - {name: backwardation, indicator: ratio_minus_one, direction: +, fields: [close, close_c2]}
     inventory:
-      - {name: inventory_change, indicator: pct_change_months, direction: -, fields: [inventory], params: {months: 1}, status: na_until_found}   # WTI 전용
+      - {name: inventory_change, indicator: pct_change_months, direction: -, fields: [inventory], params: {months: 1}}   # WTI 전용. 소스: EIA 주간 재고 PS-ESPR-EIA(lseg, 2026-10-28 확인)

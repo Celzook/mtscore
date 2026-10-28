@@ -10,7 +10,7 @@
   asset_class: equity_index
   currency: KRW
   return_field: close_tr          # .KS200TR(2011~), 이전 구간은 가격지수
-  constituents: KOSPI200          # pykrx 과거 구성종목(KRX 로그인)
+  constituents: KOSPI200          # 현재 구성종목(KODEX200 069500.KS 보유종목) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28). KRX 로그인 생기면 과거 구성종목으로
   refs: {local_10y: KTB10Y.yield, fx_home: USDKRW.close}
   overrides: {}
 - asset_id: SP500
@@ -47,24 +47,35 @@
   name: 금
   asset_class: commodity
   currency: USD
-  return_field: close
+  return_field: close             # 활성월(G J M Q V Z) 비율 백어저스트 연속물(사용자 결정 2026-10-28 B)
   refs: {real_yield_us: UST10Y.real_yield}
   overrides:
-    exclude: [inventory_change, backwardation]   # 재고는 WTI 전용, 금 커브는 금리 캐리만 반영(사용자 결정 2026-10-26)
+    # 재고는 WTI 전용, 금 커브는 금리 캐리만 반영(사용자 결정 2026-10-26).
+    # close 는 활성월 비율 백어저스트 연속물이라 실질가격은 원 근월물(close_c1_raw)로 본다(사용자 결정 2026-10-28 B)
+    exclude: [inventory_change, backwardation, real_price_level]
     add:
+      valuation.real_price:
+        - {name: real_price_level_spot, indicator: ratio, direction: -, fields: [close_c1_raw, cpi]}
       fundamental.real_rate:
         - {name: real_rate_change, indicator: diff_months, direction: -, fields: [real_yield_us], params: {months: 3}}   # 실질금리 하락 = 금 우호
 - asset_id: WTI
   name: WTI 원유
   asset_class: commodity
   currency: USD
-  return_field: close             # 연속물 롤 수익 포함 여부는 Phase 2 에서 결정
-  overrides: {}
+  return_field: close             # 비율 백어저스트 연속물(롤 수익 포함, 사용자 결정 2026-10-28). 근월물 교체 5영업일 전 교체(가정)
+  overrides:
+    # close 는 백어저스트 연속물이라 수준(실질가격)과 커브(c1/c2) 비교에는 맞지 않는다 → 원 근월물 가격(close_c1_raw)으로 바꾼다
+    exclude: [real_price_level, backwardation]
+    add:
+      valuation.real_price:
+        - {name: real_price_level_spot, indicator: ratio, direction: -, fields: [close_c1_raw, cpi]}
+      fundamental.curve:
+        - {name: backwardation_spot, indicator: ratio_minus_one, direction: +, fields: [close_c1_raw, close_c2]}
 - asset_id: US_HY
   name: 미국 하이일드
   asset_class: credit
   currency: USD
-  return_field: index_level       # iBoxx USD Liquid HY(.IBLUS0004) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
+  return_field: index_level       # iBoxx USD Liquid HY(.IBLUS0004) TRDPRC_1 = 총수익지수(TRTN_PRICE 와 동일, Phase 2 확인)
   spread_source: iboxx_gspread    # YLDTOMAT − 동일 듀레이션 UST 보간. 2023-10~ FRED ICE OAS 와 대조
   ric: .IBLUS0004
   refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread}
@@ -73,7 +84,7 @@
   name: 미국 투자등급
   asset_class: credit
   currency: USD
-  return_field: index_level       # iBoxx USD Liquid IG(.IBLUS0005) 레벨. 총수익지수 여부는 Phase 2 확인(가정)
+  return_field: index_level       # iBoxx USD Liquid IG(.IBLUS0005) TRDPRC_1 = 총수익지수(TRTN_PRICE 와 동일, Phase 2 확인)
   spread_source: iboxx_gspread
   ric: .IBLUS0005
   refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread}
@@ -84,5 +95,5 @@
   currency: KRW
   return_field: duration_approx
   duration: 2.7
-  refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread}   # spread_low_grade(BBB−−국고3년)는 자체 필드, KRCORP=KQ 확인 필요
+  refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread}   # spread_low_grade(BBB−−국고3년)는 자체 필드(KRCORP=KQ, 2010~ 확인 2026-10-28)
   overrides: {}

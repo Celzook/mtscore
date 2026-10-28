@@ -1,5 +1,7 @@
 # 수동 입력 필요 / 미확보 목록 (Phase 0)
 
+> 2026-10-28 Phase 2 갱신판: `outputs/phase2/manual_input_list.md`
+
 템플릿: `data/manual/TEMPLATE.csv`. 스키마는 `date, asset_id, field, value, as_of, source`이다.
 - `as_of`: 그 값이 실제로 알려진 날(공표일).
 - 예시 행의 value는 비워 두었다. 실제 값을 채워야 한다.

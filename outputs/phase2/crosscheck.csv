@@ -1,0 +1,52 @@
+item,date,source_a,value_a,source_b,value_b,diff,tolerance,pass,note
+UST10Y yield %,2026-09-15,refinitiv:US10YT=RR,4.996,fred:DGS10,5.0,-0.0039999999999995595,0.03,True,"Refinitiv 는 뉴욕 마감 호가, H.15 는 정오 무렵 매수호가 기반 → 수 bp 차 허용"
+UST10Y yield %,2026-10-07,refinitiv:US10YT=RR,5.277,fred:DGS10,5.28,-0.0030000000000001137,0.03,True,"Refinitiv 는 뉴욕 마감 호가, H.15 는 정오 무렵 매수호가 기반 → 수 bp 차 허용"
+UST10Y yield %,2026-10-23,refinitiv:US10YT=RR,4.988,fred:DGS10,5.0,-0.011999999999999567,0.03,True,"Refinitiv 는 뉴욕 마감 호가, H.15 는 정오 무렵 매수호가 기반 → 수 bp 차 허용"
+KTB10Y yield %,2026-09-15,refinitiv:KRTSY10Y=KQ,4.6,ecos:817Y002/010210000,4.6,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+KTB10Y yield %,2026-10-07,refinitiv:KRTSY10Y=KQ,4.376,ecos:817Y002/010210000,4.376,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+KTB10Y yield %,2026-10-23,refinitiv:KRTSY10Y=KQ,4.097,ecos:817Y002/010210000,4.097,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+KTB3Y yield %,2026-09-15,refinitiv:KRTSY3Y=KQ,4.091,ecos:817Y002/010200000,4.091,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+KTB3Y yield %,2026-10-07,refinitiv:KRTSY3Y=KQ,3.961,ecos:817Y002/010200000,3.961,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+KTB3Y yield %,2026-10-23,refinitiv:KRTSY3Y=KQ,3.803,ecos:817Y002/010200000,3.803,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+회사채 AA− 3Y %,2026-09-15,refinitiv:KRGUCORP=KQ,4.75,ecos:817Y002/010300000,4.75,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+회사채 AA− 3Y %,2026-10-07,refinitiv:KRGUCORP=KQ,4.644,ecos:817Y002/010300000,4.644,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+회사채 AA− 3Y %,2026-10-23,refinitiv:KRGUCORP=KQ,4.492,ecos:817Y002/010300000,4.492,0.0,0.005,True,둘 다 KOFIA 최종호가수익률
+USDKRW,2026-09-15,refinitiv:KRW=KFTC,1364.6,ecos:731Y001/0000001,1345.3,19.299999999999955,10.0,False,서울 마감 종가 vs 매매기준율(전일 시장평균환율) — 정의가 달라 수 원 차 허용
+USDKRW,2026-09-15,refinitiv:KRW=KFTC,1364.6,fred:DEXKOUS,1361.84,2.759999999999991,15.0,True,서울 마감 vs 뉴욕 정오
+USDKRW,2026-10-07,refinitiv:KRW=KFTC,1339.0,ecos:731Y001/0000001,1343.4,-4.400000000000091,10.0,True,서울 마감 종가 vs 매매기준율(전일 시장평균환율) — 정의가 달라 수 원 차 허용
+USDKRW,2026-10-07,refinitiv:KRW=KFTC,1339.0,fred:DEXKOUS,1339.12,-0.11999999999989086,15.0,True,서울 마감 vs 뉴욕 정오
+USDKRW,2026-10-23,refinitiv:KRW=KFTC,1326.2,ecos:731Y001/0000001,1324.6,1.6000000000001364,10.0,True,서울 마감 종가 vs 매매기준율(전일 시장평균환율) — 정의가 달라 수 원 차 허용
+USDKRW,2026-10-23,refinitiv:KRW=KFTC,1326.2,fred:DEXKOUS,1325.06,1.1400000000001,15.0,True,서울 마감 vs 뉴욕 정오
+KOSPI200 close,2026-09-15,refinitiv:.KS200,1042.46,krx_openapi:kospi_dd_trd,1042.46,0.0,0.01,True,
+KOSPI200 close,2026-10-07,refinitiv:.KS200,1073.63,krx_openapi:kospi_dd_trd,1073.63,0.0,0.01,True,
+KOSPI200 close,2026-10-23,refinitiv:.KS200,862.77,krx_openapi:kospi_dd_trd,862.77,0.0,0.01,True,
+KOSPI200 시가총액(조원),2026-10-27,refinitiv:KODEX200 보유 201종목 TR.CompanyMarketCap 합,4459.250125745072,krx_openapi:코스피 200 MKTCAP,4295.16486242355,164.08526332152178,214.75824312117754,True,구성종목 목록 완전성 점검(우선주·시총 정의 차 5% 허용)
+WTI $/bbl,2025-03-14,refinitiv:CLc1,67.18,fred:DCOILWTICO,67.43,-0.25,1.5,True,"근월 선물 vs EIA 현물(Cushing). 2025 |차| 중앙 0.69, 2026 급한 백워데이션 구간에서 최대 7.2 — 정의 차(현물 vs 근월물)"
+WTI $/bbl,2025-06-13,refinitiv:CLc1,72.98,fred:DCOILWTICO,73.84,-0.8599999999999994,1.5,True,"근월 선물 vs EIA 현물(Cushing). 2025 |차| 중앙 0.69, 2026 급한 백워데이션 구간에서 최대 7.2 — 정의 차(현물 vs 근월물)"
+WTI $/bbl,2025-09-15,refinitiv:CLc1,63.3,fred:DCOILWTICO,63.66,-0.35999999999999943,1.5,True,"근월 선물 vs EIA 현물(Cushing). 2025 |차| 중앙 0.69, 2026 급한 백워데이션 구간에서 최대 7.2 — 정의 차(현물 vs 근월물)"
+WTI $/bbl,2026-09-15,refinitiv:CLc1,105.83,fred:DCOILWTICO,107.02,-1.1899999999999977,1.5,True,"근월 선물 vs EIA 현물(Cushing). 2025 |차| 중앙 0.69, 2026 급한 백워데이션 구간에서 최대 7.2 — 정의 차(현물 vs 근월물)"
+WTI $/bbl,2026-10-07,refinitiv:CLc1,88.28,fred:DCOILWTICO,95.02,-6.739999999999995,1.5,False,"근월 선물 vs EIA 현물(Cushing). 2025 |차| 중앙 0.69, 2026 급한 백워데이션 구간에서 최대 7.2 — 정의 차(현물 vs 근월물)"
+WTI $/bbl,2026-10-20,refinitiv:CLc1,101.79,fred:DCOILWTICO,107.89,-6.099999999999994,1.5,False,"근월 선물 vs EIA 현물(Cushing). 2025 |차| 중앙 0.69, 2026 급한 백워데이션 구간에서 최대 7.2 — 정의 차(현물 vs 근월물)"
+EIA 원유 재고 주간 변화,2026-10-02,lseg:PS-ESPR-EIA 주간 변화(백만 배럴),-3.1899999999999977,lseg:USOILC=ECI(백만 배럴),-3.186,-0.003999999999997783,0.05,True,같은 EIA 원천의 다른 Refinitiv 계열(수준 vs 변화)
+EIA 원유 재고 주간 변화,2026-10-09,lseg:PS-ESPR-EIA 주간 변화(백만 배럴),-8.550000000000011,lseg:USOILC=ECI(백만 배럴),-8.557,0.006999999999989015,0.05,True,같은 EIA 원천의 다른 Refinitiv 계열(수준 vs 변화)
+EIA 원유 재고 주간 변화,2026-10-16,lseg:PS-ESPR-EIA 주간 변화(백만 배럴),-3.0600000000000023,lseg:USOILC=ECI(백만 배럴),-3.06,-2.220446049250313e-15,0.05,True,같은 EIA 원천의 다른 Refinitiv 계열(수준 vs 변화)
+S&P500 close,2026-09-15,refinitiv:.SPX,7585.73,fred:SP500,7585.73,0.0,0.5,True,
+S&P500 close,2026-10-07,refinitiv:.SPX,7801.77,fred:SP500,7801.77,0.0,0.5,True,
+S&P500 close,2026-10-23,refinitiv:.SPX,7623.68,fred:SP500,7623.68,0.0,0.5,True,
+COT gold 비상업 순포지션,2026-10-06,cftc:socrata 6dca-aqww,210335.0,cftc:deacot2026.zip,210335.0,0.0,0.0,True,
+COT gold 비상업 순포지션,2026-10-20,cftc:socrata 6dca-aqww,199865.0,cftc:deacot2026.zip,199865.0,0.0,0.0,True,
+COT wti 비상업 순포지션,2026-10-06,cftc:socrata 6dca-aqww,99060.0,cftc:deacot2026.zip,99060.0,0.0,0.0,True,
+COT wti 비상업 순포지션,2026-10-20,cftc:socrata 6dca-aqww,89325.0,cftc:deacot2026.zip,89325.0,0.0,0.0,True,
+COT ust10y 비상업 순포지션,2026-10-06,cftc:socrata 6dca-aqww,-896481.0,cftc:deacot2026.zip,-896481.0,0.0,0.0,True,
+COT ust10y 비상업 순포지션,2026-10-20,cftc:socrata 6dca-aqww,-964293.0,cftc:deacot2026.zip,-964293.0,0.0,0.0,True,
+US_HY spread vs ICE OAS 상관,2023-10-30~2026-10-26,"lseg:iBoxx spread(spread=평균만기 매칭, spread_dur_matched=듀레이션 매칭)",0.979,fred:BAMLH0A0HYM2,0.96,0.311,,True,"value_a=수준 상관, value_b=주간 변화 상관, diff=평균 수준 차(%p). 판정 기준 수준>0.8·변화>0.6"
+US_HY spread %p,2026-10-07,lseg:iBoxx G-spread,3.244436275,fred:BAMLH0A0HYM2,3.09,0.15443627500000012,1.0,True,"G-스프레드 vs OAS(정의 차, 참고)"
+US_HY spread %p,2026-10-23,lseg:iBoxx G-spread,3.636704224999999,fred:BAMLH0A0HYM2,3.38,0.2567042249999991,1.0,True,"G-스프레드 vs OAS(정의 차, 참고)"
+US_IG spread vs ICE OAS 상관,2023-10-30~2026-10-26,"lseg:iBoxx spread(spread=평균만기 매칭, spread_dur_matched=듀레이션 매칭)",0.936,fred:BAMLC0A0CM,0.908,0.284,,True,"value_a=수준 상관, value_b=주간 변화 상관, diff=평균 수준 차(%p). 판정 기준 수준>0.8·변화>0.6"
+US_IG spread %p,2026-10-07,lseg:iBoxx G-spread,1.131214976,fred:BAMLC0A0CM,0.82,0.31121497600000014,1.0,True,"G-스프레드 vs OAS(정의 차, 참고)"
+US_IG spread %p,2026-10-23,lseg:iBoxx G-spread,1.2495580969999995,fred:BAMLC0A0CM,0.91,0.3395580969999995,1.0,True,"G-스프레드 vs OAS(정의 차, 참고)"
+US_HY spread_dur_matched vs ICE OAS 상관,2023-10-30~2026-10-26,"lseg:iBoxx spread_dur_matched(spread=평균만기 매칭, spread_dur_matched=듀레이션 매칭)",0.979,fred:BAMLH0A0HYM2,0.964,0.334,,True,"value_a=수준 상관, value_b=주간 변화 상관, diff=평균 수준 차(%p). 판정 기준 수준>0.8·변화>0.6"
+US_IG spread_dur_matched vs ICE OAS 상관,2023-10-30~2026-10-26,"lseg:iBoxx spread_dur_matched(spread=평균만기 매칭, spread_dur_matched=듀레이션 매칭)",0.772,fred:BAMLC0A0CM,0.894,0.362,,False,"value_a=수준 상관, value_b=주간 변화 상관, diff=평균 수준 차(%p). 판정 기준 수준>0.8·변화>0.6"
+한국 CPI 전년비 %,2023-09-01,ecos:901Y009 YoY%,3.703363352324951,fred:KORCPIALLMINMEI YoY%,3.727164233911484,-0.02380088158653315,0.15,True,
+한국 CPI 전년비 %,2023-10-01,ecos:901Y009 YoY%,3.765115426896304,fred:KORCPIALLMINMEI YoY%,3.8091749839755495,-0.04405955707924569,0.15,True,
+한국 CPI 전년비 %,2023-11-01,ecos:901Y009 YoY%,3.3098010452003335,fred:KORCPIALLMINMEI YoY%,3.336388634281029,-0.026587589080695473,0.15,True,

@@ -1,0 +1,9 @@
+date,asset_id,field,value,as_of,source
+2026-10-27,KOSPI200,foreign_net_buy,,2026-10-27,KRX 정보데이터시스템(투자자별 거래실적, 외국인 순매수 대금 원) 또는 단말 export
+2026-10-27,KOSPI200,inst_net_buy,,2026-10-27,KRX 정보데이터시스템(투자자별 거래실적, 기관합계 순매수 대금 원)
+2026-10-27,KOSPI200,vol_index_3m,,2026-10-27,VKOSPI 3개월물(소스 미확인)
+2026-10-27,KOSPI200,put_call,,2026-10-27,KRX 옵션 거래량 Put/Call
+2026-10-27,KOSPI200,margin_debt,,2026-10-28,KOFIA 신용공여 잔고(원)
+2026-10-27,KOSPI200,forced_liquidation,,2026-10-28,KOFIA 위탁매매 미수금 반대매매(원)
+2026-09-30,US_HY,default_rate,,2026-10-15,Moody's/S&P 하이일드 부도율(%)
+2026-09-01,USDKRW,terms_of_trade,,2026-10-15,ECOS 403Y 순상품교역조건지수(항목코드 확인 필요)

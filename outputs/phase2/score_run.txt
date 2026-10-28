@@ -1,0 +1,13 @@
+               date  stale  score_oversold  score_valuation  score_fundamental band_oversold band_valuation band_fundamental         label       display partial     o     v     f
+asset_id                                                                                                                                                                          
+KOSPI200 2026-10-27  False       73.913308        55.493957          39.993734            중립             중립               중립  저평가 패닉 분할 진입  저평가 패닉 분할 진입   False  high  high   low
+SP500    2026-10-27  False       62.642903        16.828517          78.896901            중립           반대경계               경계    단기 반등 트레이드    단기 반등 트레이드   False  high   low  high
+KTB10Y   2026-10-27  False       24.184586        62.509127          37.408753          반대경계             중립               중립         고점 경계         고점 경계   False   low  high   low
+UST10Y   2026-10-27  False       55.297355        80.129388          45.622497            중립             경계               중립  저평가 패닉 분할 진입  저평가 패닉 분할 진입   False  high  high   low
+USDKRW   2026-10-27  False       10.317816        97.674138          51.229809          반대경계             극단               중립      보유 분할 매수      보유 분할 매수   False   low  high  high
+GOLD     2026-10-27  False       55.324337         6.058101          22.609633            중립           반대극단             반대경계       가치함정 경계       가치함정 경계   False  high   low   low
+WTI      2026-10-27  False       31.923550        34.675325          89.582461            중립             중립               경계         비중 축소         비중 축소   False   low   low  high
+US_HY    2026-10-27  False       78.342365        16.919366          57.751076            경계           반대경계               중립    단기 반등 트레이드    단기 반등 트레이드   False  high   low  high
+US_IG    2026-10-27  False       69.972890        16.835056          57.799166            중립           반대경계               중립    단기 반등 트레이드    단기 반등 트레이드   False  high   low  high
+KR_CORP  2026-10-27  False       56.632254        66.714836          62.699466            중립             중립               중립        최우선 매수        최우선 매수   False  high  high  high
+{"as_of": "2026-10-27", "score_seconds": 4.8, "history_rows": 34573, "history_first": {"GOLD": "2013-01-04", "KOSPI200": "2013-01-04", "KR_CORP": "2013-01-04", "KTB10Y": "2013-01-04", "SP500": "2012-12-31", "USDKRW": "2013-01-04", "UST10Y": "2013-01-04", "US_HY": "2013-01-04", "US_IG": "2013-01-04", "WTI": "2013-01-04"}}
