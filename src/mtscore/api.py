@@ -232,7 +232,11 @@ class ScoringEngine:
 
 def _contributions(aid: str, h: AssetScores, t: pd.Timestamp) -> list[dict]:
     """t 시점 지표별 블록 기여도. 기여도 합 = 블록 점수(가용 지표·하위블록만으로 가중치 재정규화).
-    가용 가중치 합이 0 이면(모두 가중치 0) 그 블록 기여도는 NaN — scoring._weighted_mean 과 같은 규칙."""
+    가용 가중치 합이 0 이면(모두 가중치 0) 그 블록 기여도는 NaN — scoring._weighted_mean 과 같은 규칙.
+
+    min 하위블록(sub_block_agg)은 하위블록 값 = 최솟값 지표의 점수이므로, 그 지표(구속 지표, 동점이면 정의 순서상
+    첫 지표)가 하위블록 비중 전체를 갖고 나머지 지표는 비중 0·기여도 0 이다. 하위블록이 그날 NaN 이면(시작한 지표
+    하나라도 결측, scoring._min_joint) 모든 지표가 비중 0·기여도 NaN. 이렇게 해도 블록 기여도 합 = 블록 점수가 유지된다."""
     cov = h.coverage.set_index("indicator")
     rows = []
     for blk in BLOCKS:
@@ -242,9 +246,18 @@ def _contributions(aid: str, h: AssetScores, t: pd.Timestamp) -> list[dict]:
         for c in subs:
             names = [n for n in h.score.columns if cov.at[n, "block"] == blk and cov.at[n, "sub_block"] == c[1]]
             live = [n for n in names if not np.isnan(h.score.at[t, n])]
+            is_min = h.sub_block_agg.get(c, "mean") == "min"
+            binding = min(live, key=lambda n: h.score.at[t, n]) if is_min and live else None
             iw_tot = sum(h.weights[n] for n in live)
             for n in names:
                 s = h.score.at[t, n]
+                if is_min:
+                    ok = c in live_subs and sw_tot > 0
+                    w = h.weights[c] / sw_tot if ok and n == binding else 0.0
+                    rows.append({"asset_id": aid, "block": blk, "sub_block": c[1], "indicator": n,
+                                 "raw": h.raw.at[t, n], "percentile": h.percentile.at[t, n], "score": s,
+                                 "weight_in_block": w, "contribution": s * w if ok else np.nan})
+                    continue
                 ok = n in live and c in live_subs and iw_tot > 0 and sw_tot > 0
                 w = (h.weights[n] / iw_tot) * (h.weights[c] / sw_tot) if ok else 0.0
                 rows.append({"asset_id": aid, "block": blk, "sub_block": c[1], "indicator": n,

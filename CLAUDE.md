@@ -55,6 +55,9 @@
   - 결과 JSON 스키마: `docs/result_schema.md`.
 - **리뷰 회귀 테스트**: `tests/test_review_gaps.py`. 리뷰 2회(4관점 리뷰와 반박 검증, 수정 검증과 회귀 탐색)에서 나온 결함마다 테스트가 있다. 고치기 전 동작을 되살린 뮤턴트 17개가 모두 이 테스트에 걸린다.
 - **설정 검증**: scoring.yaml의 알 수 없는 키, overrides 형식 오류, 비유한 가중치는 모두 ConfigError로 거부한다.
+  `sub_block_agg`의 키 형식(공백 없는 `block.sub_block`, 점 하나)·값(mean·min) 오류도 ConfigError다.
+  어느 프로파일에도 없는 하위블록 키는 `load_config`(전 프로파일)에서 ConfigError다. `build_config`는 기본으로 경고만 한다
+  (scoring.yaml은 자산군 공유라 일부 프로파일만 넘기는 dict 설정에서는 키가 비는 것이 정상). `strict_agg_keys=True`면 오류다.
 
 ## 확정 결정 (2026-10-26)
 - 표본 2010~, 일별 산출.
@@ -72,6 +75,25 @@
   - WTI 재고는 Phase 2에서 EIA·Refinitiv로 확인한다.
   - 주가지수 가격 지표 8개는 유지한다. Phase 3에서 미리 정한 규칙으로 판단한다: 전반부 상관 > 0.9인 쌍에서 IC가 낮은 쪽을 후보로 두고, 후반부에서 뺀 블록의 IC가 나빠지지 않을 때만 뺀다.
 - 통화 이중반영은 3개 변형을 비교한다(기본값 both). 확인 트리거는 보류한다.
+
+## 확정 결정 (2026-10-28) — 기술 점수 역발상화
+- 원칙: 모멘텀은 최소화하고, 과매도·과도한 낙폭일수록 점수를 높인다. 밸류에이션 결합은 기존 국면 매트릭스 그대로다.
+- **confluence 하위블록**(oversold, 5개 자산군 모두): `bb_pctb_20`(볼린저 %b, 20일·2σ) + `rsi_14`.
+  - 집계는 `scoring.yaml sub_block_agg: {oversold.confluence: min}`(퍼지 AND). "볼린저 하단 근접"과 "과매도"가 동시에 성립할 때만 높다.
+  - equity_index·fx의 `rsi_14`는 price에서 confluence로 옮겼다(이름 유지). commodity·rates·credit에는 새로 넣었다.
+  - 금리(yield)·크레딧(spread)은 direction +(금리·스프레드 상단 = 채권·크레딧 과매도). RSI를 수준 차분에 쓰는 해석은 가정이다.
+- **변동성**: 평소보다 높은 변동성이면 과매도 점수를 올린다(패닉 = 기회, 가정: 미검증).
+  - equity_index `vol_sentiment`에 `rv_ratio_20`, fx·commodity `volatility` 하위블록에 `rv_ratio_20`, rates·credit `volatility`에 `level_rv_ratio_20`.
+  - `rv_ratio` = 실현변동성(20일, 로그수익률) ÷ 그 실현변동성의 현재값 포함 252일 평균. `level_rv_ratio`는 1차 차분판(disparity/level_disparity 짝).
+- **기관 순매수**: equity_index flows에 `inst_net_buy_intensity`(flow_intensity, direction −, `na_until_found`).
+  방향은 외국인과 같다고 가정한다. 소스는 pykrx(KRX 로그인)로 확인할 예정이다.
+- **코어 변경(설계 결함 보고)**: 하위블록 min 집계는 설정만으로 표현할 수 없어 `core/scoring.py`·`api.py`·`config.py`를 고쳤다.
+  - min 하위블록은 지표 가중치를 쓰지 않는다. 그날까지 점수가 나온 지표가 그날 하나라도 결측이면 하위블록 결측이다.
+    아직 워밍업 중인 지표는 빼고 본다. 전체 이력 coverage로 정하면 이력값과 그날로 잘라 계산한 값이 달라진다(PIT).
+  - 알려진 동작: min 하위블록에서 점수가 나오다가 영구히 끊긴 지표(중단 시리즈)가 있으면 그 뒤 하위블록은 계속 결측이다.
+  - min 하위블록 지표를 `overrides.weights`로 가중하면 ConfigError다(가중치가 무시되므로). 빼려면 `overrides.exclude`를 쓴다.
+  - 기여도: 최솟값을 낸 지표가 하위블록 비중 전체를 갖고, 나머지는 0이다(기여도 합 = 블록 점수 유지).
+  - `bb_pctb`의 σ는 pandas 기본 ddof=1이다(통상 볼린저 ddof=0보다 밴드가 약간 넓다).
 
 ## 환경
 - `uv` venv `.venv`(Python 3.12). 테스트: `.venv/bin/python -m pytest`.

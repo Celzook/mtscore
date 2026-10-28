@@ -44,7 +44,7 @@
 | `coverage.used` / `available` | `used`: 이력 어딘가에서 점수가 계산됐는지. `available`: 기준일에 점수가 있었는지. 사용했지만 기준일에 없으면 reason이 `unavailable_at_as_of`(데이터 끊김·유지 한도 초과)다 |
 | `percentile` | 원시값의 자기 과거 분포 내 백분위 |
 | `score` | 방향을 반영한 값. (+) 지표는 percentile 그대로, (−) 지표는 100 − percentile이다 |
-| `weight_in_block` | 그날 가용한 지표·하위블록만으로 가중치를 다시 맞춘 블록 내 비중. 한 블록의 `contribution` 합은 블록 점수와 같다 |
+| `weight_in_block` | 그날 가용한 지표·하위블록만으로 가중치를 다시 맞춘 블록 내 비중. 한 블록의 `contribution` 합은 블록 점수와 같다. `scoring.yaml sub_block_agg`가 `min`인 하위블록은 최솟값을 낸 지표(동점이면 정의 순서상 첫 지표)가 하위블록 비중 전체를 갖고, 나머지 지표는 비중 0·기여도 0이다. 그 하위블록이 그날 결측이면 모든 지표가 비중 0·기여도 `null`이다 |
 | `regime.partial` | N/A 블록이 있어 부분판정이라는 뜻 |
 | `regime.label` | N/A 블록이 있으면 그 블록에 high·low를 모두 넣어 본다. 판정이 하나로 모이면 그 라벨, 갈리면 축약 라벨(`축약:O高·F低`)이다 |
 | `regime.display` | 부분판정이면 라벨 뒤에 `scoring.yaml regime.partial_label`을 붙인 표시용 문자열이다 |

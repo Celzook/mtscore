@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import itertools
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
@@ -15,6 +15,7 @@ log = logging.getLogger(__name__)
 
 BLOCKS = ("oversold", "valuation", "fundamental")
 BLOCK_KEY = {"oversold": "o", "valuation": "v", "fundamental": "f"}
+SUB_BLOCK_AGGS = ("mean", "min")   # 하위블록 집계: mean = 지표 가중평균(기본), min = 행별 최솟값(퍼지 AND)
 
 
 @dataclass
@@ -28,6 +29,7 @@ class AssetScores:
     blocks: pd.DataFrame         # date × block
     coverage: pd.DataFrame       # indicator 별 used/excluded·사유
     weights: dict                # indicator → 가중치, (block, sub_block) → 가중치
+    sub_block_agg: dict = field(default_factory=dict)   # (block, sub_block) → mean | min
 
 
 def currency_variant_excluded(d: IndicatorDef, variant: str) -> bool:
@@ -53,6 +55,19 @@ def _weighted_mean(frame: pd.DataFrame, w: pd.Series) -> pd.Series:
     return pd.Series(out, index=frame.index)
 
 
+def _min_joint(frame: pd.DataFrame) -> pd.Series:
+    """min 하위블록의 행별 최솟값. 그날까지 점수가 한 번이라도 나온(시작한) 지표가 그날 하나라도 NaN 이면 NaN —
+    공동 조건은 모두 있어야 판정한다. 아직 시작하지 않은 지표(워밍업 중)는 빼고 본다: 시작한 지표가 하나뿐이면
+    그 지표 점수, 하나도 없으면 NaN.
+
+    '시작 여부'를 전체 이력의 coverage used 가 아니라 그날까지의 관측으로 정하는 것은 인과성 때문이다. 전체 이력으로
+    정하면 워밍업이 늦은 지표가 나중에 점수를 내는지(미래)에 따라 과거 행이 NaN 이 되어, 이력값과 그날로 잘라 계산한
+    값이 달라진다(잘라 계산하면 그 지표는 insufficient_history 로 빠지고 남은 지표 하나가 하위블록이 된다)."""
+    started = frame.notna().cummax()
+    gap = (started & frame.isna()).any(axis=1)
+    return frame.min(axis=1, skipna=True).where(~gap)
+
+
 def score_asset(defs: list[IndicatorDef], fields: dict[str, pd.Series], calendar: pd.DatetimeIndex,
                 scoring_cfg: dict, asset_class: str, excluded: dict[str, str] | None = None,
                 sub_block_weights: dict[str, float] | None = None) -> AssetScores:
@@ -66,6 +81,12 @@ def score_asset(defs: list[IndicatorDef], fields: dict[str, pd.Series], calendar
         asset_class: 자산군(지표의 asset_classes 제한 확인용).
         excluded: 지표 이름 → 사전 제외 사유(override 등).
         sub_block_weights: "block.sub_block" → 가중치 override.
+
+    하위블록 집계는 scoring_cfg["sub_block_agg"]("block.sub_block" → mean | min, 없으면 mean)가 정한다.
+    - mean: 행별 NaN 을 건너뛴 지표 가중평균(가용 지표로 재정규화).
+    - min: 행별 최솟값(퍼지 AND — 조건이 동시에 성립할 때만 점수가 높다). 지표 가중치는 쓰지 않는다(최솟값은
+      가중할 수 없음) — 빼려면 overrides.exclude 를 쓴다. 결측 규칙은 _min_joint 참고.
+    블록 집계(하위블록 → 블록)는 언제나 가중평균이다.
     """
     excluded = dict(excluded or {})
     pcfg = scoring_cfg.get("percentile", {})
@@ -73,6 +94,10 @@ def score_asset(defs: list[IndicatorDef], fields: dict[str, pd.Series], calendar
     min_years = float(pcfg.get("min_history_years", 3))
     roll_years = float(pcfg.get("rolling_years", 10))
     variant = scoring_cfg.get("currency_variant", "both")
+    agg_cfg = dict(scoring_cfg.get("sub_block_agg") or {})
+    bad = {k: v for k, v in agg_cfg.items() if v not in SUB_BLOCK_AGGS}
+    if bad:
+        raise ValueError(f"sub_block_agg 값 오류: {bad} (허용 {SUB_BLOCK_AGGS})")
 
     raw, pct, sc, cov = {}, {}, {}, []
     used: list[IndicatorDef] = []
@@ -115,13 +140,16 @@ def score_asset(defs: list[IndicatorDef], fields: dict[str, pd.Series], calendar
     ind_w = pd.Series({d.name: d.weight for d in used}, dtype=float)
     sbw = dict(sub_block_weights or {})
 
-    sub_cols, sub_series, sub_w = [], [], {}
+    sub_cols, sub_series, sub_w, sub_agg = [], [], {}, {}
     for blk in BLOCKS:
         for sb in dict.fromkeys(d.sub_block for d in used if d.block == blk):
             names = [d.name for d in used if d.block == blk and d.sub_block == sb]
+            agg = agg_cfg.get(f"{blk}.{sb}", "mean")
             sub_cols.append((blk, sb))
-            sub_series.append(_weighted_mean(sc_df[names], ind_w[names]))
+            sub_series.append(_min_joint(sc_df[names]) if agg == "min"
+                              else _weighted_mean(sc_df[names], ind_w[names]))
             sub_w[(blk, sb)] = float(sbw.get(f"{blk}.{sb}", 1.0))
+            sub_agg[(blk, sb)] = agg
     if sub_cols:
         sub_df = pd.concat(sub_series, axis=1)
         sub_df.columns = pd.MultiIndex.from_tuples(sub_cols, names=["block", "sub_block"])
@@ -137,7 +165,7 @@ def score_asset(defs: list[IndicatorDef], fields: dict[str, pd.Series], calendar
             blocks[blk] = pd.Series(np.nan, index=calendar)
     blk_df = pd.DataFrame(blocks, index=calendar)[list(BLOCKS)]
     weights = {**{d.name: d.weight for d in used}, **sub_w}
-    return AssetScores(raw_df, pct_df, sc_df, sub_df, blk_df, pd.DataFrame(cov), weights)
+    return AssetScores(raw_df, pct_df, sc_df, sub_df, blk_df, pd.DataFrame(cov), weights, sub_agg)
 
 
 def band(score: float, bands: dict) -> str | None:

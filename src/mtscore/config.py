@@ -11,7 +11,7 @@ import yaml
 
 from .core import indicators  # noqa: F401  (계산 함수 등록)
 from .core.registry import IndicatorDef, get_func
-from .core.scoring import BLOCKS
+from .core.scoring import BLOCKS, SUB_BLOCK_AGGS
 
 log = logging.getLogger(__name__)
 
@@ -92,6 +92,7 @@ class Config:
                 raise ConfigError(f"{asset.asset_id}: overrides.add 블록 오류 {blk!r} (허용 {BLOCKS})")
             blocks.setdefault(blk, {}).setdefault(sb, []).extend(copy.deepcopy(items or []))
         defs, excluded, sub_w = [], {}, {}
+        item_w = set()   # 프로파일·overrides.add 항목에 weight 를 직접 적은 지표
         for blk, subs in blocks.items():
             for sb, items in subs.items():
                 if f"{blk}.{sb}" in weights:
@@ -101,7 +102,9 @@ class Config:
                     d = _make_def(blk, sb, it, params_ov.get(it.get("name")),
                                   None if w is None else _nonneg(w, f"{asset.asset_id}.weights.{it.get('name')}"))
                     defs.append(d)
-                    hit = excl_keys & {d.name, blk, sb, f"{blk}.{sb}"}
+                    if "weight" in it:
+                        item_w.add(d.name)
+                    hit =excl_keys & {d.name, blk, sb, f"{blk}.{sb}"}
                     if hit:
                         excluded[d.name] = "override_exclude:" + ",".join(sorted(hit))
         names = [d.name for d in defs]
@@ -118,6 +121,15 @@ class Config:
         unknown = set(params_ov) - set(names)
         if unknown:
             raise ConfigError(f"{asset.asset_id}: overrides.params 에 없는 지표 {sorted(unknown)}")
+        agg = self.scoring.get("sub_block_agg") or {}
+        in_min = sorted(d.name for d in defs if d.name in weights and agg.get(f"{d.block}.{d.sub_block}") == "min")
+        if in_min:   # min 하위블록은 지표 가중치를 쓰지 않으므로(scoring._min_joint) 조용히 무시되는 설정을 막는다
+            raise ConfigError(f"{asset.asset_id}: overrides.weights 의 {in_min} 는 min 하위블록 지표라 가중치가 적용되지 않음"
+                              " — 빼려면 overrides.exclude 를 쓴다")
+        in_min = sorted(d.name for d in defs if d.name in item_w and agg.get(f"{d.block}.{d.sub_block}") == "min")
+        if in_min:
+            raise ConfigError(f"{asset.asset_id}: 항목 weight 가 적힌 {in_min} 는 min 하위블록 지표라 가중치가 적용되지 않음"
+                              " — weight 를 지우고, 빼려면 overrides.exclude 를 쓴다")
         return defs, excluded, sub_w
 
 
@@ -185,12 +197,13 @@ SCORING_KEYS = {
     "missing": {"daily_ffill_max_bdays", "lowfreq_max_hold_bdays", "lowfreq_threshold_days"},
     "bands": {"extreme", "alert", "contra_alert", "contra_extreme"},
     "regime": {"threshold", "partial_label", "matrix"},
-    "currency_variant": None, "confirm_trigger": None, "backtest": None,
+    "currency_variant": None, "confirm_trigger": None, "backtest": None, "sub_block_agg": None,
 }
 
 
 def validate_scoring(sc: dict) -> None:
-    """scoring.yaml 검증: 알 수 없는 키, 백분위 방식·연수, 결측 규칙, 구간 순서, 국면 매트릭스, 통화 변형."""
+    """scoring.yaml 검증: 알 수 없는 키, 백분위 방식·연수, 결측 규칙, 구간 순서, 국면 매트릭스, 통화 변형,
+    하위블록 집계(sub_block_agg)."""
     bad = set(sc) - set(SCORING_KEYS)
     if bad:
         raise ConfigError(f"scoring.yaml 알 수 없는 키 {sorted(bad)} (허용 {sorted(SCORING_KEYS)})")
@@ -232,10 +245,25 @@ def validate_scoring(sc: dict) -> None:
                 raise ConfigError(f"regime.matrix[{i}].{k} 는 high·low·null ({row.get(k)!r})")
     if sc.get("currency_variant", "both") not in CURRENCY_VARIANTS:
         raise ConfigError(f"currency_variant 값 오류 {sc.get('currency_variant')!r} (허용 {CURRENCY_VARIANTS})")
+    agg = sc.get("sub_block_agg")
+    if agg is not None and not isinstance(agg, dict):
+        raise ConfigError("sub_block_agg 는 {'block.sub_block': mean | min} 매핑")
+    for k, v in (agg or {}).items():
+        blk, _, sb = str(k).partition(".")
+        if (not isinstance(k, str) or blk not in BLOCKS or not sb or "." in sb
+                or any(ch.isspace() for ch in k)):
+            raise ConfigError(f"sub_block_agg 키는 공백 없는 'block.sub_block'(점 하나, block ∈ {BLOCKS}) ({k!r})")
+        if v not in SUB_BLOCK_AGGS:
+            raise ConfigError(f"sub_block_agg.{k} 값 오류 {v!r} (허용 {SUB_BLOCK_AGGS})")
 
 
-def build_config(universe: list[dict], profiles: dict[str, dict], scoring: dict, root: Path | None = None) -> Config:
-    """파싱된 dict 들로 Config 를 만들고 검증한다(파일 없이 테스트·호스트에서 쓸 때)."""
+def build_config(universe: list[dict], profiles: dict[str, dict], scoring: dict, root: Path | None = None,
+                 strict_agg_keys: bool = False) -> Config:
+    """파싱된 dict 들로 Config 를 만들고 검증한다(파일 없이 테스트·호스트에서 쓸 때).
+
+    strict_agg_keys: True 면 어느 프로파일·overrides.add 에도 없는 sub_block_agg 키를 ConfigError 로 거부한다.
+        load_config(전 프로파일을 읽는 실제 경로)는 True 로 부른다. 기본값 False(경고만)는 공유 scoring.yaml 을
+        일부 프로파일과 함께 쓰는 dict 경로(테스트 픽스처 등)용이다 — 전 프로파일을 dict 로 넘기면 True 를 준다."""
     validate_scoring(scoring)
     assets = [_parse_asset(copy.deepcopy(a)) for a in universe]
     ids = [a.asset_id for a in assets]
@@ -251,6 +279,15 @@ def build_config(universe: list[dict], profiles: dict[str, dict], scoring: dict,
         dupn = {n for n in names if names.count(n) > 1}
         if dupn:
             raise ConfigError(f"프로파일 {name}: 지표 이름 중복 {sorted(dupn)}")
+    # sub_block_agg 키가 어느 프로파일·overrides.add 에도 없으면: strict 면 오류, 아니면 경고. scoring.yaml 은 모든
+    # 자산군이 공유하므로 일부 프로파일만 넘기는 dict 설정에서는 키가 비는 것이 정상이다.
+    known = {f"{b}.{sb}" for p in profiles.values() for b, subs in (p.get("blocks") or {}).items() for sb in subs}
+    known |= {k for a in assets if isinstance((a.overrides or {}).get("add"), dict) for k in a.overrides["add"]}
+    unknown_agg = sorted(set(scoring.get("sub_block_agg") or {}) - known)
+    if unknown_agg and strict_agg_keys:
+        raise ConfigError(f"sub_block_agg 에 어느 프로파일에도 없는 하위블록 {unknown_agg}")
+    for k in unknown_agg:
+        log.warning("sub_block_agg.%s: 이 설정의 어느 프로파일에도 없는 하위블록(오타인지 확인)", k)
     cfg = Config(assets, profiles, scoring, root)
     for a in assets:
         for f, (ra, rf) in a.refs.items():
@@ -275,4 +312,4 @@ def load_config(path: str | Path) -> Config:
         if cls in profiles:
             raise ConfigError(f"자산군 프로파일 중복: {cls}")
         profiles[cls] = d
-    return build_config(universe, profiles, scoring, root)
+    return build_config(universe, profiles, scoring, root, strict_agg_keys=True)

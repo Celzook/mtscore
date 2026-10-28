@@ -11,7 +11,8 @@
 
 ## 0. 시작 전 확인
 - [ ] `~/.config/mtscore/env`가 있는지 확인한다. 키 **이름만** 출력한다. 필요한 키는 `ECOS_API_KEY`, `FRED_API_KEY`, `KRX_ID`, `KRX_PW`이고, `EIA_API_KEY`는 선택이다.
-- [ ] KRX 로그인으로 pykrx가 실제로 되는지 확인한다(지수 펀더멘털, 과거 구성종목, 투자자 수급). 안 되면 아래 '대체'를 쓴다.
+- [ ] KRX 로그인으로 pykrx가 실제로 되는지 확인한다(지수 펀더멘털, 과거 구성종목, 투자자 수급 — 외국인과 기관 순매수 모두). 안 되면 아래 '대체'를 쓴다.
+  - 기관 순매수(`inst_net_buy`, 지표 `inst_net_buy_intensity`)는 2026-10-28에 `na_until_found`로 추가했다. 소스가 확인되면 프로파일 status를 지운다.
 - [ ] Phase 0에서 미확인으로 남은 RIC를 확인한다.
   - `KRCORP=KQ`(회사채 BBB−)
   - UST 2·5·7·30년 RIC(iBoxx G-스프레드 보간용)
@@ -35,7 +36,7 @@
 ### 1-2. 자산별 필드 매핑
 | 자산 | 필드 → 소스 |
 |---|---|
-| KOSPI200 | close `.KS200`, close_tr `.KS200TR`, vol_index `.KSVKOSPI`, pbr·div_yield(pykrx 공식, 또는 바텀업), fwd_per·fwd_eps_12m·eps_up_share(구성종목 바텀업 `TR.EPSMean NTM` 월별), 시장폭 4개(구성종목 일봉), foreign_net_buy(pykrx) |
+| KOSPI200 | close `.KS200`, close_tr `.KS200TR`, vol_index `.KSVKOSPI`, pbr·div_yield(pykrx 공식, 또는 바텀업), fwd_per·fwd_eps_12m·eps_up_share(구성종목 바텀업 `TR.EPSMean NTM` 월별), 시장폭 4개(구성종목 일봉), foreign_net_buy·inst_net_buy(pykrx, KRX 로그인) |
 | SP500 | close `TR.PriceClose`, vol_index FRED `VIXCLS`, vol_index_3m `VXVCLS`, fwd_per `TR.PtoEPSMeanEst`, fwd_eps_12m `TR.EPSMean(NTM)`, eps_up_share(SPY 구성종목 바텀업 — 결정 필요) |
 | KTB10Y | yield `KRTSY10Y=KQ`, policy_rate `KRBASE=BOKK`, cpi ECOS 901Y009, real_yield = KTB10Y − CPI YoY(대리지표·가정) |
 | UST10Y | yield `US10YT=RR`, real_yield `DFII10`, policy_rate `DFF`, term_premium `THREEFYTP10`, cot_net CFTC, cpi `CPIAUCSL`, nfci `NFCI` |

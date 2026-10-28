@@ -8,6 +8,10 @@ missing:
   lowfreq_threshold_days: 5          # 그 관측까지 기준일 간격 중앙값이 5일(달력일) 초과면 저빈도: 다음 공표 전까지 유지
   lowfreq_max_hold_bdays: 70         # 저빈도라도 70 자산 달력일(약 3.3개월) 안에 다음 공표가 없으면 결측(중단 시리즈 방지)
 # 가중치: 하위블록 동일가중 → 하위블록 내 지표 동일가중이 기본. 자산별 override 는 universe.yaml overrides.weights
+# 하위블록 집계: 적지 않은 하위블록은 mean(지표 가중평균). min = 행별 최솟값(퍼지 AND, 지표 가중치 무시,
+#   점수가 나오기 시작한 지표가 하나라도 그날 결측이면 하위블록 결측, 워밍업 중인 지표는 빼고 본다). 사용자 결정(2026-10-28): 볼린저 하단 근접과 과매도를 동시에 판정
+sub_block_agg:
+  oversold.confluence: min
 bands:
   extreme: 90
   alert: 75

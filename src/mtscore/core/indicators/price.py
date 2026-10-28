@@ -33,6 +33,18 @@ def level_disparity(x: pd.Series, window: int) -> pd.Series:
     return x - x.rolling(window, min_periods=window).mean()
 
 
+@register("bb_pctb", window=20, k=2.0)
+def bb_pctb(x: pd.Series, window: int, k: float) -> pd.Series:
+    """볼린저 %b: (x − (MA − kσ)) / (2kσ). 하단 밴드 = 0, 이동평균 = 0.5, 상단 밴드 = 1(밴드 밖이면 0 미만·1 초과).
+
+    MA·σ 는 현재값을 포함한 rolling(window, min_periods=window) 평균·표준편차. σ 는 이 파일의 다른 함수와 같은
+    pandas 기본 ddof=1(표본 표준편차)이다 — 통상의 볼린저 밴드(ddof=0)보다 밴드가 약간 넓다. σ == 0 이면 NaN.
+    가산형이므로 가격과 수준 변수(금리·스프레드)에 모두 쓴다."""
+    ma = x.rolling(window, min_periods=window).mean()
+    sd = x.rolling(window, min_periods=window).std().replace(0.0, np.nan)
+    return (x - (ma - k * sd)) / (2.0 * k * sd)
+
+
 @register("drawdown_over_rv", lookback=252, rv_window=60)
 def drawdown_over_rv(x: pd.Series, lookback: int, rv_window: int) -> pd.Series:
     """lookback 고점 대비 낙폭(음수) ÷ 연율화 실현변동성(rv_window)."""
