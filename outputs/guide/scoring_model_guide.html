@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스코어링 모델 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f6f4; --sheet: #fcfcfb; --ink: #15191b; --ink-2: #4f585b; --ink-3: #7a8386;
+  --rule: #d8dcd9; --rule-2: #e8ebe8; --accent: #1d5f86; --accent-soft: #e2edf4;
+  --hi: #0c7a0c; --lo: #c03030; --mid: #9a6800;
+  --f-display: "Nanum Myeongjo", "Noto Serif KR", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --hi: #3fbf3f; --lo: #e66767; --mid: #e0a526; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --hi: #3fbf3f; --lo: #e66767; --mid: #e0a526; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { word-break: keep-all; overflow-wrap: anywhere; background: var(--paper); color: var(--ink); font-family: var(--f-body);
+  font-size: 15px; line-height: 1.7; margin: 0; padding: 0 16px 64px; }
+.wrap { max-width: 1040px; margin: 0 auto; }
+header { padding: 36px 0 22px; border-bottom: 1px solid var(--rule); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--ink-3); }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 4vw, 38px); line-height: 1.25; margin: 6px 0 10px; }
+.lede { color: var(--ink-2); max-width: 78ch; margin: 0; font-size: 16px; }
+section { padding: 26px 0 10px; border-bottom: 1px solid var(--rule); }
+section:last-child { border-bottom: 0; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 22px; margin: 0 0 10px; }
+h3 { font-size: 15px; font-weight: 600; margin: 18px 0 8px; }
+p { max-width: 80ch; margin: 0 0 10px; }
+.note { font-size: 13px; color: var(--ink-3); max-width: 90ch; }
+ul, ol { max-width: 84ch; padding-left: 22px; margin: 0 0 10px; }
+li { margin: 3px 0; }
+.mono, td.n { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); margin: 8px 0 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--rule-2); vertical-align: top; }
+th { font-weight: 500; color: var(--ink-3); font-size: 12px; background: var(--sheet); white-space: nowrap; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin: 10px 0 14px; counter-reset: s; }
+.steps div { border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); padding: 10px 12px; counter-increment: s; }
+.steps div::before { content: counter(s); font-family: var(--f-mono); color: var(--accent); font-weight: 500; margin-right: 6px; }
+.steps b { font-size: 14px; }
+.steps span { display: block; font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+.blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin: 10px 0; }
+.blk { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 6px; background: var(--sheet); padding: 12px 14px; }
+.blk h3 { margin: 0 0 4px; }
+.blk p { font-size: 14px; margin: 0; color: var(--ink-2); }
+.callout { border-left: 3px solid var(--accent); background: var(--sheet); padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+.hi { color: var(--hi); font-weight: 600; } .lo { color: var(--lo); font-weight: 600; } .md { color: var(--mid); font-weight: 600; }
+@page { size: A4 landscape; margin: 12mm 14mm 14mm;
+  @bottom-left { content: "mtscore 스코어링 모델 안내 · 2026-10-29 · 브랜치 phase4-wiki 설정 기준"; font-family: "IBM Plex Sans KR", sans-serif; font-size: 8pt; color: #7a8386; }
+  @bottom-right { content: counter(page) " / " counter(pages); font-family: "IBM Plex Mono", monospace; font-size: 8pt; color: #7a8386; } }
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { padding: 0; font-size: 12.5px; line-height: 1.55; background: #fff; }
+  .wrap { max-width: none; }
+  table { font-size: 11.5px; } th, td { padding: 4px 7px; }
+  section.pg { break-before: page; }
+  tr, .callout, .blk, .steps div { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">MTSCORE · 쉬운 안내 · 2026-10-29 · 브랜치 phase4-wiki 설정 기준</div>
+  <h1>스코어링 모델은 이렇게 점수를 매깁니다</h1>
+  <p class="lede">자산 10개마다 <b>0~100점짜리 점수 3개</b>(과매도·밸류에이션·펀더멘털)를 매일 매깁니다. 세 점수를 조합해 <b>국면</b> 이름(예: "최우선 매수", "가치함정 경계")을 붙입니다. 점수가 높을수록 그 자산을 살 매력이 크다는 뜻입니다.</p>
+  <p class="note">이 문서는 작업 브랜치 <span class="mono">phase4-wiki</span>의 설정을 설명합니다. 볼린저×RSI 동시 판정, 변동성비, 분할 진입·추세 표시, 금·WTI의 근월물 기준 실질가격, WTI 재고 같은 변경은 아직 <span class="mono">main</span>에 없습니다. 그래서 main 코드로 돌리면 점수가 이 문서와 다릅니다.</p>
+</header>
+
+<section id="one">
+  <h2>1. 한 장 요약</h2>
+  <div class="blocks">
+    <div class="blk"><h3>과매도 (기술적 지표 중심)</h3><p>"최근에 지나치게 많이 빠졌나?" 이평선보다 얼마나 아래인지, 볼린저 밴드 하단 근처인지, RSI가 낮은지, 변동성·심리가 공포 쪽인지 봅니다. <b>많이 빠질수록 점수가 높습니다</b>(역발상).</p></div>
+    <div class="blk"><h3>밸류에이션</h3><p>"싼가?" PER·PBR·배당, 실질금리, 스프레드, 실질환율 같은 가격 수준을 자기 과거와 비교합니다. <b>쌀수록 점수가 높습니다.</b></p></div>
+    <div class="blk"><h3>펀더멘털</h3><p>"여건이 우호적인가?" 이익 전망, 물가·정책금리 방향, 금리차·경상수지 변화 같은 흐름을 봅니다. <b>우호적일수록 점수가 높습니다.</b></p></div>
+  </div>
+  <div class="callout">
+    <ul>
+      <li>모든 점수는 <b>그 자산의 자기 과거와 비교</b>한 값입니다. 서로 다른 자산의 점수를 직접 비교하지 마세요.</li>
+      <li>지표 하나의 점수는 "과거 몇 %의 날보다 매력적인가"입니다. 블록 점수는 그런 지표 점수들의 <b>평균</b>이라 90 같은 극단값이 지표보다 훨씬 드뭅니다.</li>
+      <li>모멘텀(오르는 것을 따라 사기)은 점수에 <b>넣지 않았습니다.</b> 추세는 점수 옆에 참고로만 표시합니다.</li>
+      <li>세 점수를 하나로 합친 "총점"은 없습니다. 셋의 조합으로 국면을 정합니다.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="how">
+  <h2>2. 점수가 만들어지는 과정</h2>
+  <div class="steps">
+    <div><b>원재료 계산</b><span>예: KOSPI200이 20일 이평선보다 −9.2% 아래</span></div>
+    <div><b>자기 과거와 비교</b><span>과거 전체 중 이보다 더 아래였던 날은 1.2%뿐 → 백분위 1.2</span></div>
+    <div><b>방향 맞추기</b><span>"아래일수록 매력"인 지표라 뒤집음 → 100 − 1.2 = <b>98.8점</b></span></div>
+    <div><b>묶어서 평균</b><span>같은 묶음(하위블록) 안의 지표끼리 평균 → 묶음끼리 다시 평균 = 블록 점수</span></div>
+  </div>
+  <ul>
+    <li><b>비교 기간</b>: 대부분 2010년 이후 그날까지 쌓인 과거 전체를 씁니다. 일부 지표는 이력이 더 짧습니다(예: 미국 기간프리미엄). 최소 3년이 쌓여야 점수가 나와서 블록 점수는 2013년부터 있습니다. 그래서 지표 점수 50은 "보통 수준"이 아니라 "그 지표 이력의 중앙값"입니다.</li>
+    <li><b>그날 알 수 있던 값만 씁니다.</b> 물가·이익처럼 늦게 발표되는 숫자는 발표일 이후부터 반영합니다.</li>
+    <li><b>묶음마다 무게가 같습니다.</b> 그래서 지표가 하나뿐인 묶음은 그 지표 하나가 블록의 큰 몫을 차지합니다(아래 KOSPI200 펀더멘털 예).</li>
+    <li><b>예외: "볼린저 × RSI 동시 판정" 묶음</b>은 평균이 아니라 <b>둘 중 낮은 점수</b>를 씁니다. 둘 다 과매도여야 점수가 높습니다. 그날 둘 중 하나라도 값이 없으면 이 묶음은 빠집니다.</li>
+    <li><b>데이터 공백</b>: 짧은 공백은 마지막 값을 일정 기간 유지합니다(일별 5영업일, 월별 지표는 다음 발표 전까지). 그 뒤에는 비어 있는 것으로 보고 그 묶음 평균에서 뺍니다. 값을 지어내 채우지 않습니다.</li>
+    <li><b>점수 구간 이름</b>(보고서 표에 붙는 꼬리표): 90 이상 극단, 75 이상 경계, 25 이하 반대경계, 10 이하 반대극단, 그 사이는 중립입니다. 여기서 "경계"는 <b>점수가 높다(매력적)</b>는 뜻입니다. 국면 이름의 "고점 경계"·"가치함정 경계"에 쓰인 "경계"(조심하라)와는 다른 말입니다.</li>
+  </ul>
+</section>
+
+<section id="assets">
+  <h2>3. 자산군별로 보는 지표</h2>
+  <p class="note">금리·크레딧은 "금리·스프레드가 오를수록(채권값이 빠질수록) 과매도"로 읽습니다. 환율(USDKRW)은 <b>원화를 사는 관점</b>이라 원화가 약할수록 과매도입니다. 회색 글씨는 정의만 있고 지금은 데이터가 없어 <b>쓰이지 않는</b> 지표입니다.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>자산군 (자산)</th><th>과매도</th><th>밸류에이션</th><th>펀더멘털</th></tr></thead>
+    <tbody>
+      <tr><td><b>주가지수</b><br>KOSPI200, S&amp;P500</td>
+        <td>· 가격(공통): 20·60·200일 이평선 이격, 52주 고점 대비 낙폭(변동성으로 나눔), 5·20일 수익률 급락 정도, RSI(2)<br>
+        · 동시 판정(공통): 볼린저 %b × RSI(14)<br>
+        · 시장폭(<b>KOSPI만</b>): 이평선 위 종목 비율, 신저가 종목 비율, 상승·하락 종목 수 비<br>
+        · 변동성·심리: VIX/VKOSPI 수준, 내재/실현 변동성 비, 변동성비(공통) · 기간구조 역전(<b>S&amp;P500만</b>) · 원화 20일 급변(<b>KOSPI만</b>)<br>
+        <span class="note">· 미사용: 외국인·기관 순매수, 신용잔고, 반대매매, 풋콜비율 — 원천 미확보</span></td>
+        <td>선행 PER, 주식위험프리미엄(ERP) · PBR·배당수익률(<b>KOSPI만</b>)</td>
+        <td>이익 상향 종목 비중, 선행 EPS 1·3개월 변화, 이익 수정 가속 · 원화 3개월 추세(<b>KOSPI만</b>, 원화 약세 = 수출 이익에 우호)</td></tr>
+      <tr><td><b>금리</b><br>국고10년, 미국채10년</td>
+        <td>· 금리 20·60일 상승 정도, 60일 평균 대비 금리 수준<br>· 동시 판정: 금리 %b × 금리 RSI(14)<br>· 금리 변동성비<br>· 투기 포지션(<b>미국만</b>)</td>
+        <td>실질금리, 기준금리 대비 스프레드 · 기간프리미엄(<b>미국만</b>)</td>
+        <td>물가 둔화, 정책금리 인하 방향 · 금융여건 긴축(<b>미국만</b>)</td></tr>
+      <tr><td><b>환율</b><br>USDKRW (원화 매수)</td>
+        <td>· 60일 이평선 이격, 20일 수익률 급락 정도<br>· 동시 판정: %b × RSI(14)<br>· 변동성비</td>
+        <td>실질실효환율(REER) — 원화가 쌀수록 높음</td>
+        <td>한미 금리차 3개월 변화, 경상수지 3개월 변화</td></tr>
+      <tr><td><b>원자재</b><br>금, WTI</td>
+        <td>· 60일 이평선 이격, 20일 수익률 급락 정도<br>· 동시 판정: %b × RSI(14)<br>· 변동성비<br>· 투기 포지션(CFTC)</td>
+        <td>물가로 나눈 실질가격(근월물 기준)</td>
+        <td>금: 미국 실질금리 하락<br>WTI: 백워데이션(근월물 &gt; 차월물), 재고 감소</td></tr>
+      <tr><td><b>크레딧</b><br>미국 HY·IG, 국내 회사채</td>
+        <td>· 스프레드 20일 확대 정도<br>· 동시 판정: 스프레드 %b × RSI(14)<br>· 스프레드 변동성비</td>
+        <td>스프레드 수준 — 넓을수록 높음</td>
+        <td>주식 이익 전망 3개월 변화, 하위−상위 등급 스프레드 격차 축소</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="regime">
+  <h2>4. 세 점수를 조합한 국면</h2>
+  <p>각 블록이 <b>50점 이상이면 "높음"</b>, 미만이면 "낮음"으로 보고, 아래 표를 <b>위에서부터</b> 확인해 처음 맞는 줄의 이름을 붙입니다. 50.1점도 "높음"이라 "높음"이 곧 "극단"이라는 뜻은 아닙니다.</p>
+  <p class="note">주의: 블록 점수는 지표 점수의 평균이라, 블록의 50은 그 블록 이력의 중앙값이 아닙니다. 블록 중앙값은 자산마다 크게 다릅니다(밸류 블록 기준 S&amp;P500 12, 미국 HY 14, 미국 IG 23, 금 40, WTI 65). 그래서 같은 "50 이상"이라도 자산에 따라 자주 나오기도 하고 거의 안 나오기도 합니다.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>과매도</th><th>밸류</th><th>펀더멘털</th><th>국면</th><th>쉬운 뜻</th></tr></thead>
+    <tbody>
+      <tr><td class="hi">높음</td><td class="hi">높음</td><td class="hi">높음</td><td><b>최우선 매수</b></td><td>평소보다 빠졌고, 싸고, 여건도 우호적</td></tr>
+      <tr><td class="hi">높음</td><td class="hi">높음</td><td class="lo">낮음</td><td><b>저평가 패닉 분할 진입</b></td><td>빠졌고 싸지만 여건은 비우호 → 나눠서</td></tr>
+      <tr><td class="hi">높음</td><td class="lo">낮음</td><td class="hi">높음</td><td><b>단기 반등 트레이드</b></td><td>빠졌지만 비쌈 → 짧게만</td></tr>
+      <tr><td class="hi">높음</td><td class="lo">낮음</td><td class="lo">낮음</td><td><b>가치함정 경계</b></td><td>빠졌는데 싸지도 않고 여건도 비우호</td></tr>
+      <tr><td class="lo">낮음</td><td class="hi">높음</td><td class="hi">높음</td><td><b>보유 분할 매수</b></td><td>덜 빠졌지만 싸고 여건 우호</td></tr>
+      <tr><td class="lo">낮음</td><td>무관</td><td class="lo">낮음</td><td><b>고점 경계</b></td><td>덜 빠졌고 여건 비우호 (셋 다 낮아도 여기)</td></tr>
+      <tr><td class="lo">낮음</td><td class="lo">낮음</td><td class="hi">높음</td><td><b>비중 축소</b></td><td>덜 빠졌고 비쌈 (위 줄 때문에 펀더멘털이 높을 때만 나옴)</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>부분판정</b>: 블록 하나가 통째로 비어 있으면 빈 블록을 높음·낮음 양쪽으로 다 넣어 봅니다. 결과가 같으면 그 이름을 쓰고, 다르면 줄인 이름(예: "축약:O高·F低")을 씁니다. 어느 쪽이든 뒤에 "(부분판정)"이 붙습니다. 지금 10개 자산 중에는 해당이 없습니다.</li>
+    <li><b>국면 이름 자체는 검증되지 않았습니다.</b> Phase 3에서 국면별 이후 수익(자산별 평균 대비 초과수익)을 통계 검정 없이 집계만 해 봤습니다. 3개월·1년 기준으로 "최우선 매수"가 가장 높고 "단기 반등 트레이드"가 가장 낮아 밸류 블록과 같은 방향이었습니다. 하지만 "고점 경계"가 1년 뒤 평균보다 +1.8%p 높게 나오는 등 순서가 기대와 어긋나는 곳도 있었고, 1개월·6개월에서는 다른 국면이 가장 높았습니다. S&amp;P500은 밸류가 50을 넘는 날이 2%뿐이라 "최우선 매수"가 한 번도 나온 적이 없습니다.</li>
+  </ul>
+  <h3>점수 옆에 붙는 참고 표시 (점수·국면에는 영향 없음, 10-29 추가)</h3>
+  <ul>
+    <li><b>분할 진입 표시</b>: 과매도 75점 이상이고 변동성이 평소(1년 평균)의 1.5배 이상일 때 켜집니다. "더 빠질 수 있으니 나눠서 들어가라"는 뜻입니다. 국면 이름의 "분할 진입"과는 <b>다른 규칙</b>이라, 국면 이름에 "분할 진입"이 있어도 이 표시는 꺼져 있을 수 있고 그 반대도 있습니다. 이 표시 자체의 효과는 아직 검증하지 않았습니다.</li>
+    <li><b>추세 표시</b>: 최근 12개월 수익이 현금(정책금리)보다 높으면 ▲, 낮으면 ▼입니다. 대시보드에서 역발상 점수와 함께 보여 줄 추세 점수의 바탕입니다. 국내 회사채는 수익이 이미 국고 대비라 현금을 한 번 더 빼서 ▼가 자주 나옵니다(처리 방식 미정).</li>
+  </ul>
+</section>
+
+<section id="now" class="pg">
+  <h2>5. 지금 점수 (2026-10-27)</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>자산</th><th class="n">과매도</th><th class="n">밸류</th><th class="n">펀더멘털</th><th>국면</th><th>추세</th><th>분할 진입 표시</th></tr></thead>
+    <tbody>
+      <tr><td>KOSPI200</td><td class="n">73.9</td><td class="n">55.5</td><td class="n">40.0</td><td>저평가 패닉 분할 진입</td><td>▲</td><td></td></tr>
+      <tr><td>S&amp;P500</td><td class="n">62.6</td><td class="n">16.8</td><td class="n">78.9</td><td>단기 반등 트레이드</td><td>▲</td><td></td></tr>
+      <tr><td>국고10년</td><td class="n">24.2</td><td class="n">62.5</td><td class="n">37.4</td><td>고점 경계</td><td>▼</td><td></td></tr>
+      <tr><td>미국채10년</td><td class="n">55.3</td><td class="n">80.1</td><td class="n">45.6</td><td>저평가 패닉 분할 진입</td><td>▼</td><td></td></tr>
+      <tr><td>USDKRW(원화)</td><td class="n">10.3</td><td class="n">97.7</td><td class="n">51.2</td><td>보유 분할 매수</td><td>▲</td><td></td></tr>
+      <tr><td>금</td><td class="n">55.3</td><td class="n">6.1</td><td class="n">22.6</td><td>가치함정 경계</td><td>▼</td><td></td></tr>
+      <tr><td>WTI</td><td class="n">31.9</td><td class="n">34.7</td><td class="n">89.6</td><td>비중 축소</td><td>▲</td><td></td></tr>
+      <tr><td>미국 HY</td><td class="n">78.3</td><td class="n">16.9</td><td class="n">57.8</td><td>단기 반등 트레이드</td><td>▼</td><td>켜짐</td></tr>
+      <tr><td>미국 IG</td><td class="n">70.0</td><td class="n">16.8</td><td class="n">57.8</td><td>단기 반등 트레이드</td><td>▼</td><td></td></tr>
+      <tr><td>국내 회사채</td><td class="n">56.6</td><td class="n">66.7</td><td class="n">62.7</td><td>최우선 매수</td><td>▼</td><td></td></tr>
+    </tbody>
+  </table></div>
+  <h3>읽을 때 주의할 두 가지 (KOSPI200)</h3>
+  <ul>
+    <li><b>펀더멘털 40점은 이익이 나빠서가 아닙니다.</b> 이익 묶음 지표 4개의 평균은 78.5점입니다(상향 종목 비중 83, 선행 EPS 1·3개월 변화 88·93, 이익 수정 가속 50). 그런데 "원화 3개월 추세"가 지표 하나뿐인 묶음이라 블록의 절반을 차지합니다. 최근 원화 강세로 이 지표가 1.5점이라 평균이 40으로 내려갔습니다.</li>
+    <li><b>밸류 55.5점은 서로 엇갈린 값의 평균입니다.</b> 선행 PER과 ERP는 100점(역대 가장 쌈), PBR은 4.3점(비쌈), 배당은 17.7점입니다. 선행 PER이 4.4배(2010~2025 연말 범위 7.6~13.7)로 떨어진 것은 삼성전자·SK하이닉스의 선행 PER이 3배 안팎이고, 두 종목이 선행이익의 75%를 차지하기 때문입니다. Phase 2에서 집계 오류가 아니라 원자료 그대로임을 확인했습니다. 두 종목 이익 전망에 크게 기대는 값이라는 점은 알고 보셔야 합니다.</li>
+  </ul>
+  <p class="note">출처: <span class="mono">outputs/phase2/latest.md</span>(점수·지표), <span class="mono">outputs/phase4/phase4b_display_latest.csv</span>(추세·분할 진입), <span class="mono">outputs/phase2/phase2_report.md</span>(KOSPI200 이익 비중).</p>
+</section>
+
+<section id="evidence">
+  <h2>6. 검증해 보니 (솔직한 현황)</h2>
+  <p>"점수가 높았던 날 이후 실제 수익이 더 좋았나"를 2013~2026 데이터로 확인했습니다(점수와 이후 수익의 순위상관, 우연 여부는 플라시보로 판정).</p>
+  <ul>
+    <li><span class="hi">약하지만 근거가 있는 것 — 밸류에이션</span>: 10개 자산을 합치면 1·3개월 뒤 수익과 약한 양의 관계가 있었습니다(순위상관 0.08~0.11, 우연일 확률 낮음). 다만 이 결과는 주로 크레딧과 주가지수에서 나왔고, 금리·환율·원자재는 따로 보면 근거가 없습니다. 6개월·1년은 관계 자체는 더 크지만 표본이 겹쳐 우연일 가능성을 덜 배제합니다. 크레딧은 점수(스프레드 수준)와 수익이 같은 스프레드에서 나와서, 일부는 스프레드가 평균으로 돌아가는 기계적 효과일 수 있습니다.</li>
+    <li><span class="md">부분적인 것 — 과매도</span>: S&amp;P500의 1개월 수익에서만 근거가 있습니다. 10개 자산을 합치면 0에 가깝고, <b>국내 회사채에서는 오히려 반대</b>로 나왔습니다(과매도 점수가 높을수록 이후 수익이 낮음).</li>
+    <li><span class="lo">근거가 없는 것</span>: 펀더멘털(합쳐서 0에 가까움). 10-28 역발상 개편(볼린저 동시 판정·변동성 가점)도 개편 전보다 나아지지 않았습니다. 그런데도 두 지표는 지금 점수에 들어 있고, 어떻게 할지는 미정입니다.</li>
+    <li><b>변동성</b>: 변동성이 클 때 볼린저 하단을 깨면 <b>한 달 안에 5% 넘게 더 빠지는 비율이 약 2배</b>였습니다(10개 자산 10%→21%, 108개 자산 19%→33%). 3개월 뒤 초과수익은 오히려 높았습니다. 다만 10개 자산에서는 대부분 KOSPI200·WTI의 소수 사건(15건)에서 나왔고, 108개 자산에서는 차이가 유의하지 않았으며 2022년에는 마이너스였습니다. 확정된 결과가 아닙니다. 그래서 변동성은 "더 사라"가 아니라 "나눠서 사라"는 참고 표시로만 씁니다.</li>
+  </ul>
+  <p class="note">자세한 숫자: <span class="mono">outputs/phase3/phase3_report.md</span>, <span class="mono">outputs/briefing_wiki/briefing_wiki.pdf</span>, <span class="mono">outputs/phase4/phase4_status.pdf</span>.</p>
+</section>
+
+<section id="pending">
+  <h2>7. 아직 점수에 넣지 않은 후보 (검토 중)</h2>
+  <p>"조건 통과"는 미리 정한 규칙상 기존보다 <b>약간 낫다</b>는 뜻일 뿐입니다. 우연이 아니라고 말할 수준(통계적 유의성)은 아닙니다.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>후보</th><th>넣을 자리</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr><td>원자재 5년 장기 반전 (5년간 많이 빠졌으면 싸다)</td><td>원자재 밸류</td><td>조건 통과, 유의하지 않음. 확인 구간의 1년 시평은 오히려 낮음</td></tr>
+      <tr><td>환율 금리차 수준 (캐리)</td><td>환율 펀더멘털</td><td>조건 통과, 유의하지 않음</td></tr>
+      <tr><td>S&amp;P500 CAPE (10년 평균 이익 기준 PER)</td><td>S&amp;P500 밸류</td><td>조건 통과, 유의하지 않음. 미국 CPI 2025-10 결측 처리 미정</td></tr>
+      <tr><td>과매도일 때만 변동성 가점</td><td>과매도</td><td>전체 기각(환율만 조건 통과, 그마저 지표를 빼는 쪽이 더 나음)</td></tr>
+      <tr><td>KOSPI200 CAPE (구성종목 합산)</td><td>비교용 필드(점수 미사용)</td><td>처음부터 채택 대상이 아닌 비교용. PBR과 사실상 같은 정보(상관 0.94~0.99)이고 예측력도 기존 밸류 블록보다 낮음</td></tr>
+    </tbody>
+  </table></div>
+  <p>반영 여부는 Phase 4 종합 문서를 보고 정하시면 됩니다.</p>
+</section>
+
+<section id="caveat">
+  <h2>8. 알아 두실 점</h2>
+  <ul>
+    <li><b>매매 지시가 아닙니다.</b> 자산을 자기 과거와 비교한 상대 점수입니다.</li>
+    <li><b>과매도가 높을 때 위험</b>: 2022년 같은 긴 하락장에서는 자산에 따라 역발상 매수가 손실을 냈습니다(국채·미국 IG·WTI는 손실, 주가지수·금은 이익). 밸류·펀더멘털, 추세 표시와 함께 보세요.</li>
+    <li><b>가정이 들어간 데이터</b>: KOSPI200의 PER·이익 지표와 S&amp;P500의 이익 상향 비중은 현재 구성종목 합산이라 생존편향이 있습니다. 국고·미국채·국내 회사채의 수익은 듀레이션 근사입니다. 미국 HY·IG는 총수익지수를 그대로 씁니다.</li>
+    <li><b>표본이 한 경로뿐입니다.</b> 2010~2026이라는 하나의 시장 흐름에서 나온 기준이라, 새 극단값(예: KOSPI200 선행 PER 4.4)이 쌓이면 기준 분포 자체가 바뀝니다.</li>
+    <li><b>설정 위치</b>: 지표·방향·임계값은 <span class="mono">config/scoring.yaml</span>, <span class="mono">config/profiles/*.yaml</span>에, 자산별 제외·대체는 <span class="mono">config/universe.yaml</span>에 있습니다. 일부 계산 기본값(예: 변동성비의 1년 평균 창)은 지표 함수의 기본값으로 코드에 있습니다.</li>
+  </ul>
+</section>
+</div>
+</body>
+</html>
