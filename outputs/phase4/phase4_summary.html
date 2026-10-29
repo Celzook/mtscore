@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 4 종합 판단</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f6f4; --sheet: #fcfcfb; --ink: #15191b; --ink-2: #4f585b; --ink-3: #7a8386;
+  --rule: #d8dcd9; --rule-2: #e8ebe8; --accent: #1d5f86; --accent-soft: #e2edf4;
+  --good: #0c7a0c; --warn: #9a6800; --crit: #c03030; --run: #6250d6;
+  --f-display: "Nanum Myeongjo", "Noto Serif KR", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --good: #3fbf3f; --warn: #e0a526; --crit: #e66767; --run: #9085e9; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --good: #3fbf3f; --warn: #e0a526; --crit: #e66767; --run: #9085e9; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { word-break: keep-all; overflow-wrap: anywhere; background: var(--paper); color: var(--ink); font-family: var(--f-body);
+  font-size: 15px; line-height: 1.65; margin: 0; padding: 0 16px 64px; }
+.wrap { max-width: 1100px; margin: 0 auto; }
+header { padding: 36px 0 22px; border-bottom: 1px solid var(--rule); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--ink-3); }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 4vw, 38px); line-height: 1.2; margin: 6px 0 10px; }
+.lede { color: var(--ink-2); max-width: 80ch; margin: 0; }
+section { padding: 26px 0 10px; border-bottom: 1px solid var(--rule); }
+section:last-child { border-bottom: 0; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 22px; margin: 0 0 8px; }
+h3 { font-size: 15px; font-weight: 600; margin: 18px 0 8px; }
+p { max-width: 84ch; margin: 0 0 10px; }
+.note { font-size: 13px; color: var(--ink-3); max-width: 92ch; }
+ul, ol { max-width: 86ch; padding-left: 22px; margin: 0 0 10px; }
+li { margin: 3px 0; }
+.mono, td.n { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); margin: 8px 0 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 6px 9px; text-align: left; border-bottom: 1px solid var(--rule-2); vertical-align: top; }
+th { font-weight: 500; color: var(--ink-3); font-size: 12px; background: var(--sheet); white-space: nowrap; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.chip { display: inline-block; font-size: 12px; padding: 0 8px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; }
+.done { color: var(--good); } .run { color: var(--run); } .wait { color: var(--warn); } .rej { color: var(--ink-3); }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 10px 0 14px; }
+.step { border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); padding: 10px 12px; }
+.step b { display: block; font-size: 13px; }
+.step span { font-size: 12px; color: var(--ink-2); }
+.step.is-done { border-left: 4px solid var(--good); }
+.step.is-run { border-left: 4px solid var(--run); }
+.step.is-wait { border-left: 4px solid var(--warn); }
+.callout { border-left: 3px solid var(--accent); background: var(--sheet); padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+@page { size: A4 landscape; margin: 12mm 14mm 14mm;
+  @bottom-left { content: "mtscore Phase 4 종합 판단 · 2026-10-29"; font-family: "IBM Plex Sans KR", sans-serif; font-size: 8pt; color: #7a8386; }
+  @bottom-right { content: counter(page) " / " counter(pages); font-family: "IBM Plex Mono", monospace; font-size: 8pt; color: #7a8386; } }
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { padding: 0; font-size: 12.5px; line-height: 1.5; background: #fff; }
+  .wrap { max-width: none; }
+  table { font-size: 11.5px; } th, td { padding: 4px 7px; }
+  section.pg { break-before: page; }
+  tr, .callout, .step { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">MTSCORE · PHASE 4 · 종합 판단 자료 · 2026-10-29</div>
+  <h1>Phase 4 결과와 정하실 것</h1>
+  <p class="lede">10-29에 정하신 검토(변동성 가점, 추세 표시, 장기 반전, 캐리, CAPE, 기술적분석 시험대)를 모두 마쳤습니다. 단계마다 별도 검증 레인을 통과했고, 결과는 <span class="mono">phase4-wiki</span> 브랜치에 합쳐 GitHub에 올렸습니다(테스트 266개 통과). <b>점수 설정은 아직 아무것도 바꾸지 않았습니다.</b> 아래 결정을 주시면 그대로 반영하고 다시 검증합니다.</p>
+</header>
+
+<section id="sum">
+  <h2>1. 결과 한눈에 보기</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>후보</th><th>넣을 자리</th><th class="n">63일 IC 선택→</th><th class="n">확인→</th><th class="n">확인 p</th><th>사전 등록 판정</th></tr></thead>
+    <tbody>
+      <tr><td>원자재 5년 장기 반전</td><td>원자재 밸류</td><td class="n">0.143→0.210</td><td class="n">0.109→0.154</td><td class="n">0.699→0.458</td><td><span class="chip wait">채택 조건 충족 · 비유의</span></td></tr>
+      <tr><td>환율 금리차 수준(캐리)</td><td>환율 펀더멘털</td><td class="n">−0.012→0.094</td><td class="n">0.038→0.070</td><td class="n">0.892→0.730</td><td><span class="chip wait">채택 조건 충족 · 비유의</span></td></tr>
+      <tr><td>S&amp;P500 CAPE</td><td>S&amp;P500 밸류</td><td class="n">0.202→0.235</td><td class="n">0.113→0.171</td><td class="n">0.560→0.433</td><td><span class="chip wait">채택 조건 충족 · 비유의</span></td></tr>
+      <tr><td>과매도일 때만 변동성 가점</td><td>과매도</td><td class="n">전체 0.049→0.040</td><td class="n">−0.051→−0.047</td><td class="n">0.477→0.255</td><td><span class="chip rej">전체 기각</span> (환율만 충족)</td></tr>
+      <tr><td>환율·금리 장기 반전</td><td>밸류</td><td class="n">환율 0.106→−0.131<br>금리 0.230→0.128</td><td class="n">—</td><td class="n">—</td><td><span class="chip rej">기각</span></td></tr>
+      <tr><td>KOSPI200 CAPE(바텀업)</td><td>비교용</td><td class="n">0.230</td><td class="n">0.166</td><td class="n">0.604</td><td><span class="chip rej">채택 대상 아님</span> (선택 구간에서 PBR 단독 0.399보다 낮음, 확인 구간은 0.181로 비슷. 0.399는 검증 레인 계산, 저장소 파일에는 없음)</td></tr>
+      <tr><td>시험대: 52주·섹터·듀얼·BAB</td><td>기술적분석 108개</td><td colspan="3" class="n">샤프 −0.42~0.67, EW 대비 최소 p 0.13</td><td><span class="chip rej">EW와 구분 안 됨</span></td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>"채택 조건 충족"은 미리 정한 세 조건(선택 구간 개선, 확인 구간 유지, 플라시보 p 악화 없음)을 통과했다는 뜻입니다. 확인 구간 p가 0.43~0.73이라 <b>우연이 아니라고 말할 수준은 아닙니다.</b> 유의성은 사전 등록 조건에 넣지 않았습니다.</li>
+    <li>세 후보 모두 <b>밸류·캐리 성격</b>입니다. Phase 3에서도 10개 자산을 합쳤을 때 근거가 나온 블록은 밸류뿐이었습니다(자산별로는 S&amp;P500 과매도 21일도 지지). 가격만 쓰는 기술적 후보는 이번에도 기존보다 낫거나 EW와 구분된다는 결과가 나오지 않았습니다.</li>
+    <li><b>여러 후보를 한꺼번에 시험했습니다</b>(조건부 변동성 12칸, 장기 반전·캐리 4칸, CAPE 1칸). 세 조건은 약한 기준이라, 이 정도 수를 시험하면 우연히 통과하는 후보가 나올 수 있습니다. 통과한 후보도 자산이 1~2개뿐입니다.</li>
+    <li><b>분할 진입 표시와 추세 표시</b>는 이미 결과 출력에 들어갔습니다(점수·국면 영향 없음, 결과 스키마 1.1).</li>
+  </ul>
+</section>
+
+<section id="decide" class="pg">
+  <h2>2. 정하실 것</h2>
+
+  <h3>결정 1. 채택 조건을 충족한 후보 3개 (원자재 장기 반전, 환율 금리차 수준, S&amp;P500 CAPE)</h3>
+  <ul>
+    <li><b>근거</b>: 세 후보 모두 선택·확인 두 구간에서 IC가 올랐고, 기존 지표와 중복도 없습니다(최대 상관 0.70). 다만 유의하지 않고, 보조 지표에 주의할 점이 있습니다.
+      <ul>
+        <li>원자재 장기 반전: 확인 구간 1년 IC는 0.16→0.10으로 낮아집니다.</li>
+        <li>환율 금리차: 확인 구간 1년 IC가 기존·변형 모두 음수입니다(−0.22, −0.23).</li>
+        <li>S&amp;P500 CAPE: 1년 IC도 높아집니다(확인 0.18→0.40). 다만 1년 수익은 서로 겹쳐서 독립 표본이 7개 안팎입니다. 또 CAPE가 2009년 이후 대체로 오르기만 해서 지금 점수가 0~2점에 몰려 있습니다. 반영하면 S&amp;P500 밸류 블록이 지금보다 내려갈 가능성이 큽니다[추정]. 결정 3이 먼저 정해져야 합니다.</li>
+        <li>원자재 장기 반전: 개선이 새 지표 자체보다 블록 구성에서 왔을 수 있습니다(새 지표 단독 IC 0.077 &lt; 기존 지표 0.143).</li>
+      </ul></li>
+    <li><b>선택지</b>: (가) 사전 등록 규칙대로 셋 다 반영, "효과 미확인" 표기 · (나) 반영하지 않음 · (다) 일부만</li>
+    <li><b>권고: (가)</b>. 결과를 보기 전에 정한 규칙이 이 셋을 "채택"으로 판정했습니다. 다만 사전 등록은 "통과해야 반영할 수 있다"는 필요조건입니다. 반영하지 않는 (나)도 기준을 어기는 것이 아니고, 최종 판단은 사용자 몫입니다.</li>
+    <li><b>반영하면 해야 할 일</b>: 설정만 바꾸는 일이 아닙니다.
+      <ul>
+        <li>원자재 장기 반전: 2005년부터의 장기 가격 빌드를 주 데이터 빌드에 넣어야 합니다(원자료는 저장소에 없고 Refinitiv로 다시 받아야 재현됩니다).</li>
+        <li>S&amp;P500 CAPE: Shiller 이익과 1999~2006 CPI 빌드를 주 데이터 빌드에 넣어야 합니다.</li>
+        <li>환율 금리차 수준: 기존 필드로 바로 됩니다.</li>
+        <li>반영 뒤 현재(10-27) 점수·국면이 어떻게 바뀌는지 계산해 보여 드리고, 기본 점수 재현과 블록 IC를 다시 확인합니다. 바뀌는 양은 아직 계산하지 않았습니다.</li>
+      </ul></li>
+  </ul>
+
+  <h3>결정 2. 지금 점수에 들어 있는 변동성 가점(무조건형)과 볼린저×RSI 동시 판정</h3>
+  <ul>
+    <li><b>근거</b>
+      <ul>
+        <li>Phase 3: 10-28 역발상 개편(동시 판정·변동성 가점)은 개편 전보다 나아지지 않았습니다. 주가지수는 개편 전이 조금 더 좋았습니다(유의하지 않음).</li>
+        <li>Phase 4: 조건부판은 전체에서 기각됐습니다. 변동성 지표를 아예 빼는 안도 전체 선택 구간에서 나빠졌습니다(0.049→0.040).</li>
+        <li>볼린저 동시 판정은 10-29에 "유지"로 정하셨습니다.</li>
+      </ul></li>
+    <li>참고: 환율(USDKRW 하나)만 놓고 보면 조건부판이 세 조건을 충족했지만, 변동성 지표를 빼는 쪽이 세 조건 모두 더 좋았습니다(선택 0.083, 확인 0.050, p 0.637). 전체로는 빼는 안이 선택 구간에서 나빠졌고, 확인 구간은 조금 나아졌습니다(−0.051→−0.045). 자산 하나의 결과라 환율만 따로 바꾸는 것은 권하지 않습니다.</li>
+    <li><b>선택지</b>: (가) 지금처럼 유지, "효과 미확인" 표기 · (나) 변동성 가점만 제거 — 이 경우 분할 진입 표시가 읽을 변동성 지표가 없어져, 표시가 비게 됩니다(코드 수정 필요) · (다) 개편 전체 되돌리기(Phase 3 결정 4)</li>
+    <li><b>권고: (가)</b>. 바꿀 근거도, 유지할 근거도 없습니다. 바꾸려면 사전 등록 검증이 필요한데, 이미 두 번 시험해서 차이가 나오지 않았습니다. 변동성은 분할 진입 표시로 별도로 보여 줍니다.</li>
+  </ul>
+
+  <h3>결정 3. 미국 CPI 2025-10 결측 (S&amp;P500 CAPE에 영향)</h3>
+  <ul>
+    <li><b>문제</b>: 셧다운으로 이 달 CPI가 공표되지 않았습니다. 사전 등록 정의("120개월이 모두 있어야 계산")대로면 2026-04-24 이후 약 10년간 CAPE가 없습니다.</li>
+    <li><b>선택지</b>: (가) 빠진 달을 건너뛰고 최근 120개 가용 월로 계산 · (나) 사전 등록 정의 그대로(CAPE 사실상 사용 불가) · (다) 앞뒤 달로 보간</li>
+    <li><b>권고: (가)</b>. 판정이 같고 공표되지 않은 값을 지어내지 않습니다. (다)는 없는 값을 만드는 것이라 권하지 않습니다. 다만 결과를 본 뒤의 사후 수정이고, (가)의 숫자(확인 IC 0.181, p 0.373)가 사전 등록 정의(0.171, p 0.433)보다 조금 유리하다는 점을 밝혀 둡니다. 창이 달력 121개월에 걸치는 것도 정의와 다릅니다. 날짜를 남겨 사전 등록을 고칩니다.</li>
+  </ul>
+
+  <h3>결정 4. 국내 회사채 추세 표시</h3>
+  <ul>
+    <li><b>문제</b>: KR_CORP 수익 지수는 같은 듀레이션 국고 대비 초과수익의 근사(가정)인데, 추세 표시에서 현금 수익을 한 번 더 뺍니다. 그래서 ▲가 나오는 날이 7.6%뿐입니다.</li>
+    <li><b>선택지</b>: (가) KR_CORP는 현금을 빼지 않음(이미 초과수익) · (나) 지금 그대로</li>
+    <li><b>권고: (가)</b>. 같은 것을 두 번 빼는 셈입니다. 다만 지금 코드는 모든 자산에서 현금을 일괄로 빼서, 자산별 예외를 두려면 코드(<span class="mono">api.py</span>·<span class="mono">config.py</span>)를 고쳐야 합니다. 사전 등록 B3 정의도 날짜를 남겨 고칩니다. 고치면 KR_CORP의 ▲·▼는 "국고 대비", 다른 자산은 "현금 대비"로 뜻이 달라진다는 점도 표시합니다. 점수에는 영향이 없습니다.</li>
+  </ul>
+
+  <h3>결정 5. 국면 판정 기준 50점 (Phase 3 결정 2)</h3>
+  <ul>
+    <li><b>문제</b>: 블록 점수의 중앙값이 자산마다 크게 다릅니다. 밸류 블록을 예로 들면 S&amp;P500 12, WTI 65입니다. 그래서 같은 "50 이상"이 자산마다 다른 뜻이 됩니다. S&amp;P500은 밸류 50 이상인 날이 2%뿐입니다.</li>
+    <li><b>선택지</b>: (가) 지금은 50 유지, 대시보드 이식 때 다시 검토 · (나) 자산별 기준선(예: 자기 블록 중앙값)으로 바꾸고 표본 분할로 검증</li>
+    <li><b>권고: (가)</b>. 바꾸는 것은 튜닝이라 사전 등록 검증이 필요합니다. 대시보드 유니버스(50개 이상)가 정해진 뒤 한 번에 하는 편이 낫습니다.</li>
+  </ul>
+</section>
+
+<section id="later" class="pg">
+  <h2>3. 함께 남아 있는 것</h2>
+  <ul>
+    <li><b>Phase 3에서 미룬 결정</b>: 통화 이중반영 변형(결정 1, 현행 both 유지 권고), KOSPI200 이익 지표 가중(결정 3, 표본 분할 확인 후 변경 권고), USDKRW 경상수지 정규화(결정 5).</li>
+    <li><b>main 병합</b>: mtscore의 Phase 1 이후 작업은 모두 main 밖에 있습니다. <span class="mono">phase3-backtest</span>까지 포함한 <span class="mono">phase4-wiki</span>를 main에 합칠지는 위 결정을 반영한 뒤 여쭙겠습니다.</li>
+    <li><b>보류 중</b>: 임계값 이벤트 방식(트리거 포인트)은 말씀하신 대로 보류 상태입니다. 대시보드 유니버스(50개 이상)는 목록을 주시면 진행합니다.</li>
+    <li><b>정리할 것</b>: 작업 폴더 <span class="mono">mtscore-c</span>, <span class="mono">mtscore-d</span>, <span class="mono">mtscore-d2</span>는 병합이 끝났으니 지워도 됩니다.</li>
+  </ul>
+</section>
+
+<section id="where">
+  <h2>4. 근거 문서</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>내용</th><th>위치 (mtscore, 브랜치 phase4-wiki)</th></tr></thead>
+    <tbody>
+      <tr><td>쉬운 모델 설명서</td><td class="mono">outputs/guide/scoring_model_guide.pdf</td></tr>
+      <tr><td>사전 등록(판정 규칙)</td><td class="mono">docs/prereg_2026-10-29.md</td></tr>
+      <tr><td>단계별 상세 보고서</td><td class="mono">outputs/phase4/phase4b_report.md · phase4c_report.md · phase4d_report.md · phase4d2_report.md</td></tr>
+      <tr><td>시험대 보고서</td><td class="mono">기술적분석 · 80_bench/bench_report.md</td></tr>
+      <tr><td>위키 검토</td><td class="mono">outputs/briefing_wiki/briefing_wiki.pdf</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+</body>
+</html>

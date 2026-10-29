@@ -85,21 +85,15 @@ tr:last-child td { border-bottom: 0; }
     <div class="step is-done"><b>B. 변동성·표시</b><span>조건부 가점 판정, 분할 진입·추세 표시</span></div>
     <div class="step is-done"><b>C. 장기 반전·캐리</b><span>2005년~ 가격 수집, 60개월 반전, FX 금리차</span></div>
     <div class="step is-done"><b>D-1. S&amp;P500 CAPE</b><span>Shiller 이익 기반</span></div>
-    <div class="step is-run"><b>D-2. KOSPI200 CAPE</b><span>바텀업, 비교용 필드 — 진행 중</span></div>
+    <div class="step is-done"><b>D-2. KOSPI200 CAPE</b><span>바텀업, 비교용 필드 — 완료</span></div>
     <div class="step is-done"><b>E. 기술적분석 시험대</b><span>52주·섹터·듀얼·BAB</span></div>
     <div class="step is-wait"><b>F. 종합·결정</b><span>판단용 문서 → 반영 여부 결정</span></div>
   </div>
   <div class="callout">
     <ul>
-      <li><b>완료 5개</b>(A·B·C·D-1·E). 모두 별도 검증 레인을 통과했고 GitHub에 올렸습니다.</li>
-      <li><b>진행 중 1개</b>(D-2 KOSPI200 바텀업 CAPE).
-        <ul>
-          <li>13:20 기준으로 데이터 수집은 끝났습니다. 13:17에 1차 결과 파일이 나왔고, 13:18부터 최종 실행(<span class="mono">scripts/phase4_d2.py</span>)이 돌고 있습니다. 마무리 단계로 봅니다 <span class="mono">[추정]</span>.</li>
-          <li>작업 위치는 별도 작업 폴더 <span class="mono">mtscore-d2</span>(브랜치 <span class="mono">phase4-wiki-d2</span>)입니다. 아직 커밋·push 전이라 로컬에만 있습니다.</li>
-          <li>진행 확인: <span class="mono">ls -la mtscore-d2/outputs/phase4/</span>에 <span class="mono">phase4d2_report.md</span>가 생기면 끝난 것입니다.</li>
-          <li>성격: 점수에 넣지 않는 <b>비교용 필드</b>입니다(사전 등록 §D-2). 현재 구성종목만 쓰므로 생존편향이 있습니다(가정).</li>
-        </ul></li>
-      <li><b>남은 순서</b>: D-2 완료 → 검증 → <span class="mono">phase4-wiki</span>에 병합 → 종합 판단용 문서 → 반영 여부 결정 → 반영과 재검증.</li>
+      <li><b>완료 6개</b>(A·B·C·D-1·D-2·E). 모두 별도 검증 레인을 통과했고 GitHub에 올렸습니다. B·C·D-1·D-2는 <span class="mono">phase4-wiki</span>에 합쳤습니다(테스트 266개 통과).</li>
+      <li><b>D-2 결과</b>: KOSPI200 바텀업 CAPE는 PBR과 상관 0.94~0.99, 63일 IC 0.230으로 PBR 단독(0.399)보다 낮아 점수에 넣지 않습니다(처음부터 비교용).</li>
+      <li><b>다음</b>: 종합 판단 문서 <span class="mono">phase4_summary.pdf</span> → 반영 여부 결정 → 반영과 재검증.</li>
     </ul>
   </div>
 </section>
