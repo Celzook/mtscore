@@ -1,0 +1,15 @@
+
+tests/test_phase4_d2.py: 14 warnings
+  /home/infomax/Desktop/Infomax/_project/mtscore/src/mtscore/data/cape_bu.py:67: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+    floor = d["pe"] + pd.Timedelta(days=lag_days)
+
+tests/test_phase4_d2.py::test_cape_bottomup_aggregates_same_members_and_nans_without_window
+  /home/infomax/Desktop/Infomax/_project/mtscore/.venv/lib/python3.12/site-packages/pandas/core/internals/concat.py:510: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+    return dtype.type("NaT")
+
+tests/test_schema.py::test_bad_date_rejected
+  /home/infomax/Desktop/Infomax/_project/mtscore/src/mtscore/data/schema.py:44: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+    conv = pd.to_datetime(out[c], errors="coerce")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+292 passed, 77 warnings in 30.67s

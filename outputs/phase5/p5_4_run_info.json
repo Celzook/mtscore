@@ -1,0 +1,116 @@
+{
+ "seconds": 170.6,
+ "primary_horizon": 63,
+ "periods": {
+  "selection": [
+   "2013-01-01",
+   "2019-12-31"
+  ],
+  "confirmation": [
+   "2020-01-01",
+   null
+  ]
+ },
+ "corr_cut": 0.9,
+ "placebo_shifts": 2000,
+ "placebo_seed_rule": "11 + 5400 + 10*unit_idx + period_idx",
+ "units": [
+  "equity_index",
+  "KOSPI200",
+  "SP500"
+ ],
+ "n_cells_primary": 9,
+ "n_cells_aux": 6,
+ "verdict": [
+  {
+   "part": "4a",
+   "unit": "equity_index",
+   "arm": "IE",
+   "verdict": "기각"
+  },
+  {
+   "part": "4a",
+   "unit": "KOSPI200",
+   "arm": "IE",
+   "verdict": "기각"
+  },
+  {
+   "part": "4a",
+   "unit": "SP500",
+   "arm": "IE",
+   "verdict": "동일(변화 없음)"
+  },
+  {
+   "part": "4b",
+   "unit": "KOSPI200",
+   "arm": "X1",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b",
+   "unit": "KOSPI200",
+   "arm": "X2",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b",
+   "unit": "KOSPI200",
+   "arm": "X12",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b-aux(지표 동일가중)",
+   "unit": "KOSPI200",
+   "arm": "X1_IE",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b-aux(지표 동일가중)",
+   "unit": "KOSPI200",
+   "arm": "X2_IE",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b-aux(지표 동일가중)",
+   "unit": "KOSPI200",
+   "arm": "X12_IE",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b",
+   "unit": "SP500",
+   "arm": "X1",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b",
+   "unit": "SP500",
+   "arm": "X2",
+   "verdict": "채택"
+  },
+  {
+   "part": "4b",
+   "unit": "SP500",
+   "arm": "X12",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b-aux(지표 동일가중)",
+   "unit": "SP500",
+   "arm": "X1_IE",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b-aux(지표 동일가중)",
+   "unit": "SP500",
+   "arm": "X2_IE",
+   "verdict": "기각"
+  },
+  {
+   "part": "4b-aux(지표 동일가중)",
+   "unit": "SP500",
+   "arm": "X12_IE",
+   "verdict": "기각"
+  }
+ ]
+}

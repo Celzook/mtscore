@@ -1,0 +1,50 @@
+diff --git config/universe.yaml config/universe.yaml
+index 505bc98..dda4313 100644
+--- config/universe.yaml
++++ config/universe.yaml
+@@ -87,6 +87,7 @@
+   spread_source: iboxx_gspread    # YLDTOMAT − 동일 듀레이션 UST 보간. 2023-10~ FRED ICE OAS 와 대조
+   ric: .IBLUS0004
+   refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread, policy_rate: UST10Y.policy_rate}
++  trend: {cash: none, basis: 국채 대비, return: {yield_field: spread, duration_field: mod_durtn}}   # P5-3: 추세는 스프레드 −D×Δs + s 캐리(국채 대비 초과수익 근사, D = iBoxx MOD_DURTN). 점수·국면·백테스트 수익률 불변
+   overrides: {}
+ - asset_id: US_IG
+   name: 미국 투자등급
+@@ -96,6 +97,7 @@
+   spread_source: iboxx_gspread
+   ric: .IBLUS0005
+   refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread, policy_rate: UST10Y.policy_rate}
++  trend: {cash: none, basis: 국채 대비, return: {yield_field: spread, duration_field: mod_durtn}}   # P5-3: 추세는 스프레드 −D×Δs + s 캐리(국채 대비 초과수익 근사, D = iBoxx MOD_DURTN). 점수·국면·백테스트 수익률 불변
+   overrides: {}
+ - asset_id: KR_CORP
+   name: 국내 회사채 AA-(3년) − 국고3년
+diff --git scripts/phase2_build.py scripts/phase2_build.py
+index 16f1d53..b2e9b6c 100644
+--- scripts/phase2_build.py
++++ scripts/phase2_build.py
+@@ -261,6 +261,9 @@ def main():
+         lvl = ib["TRDPRC_1"].dropna()
+         add(aid, "index_level", lvl.rename("value").reset_index().rename(columns={"Date": D}),
+             f"lseg:.{ric} TRDPRC_1", "as_of = date", "총수익지수(TRTN_PRICE 와 동일 — Phase 2 확인)")
++        md = ib["MOD_DURTN"].dropna()
++        add(aid, "mod_durtn", md.rename("value").reset_index().rename(columns={"Date": D}),
++            f"lseg:.{ric} MOD_DURTN (iBoxx 수정듀레이션, 년)", "as_of = date", "추세 표시 trend.return(P5-3)의 D. 점수에 쓰지 않음")
+         both = ib[["TRDPRC_1", "TRTN_PRICE"]].dropna()
+         INFO[f"{aid}_tr_check"] = {"rows_both": int(len(both)),
+                                    "max_abs_diff": float((both["TRDPRC_1"] - both["TRTN_PRICE"]).abs().max())}
+diff --git tests/test_phase4b.py tests/test_phase4b.py
+index 5e42c93..5498638 100644
+--- tests/test_phase4b.py
++++ tests/test_phase4b.py
+@@ -320,8 +320,9 @@ def test_real_universe_exempts_only_kr_corp():
+     from mtscore import load_config
+     cfg = load_config(Path(__file__).resolve().parents[1] / "config")
+     exempt = {a.asset_id: a.trend_basis for a in cfg.universe if a.trend_cash == "none"}
+-    assert exempt == {"KR_CORP": "국고 대비"}
+-    assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id != "KR_CORP")
++    assert exempt == {"KR_CORP": "국고 대비", "US_HY": "국채 대비", "US_IG": "국채 대비"}   # P5-3 활성화 후
++    assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id not in exempt)
++    assert {a.asset_id for a in cfg.universe if a.trend_return} == {"US_HY", "US_IG"}
+ 
+ 
+ # ---- P5-3. 추세 표시 전용 수익 지수(trend.return): 스프레드 −D×Δs + s 캐리, 국채 대비. 합성 데이터는 테스트 전용

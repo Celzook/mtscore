@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 5 종합 판단</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f6f4; --sheet: #fcfcfb; --ink: #15191b; --ink-2: #4f585b; --ink-3: #7a8386;
+  --rule: #d8dcd9; --rule-2: #e8ebe8; --accent: #1d5f86; --accent-soft: #e2edf4;
+  --good: #0c7a0c; --warn: #9a6800; --crit: #c03030; --run: #6250d6;
+  --f-display: "Nanum Myeongjo", "Noto Serif KR", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --good: #3fbf3f; --warn: #e0a526; --crit: #e66767; --run: #9085e9; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #111416; --sheet: #1a1a19; --ink: #e9ecea; --ink-2: #b4bcbe; --ink-3: #8a9395;
+  --rule: #2e3437; --rule-2: #23282a; --accent: #74b4de; --accent-soft: #1d2d38;
+  --good: #3fbf3f; --warn: #e0a526; --crit: #e66767; --run: #9085e9; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { word-break: keep-all; overflow-wrap: anywhere; background: var(--paper); color: var(--ink); font-family: var(--f-body);
+  font-size: 15px; line-height: 1.65; margin: 0; padding: 0 16px 64px; }
+.wrap { max-width: 1100px; margin: 0 auto; }
+header { padding: 36px 0 22px; border-bottom: 1px solid var(--rule); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--ink-3); }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 4vw, 38px); line-height: 1.2; margin: 6px 0 10px; }
+.lede { color: var(--ink-2); max-width: 84ch; margin: 0 0 10px; }
+section { padding: 26px 0 10px; border-bottom: 1px solid var(--rule); }
+section:last-child { border-bottom: 0; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 22px; margin: 0 0 8px; }
+h3 { font-size: 15.5px; font-weight: 600; margin: 22px 0 8px; padding-top: 10px; border-top: 1px dashed var(--rule); }
+h3.first { border-top: 0; padding-top: 0; }
+h4 { font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 12px 0 4px; }
+p { max-width: 88ch; margin: 0 0 10px; }
+.note { font-size: 13px; color: var(--ink-3); max-width: 96ch; }
+ul, ol { max-width: 90ch; padding-left: 22px; margin: 0 0 10px; }
+li { margin: 3px 0; }
+.mono, td.n { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); margin: 8px 0 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 6px 9px; text-align: left; border-bottom: 1px solid var(--rule-2); vertical-align: top; }
+th { font-weight: 500; color: var(--ink-3); font-size: 12px; background: var(--sheet); white-space: nowrap; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+td.n .note { white-space: normal; display: inline-block; max-width: 22ch; }
+tr:last-child td { border-bottom: 0; }
+td.item { font-weight: 600; white-space: nowrap; }
+.chip { display: inline-block; font-size: 12px; padding: 0 8px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; }
+.done { color: var(--good); } .run { color: var(--run); } .wait { color: var(--warn); } .rej { color: var(--ink-3); } .crit { color: var(--crit); }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 10px 0 14px; }
+.step { border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); padding: 10px 12px; }
+.step b { display: block; font-size: 13px; }
+.step span { font-size: 12px; color: var(--ink-2); }
+.step.is-done { border-left: 4px solid var(--good); }
+.step.is-run { border-left: 4px solid var(--run); }
+.step.is-wait { border-left: 4px solid var(--warn); }
+.callout { border-left: 3px solid var(--accent); background: var(--sheet); padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+.rec { border-left: 3px solid var(--good); background: var(--sheet); padding: 10px 14px; margin: 10px 0 12px; border-radius: 0 6px 6px 0; }
+.rec b.lab { color: var(--good); }
+.rec p:last-child, .rec ul:last-child { margin-bottom: 0; }
+.qa { display: grid; grid-template-columns: 110px 1fr; gap: 4px 14px; margin: 6px 0 4px; }
+.qa > dt { font-size: 12.5px; font-weight: 600; color: var(--ink-3); padding-top: 1px; }
+.qa > dd { margin: 0; }
+.qa > dd p, .qa > dd ul { margin-bottom: 4px; }
+@media (max-width: 640px) { .qa { grid-template-columns: 1fr; } .qa > dt { padding-top: 6px; } td.item { white-space: normal; } }
+@page { size: A4 landscape; margin: 12mm 14mm 14mm;
+  @bottom-left { content: "mtscore Phase 5 종합 판단 · 2026-10-29"; font-family: "IBM Plex Sans KR", sans-serif; font-size: 8pt; color: #7a8386; }
+  @bottom-right { content: counter(page) " / " counter(pages); font-family: "IBM Plex Mono", monospace; font-size: 8pt; color: #7a8386; } }
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { padding: 0; font-size: 12.5px; line-height: 1.5; background: #fff; }
+  .wrap { max-width: none; }
+  header { padding-top: 0; } .callout { margin: 8px 0 4px; padding: 8px 14px; }
+  table { font-size: 11.5px; } th, td { padding: 4px 7px; }
+  section.pg { break-before: page; }
+  h3.pg { break-before: page; border-top: 0; padding-top: 0; }
+  tr, .callout, .rec, .step, .flow { break-inside: avoid; }
+  thead { display: table-header-group; }
+  #sum .tablewrap { break-inside: avoid; }
+  .qa { display: block; } .qa > dt { margin-top: 6px; } .qa > dd { margin-left: 0; }
+  h1 { font-size: 28px; margin: 2px 0 6px; } header { padding-bottom: 12px; } .lede { margin-bottom: 6px; } section { padding-top: 16px; }
+  dl.qa > dt { break-after: avoid; }
+  h2, h3, h4 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">MTSCORE · PHASE 5 · 종합 판단 자료 · 2026-10-29</div>
+  <h1>Phase 5 결과와 정하실 것</h1>
+  <p class="lede">10-29에 고르신 네 가지(블록 집계, 추세 보조 조건, 크레딧 추세, 주가지수 펀더멘털)를 사전 등록 규칙(<span class="mono">docs/prereg_phase5.md</span>)으로 시험했습니다. 네 레인 모두 별도 검증 레인에서 <b>"PASS-with-issues"</b>를 받았습니다(숫자 재현됨, 지적은 주로 기록 누락, 부록 A). 결정 1(Phase 4 후보 3개)도 여기서 함께 정하시도록 묶었습니다. <b>점수 설정은 아무것도 바꾸지 않았습니다.</b> 크레딧 추세 코드만 추가했고 아직 켜지 않았습니다(점수 불변, 테스트 292개 통과). 결과는 <span class="mono">phase4-wiki</span> 작업 트리에 있고 아직 커밋하지 않았습니다.</p>
+  <div class="callout">
+    <p><b>한 줄 결론</b>: 이번에 시험한 것 가운데 <b>점수를 바꿀 만큼 근거가 있는 것은 없습니다.</b> 바꿀 만한 것은 크레딧 추세의 <b>표시 정의</b> 하나입니다(점수 불변).</p>
+  </div>
+</header>
+
+<section id="sum">
+  <h2>1. 한눈에 보기</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>항목</th><th>무엇을 시험했나</th><th>결과</th><th>근거 강도</th><th>권고</th></tr></thead>
+    <tbody>
+      <tr><td class="item">P5-1 블록 집계</td><td>블록 점수를 평균 대신 5가지 다른 방법으로 만들기</td><td>판정 90칸 중 채택 11칸. 채택 칸의 확인 p는 모두 0.270 이상</td><td><span class="chip rej">없음</span></td><td>지금처럼 <b>평균 유지</b></td></tr>
+      <tr><td class="item">확산 표시</td><td>블록 안 극단 지표 개수(≥80, ≤20) 표시</td><td>표시 제안(판정 없음). 30블록 중 15개는 지표가 2개 이하</td><td><span class="chip rej">해당 없음</span></td><td>선택 사항. 넣는다면 <b>과매도 블록만</b></td></tr>
+      <tr><td class="item">P5-2 추세 보조 조건</td><td>국면 + 추세 부호로 이후 수익이 갈리나</td><td>가설 2개 모두 기각. "떨어지는 칼"은 두 구간 모두 반대 방향(확인 p 0.328, 비유의)</td><td><span class="chip rej">없음</span></td><td>국면 문구에 <b>추세 조건을 붙이지 않음</b>. 추세는 지금처럼 옆에 표시</td></tr>
+      <tr><td class="item">P5-3 크레딧 추세</td><td>US_HY·US_IG 추세를 KR_CORP처럼 "국채 대비"로</td><td>점검 3건. 2022년 금리 급등을 약세로 보던 문제가 줄어듦. 독립 검증은 아님. HY는 0 근처에서 자주 뒤집힘(2022년 전환 5회 → 17회)</td><td><span class="chip done">점검</span></td><td><b>표시 정의로 채택</b>. 패널 재생성이 먼저 필요</td></tr>
+      <tr><td class="item">P5-4a 지표 동일가중</td><td>주가지수 펀더 블록을 지표마다 같은 무게로</td><td>기각(주가지수 풀링·KOSPI200). S&amp;P500은 변화 없음</td><td><span class="chip rej">없음</span></td><td>지금(<b>하위블록 동일가중</b>) 유지</td></tr>
+      <tr><td class="item">P5-4b 매크로 후보</td><td>수출 증가율, OECD 경기선행지수, 장단기 금리차</td><td>6칸 중 S&amp;P500 OECD CLI 1칸만 조건 충족. 확인 p 0.279</td><td><span class="chip wait">약함</span></td><td rowspan="2">3장에서 <b>한 가지 기준</b>으로 함께 정함. 권고는 <b>(나) 모두 보류</b></td></tr>
+      <tr><td class="item">결정 1 후보 3개</td><td>(Phase 4) 원자재 장기 반전, 환율 금리차 수준, S&amp;P500 CAPE</td><td>세 조건 충족. 확인 p 0.458 / 0.730 / 0.373</td><td><span class="chip wait">약함</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">근거 강도: <b>없음</b> = 기준선보다 낫다는 일관된 결과가 없음 · <b>약함</b> = 미리 정한 세 조건은 통과했지만 우연과 구분되지 않음(확인 구간 p &gt; 0.20) · <b>점검</b> = 판정 칸이 없는 표시 정의 점검(독립 검증 아님) · <b>해당 없음</b> = 판정도 점검도 없는 표시 제안.</p>
+  <p class="note"><b>IC</b> = 점수와 이후 63일 수익의 순위상관(guide의 "순위상관"과 같은 것) · <b>확인 p</b> = 플라시보(무작위로 섞은 점수)로 이만한 IC가 우연히 나올 확률 · <b>선택 구간</b> = 2013~2019 · <b>확인 구간</b> = 2020~.</p>
+  <ul>
+    <li><b>정하실 것은 5장 표의 A~F 6가지입니다.</b> A~E는 권고를 받으실지, F는 3장의 기준 (가)·(나)·(다) 중 하나입니다.</li>
+    <li>"채택"은 미리 정한 세 조건을 모두 통과했다는 뜻입니다. (1) 선택 구간(2013~2019) IC가 기준선보다 높다. (2) 확인 구간(2020~) IC가 기준선 이상이다. (3) 확인 구간 p가 기준선보다 나빠지지 않는다.</li>
+    <li>세 조건에는 <b>유의성 문턱이 없습니다</b>. 그래서 칸을 많이 시험하면 우연히 통과하는 칸이 나옵니다. 4장에서 우연 기대치와 비교했습니다.</li>
+  </ul>
+</section>
+
+<section id="items">
+  <h2>2. 항목별 결과</h2>
+
+  <h3 class="first">2-1. P5-1 블록 집계 방법</h3>
+  <dl class="qa">
+    <dt>왜 시험했나</dt>
+    <dd><p>질문 1: "블록 점수를 지표 평균으로 내면 극단값이 묻히지 않나?" 평균 대신 다른 집계를 쓰면 예측력이 나아지는지 봤습니다.</p></dd>
+    <dt>무엇을 했나</dt>
+    <dd><ul>
+      <li>지금 방식(base)과 5가지 변형을 비교했습니다. R = 블록 점수를 자기 이력 대비 다시 백분위로, D = 확산(극단 지표 비율), M = 중앙값, G = 기하평균, P = 주성분 가중(지표들이 함께 움직이는 정도로 무게를 정함).</li>
+      <li>집단 6 × 블록 3(과매도·밸류·펀더) × 변형 5 = <b>판정 칸 90개</b>. 63일 IC와 플라시보 2,000회를 썼습니다.</li>
+    </ul></dd>
+    <dt>결과</dt>
+    <dd><div class="tablewrap"><table>
+      <thead><tr><th>판정</th><th class="n">칸 수</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td>채택</td><td class="n">11</td><td>확인 구간 p가 가장 낮은 칸도 0.270(금리 / 펀더 / D). 유의한 개선은 0칸</td></tr>
+        <tr><td>기각</td><td class="n">63</td><td>주가지수 집단은 15칸 모두 기각</td></tr>
+        <tr><td>기준선과 동일</td><td class="n">13</td><td>지표가 1개뿐이라 집계 방법이 달라도 값이 같은 칸</td></tr>
+        <tr><td>판정 불가(P 퇴화)</td><td class="n">3</td><td>주성분 가중이 구조적으로 무너진 칸(무게가 동률이 되거나 0이 되어 제대로 정해지지 않음). 결과를 본 뒤 붙인 라벨(아래 단서)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>변형</th><th class="n">칸 수</th><th class="n">선택 IC 평균 변화</th><th class="n">확인 IC 평균 변화</th><th class="n">채택 칸</th><th class="n">채택하면 국면 라벨이 바뀌는 날</th></tr></thead>
+      <tbody>
+        <tr><td>R 재백분위</td><td class="n">18</td><td class="n">−0.021</td><td class="n">−0.008</td><td class="n">4</td><td class="n">30.3%</td></tr>
+        <tr><td>D 확산</td><td class="n">18</td><td class="n">−0.010</td><td class="n">+0.006</td><td class="n">2</td><td class="n">43.2%</td></tr>
+        <tr><td>M 중앙값</td><td class="n">9</td><td class="n">+0.001</td><td class="n">+0.001</td><td class="n">1</td><td class="n">3.5%</td></tr>
+        <tr><td>G 기하평균</td><td class="n">17</td><td class="n">−0.002</td><td class="n">+0.002</td><td class="n">2</td><td class="n">8.4%</td></tr>
+        <tr><td>P 주성분</td><td class="n">12</td><td class="n">−0.011</td><td class="n">+0.012</td><td class="n">2</td><td class="n">35.3%</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">칸 수 = 시험 가능 칸(합 74). 기준선과 같은 13칸과 판정 불가 3칸은 뺐습니다.</p>
+    <ul>
+      <li>선택 구간에서는 M을 뺀 모든 변형이 평균적으로 <b>기준선보다 낮습니다</b>.</li>
+      <li>가장 눈에 띄는 칸은 금리 / 펀더 / D입니다. 선택 IC −0.057 → +0.035, 확인 IC 0.070 → 0.140, 확인 p 0.687 → 0.270. 한 칸이라 우연을 배제하지 못합니다.</li>
+      <li>R은 "국면 기준선 50" 문제도 풀지 못합니다. 블록 ≥50과 &lt;50의 이후 수익 차이가 유의하게 양수인 셀이 base는 선택 3·확인 2개, R은 0개입니다. 블록 중앙값과 50의 거리도 평균 7.61 → 8.79로 오히려 멀어집니다.</li>
+    </ul>
+    <h4>단서 두 가지 (검증 레인 지적, 사후 수정 기록에 적음)</h4>
+    <ul>
+      <li>'판정 불가(P 퇴화)' 라벨은 1차 실행 결과를 본 뒤 붙였습니다. 라벨 없이 기계 규칙만 쓰면 채택은 <b>12칸</b>입니다. 차이 1칸은 크레딧 / 펀더 / P(확인 p 0.323 → 0.188, 음수 IC 칸)입니다.</li>
+      <li>주 판정은 사전 등록에 없던 '짝지은 표본'(기준선과 변형 모두 값이 있는 날만 비교)으로 했습니다. 각자 가용한 날 전체로 판정하면 채택은 <b>9칸</b>입니다(환율 R 2칸이 기각으로 바뀜).</li>
+    </ul></dd>
+    <dt>읽는 법</dt>
+    <dd><ul>
+      <li>채택 칸이 집단·블록에 흩어져 있고, 한 방법이 꾸준히 낫다는 패턴이 없습니다.</li>
+      <li>채택 11칸은 우연만으로도 나올 수 있는 수입니다(4장, 우연 기대 약 9~19칸 [추정]).</li>
+      <li>채택 11칸 중 2칸은 IC가 음수인 칸입니다(금리 / 과매도 / G, 전체 / 과매도 / M. <span class="mono">p5_1_verdict.csv</span> negative_ic_cell). 예: 전체 / 과매도 / M은 확인 IC −0.051 → −0.050, 확인 p 0.475 그대로입니다.</li>
+      <li>집계 방법을 바꾸면 국면 라벨이 날 기준 최대 43.2%(D) 바뀝니다. 작은 조정이 아닙니다.</li>
+    </ul></dd>
+  </dl>
+  <div class="rec"><p><b class="lab">권고</b>: <b>지금 평균 방식을 유지합니다.</b> 어느 변형도 일관된 근거가 없습니다. 채택 칸 수가 어림한 우연 범위 안이고 [추정], 확인 구간 p가 모두 0.27 이상입니다.</p></div>
+
+  <h3>2-2. 확산 표시 (블록 안 극단 지표 개수)</h3>
+  <dl class="qa">
+    <dt>왜 시험했나</dt>
+    <dd><p>같은 질문 1에서 나왔습니다. 평균 점수 옆에 "몇 개 지표가 극단인지"를 함께 보여 주면, 평균에 묻힌 극단값이 보입니다.</p></dd>
+    <dt>무엇을 했나</dt>
+    <dd><p>점수에는 넣지 않고, 결과 출력에 "≥80 개수 / ≤20 개수 / 가용 수"를 붙이는 표시 예시를 만들었습니다. 사전 등록상 판정 없이 <b>제안만</b> 합니다.</p></dd>
+    <dt>결과</dt>
+    <dd><div class="tablewrap"><table>
+      <thead><tr><th>자산 / 블록 (2026-10-27)</th><th>표시</th><th class="n">지금 블록 점수</th></tr></thead>
+      <tbody>
+        <tr><td>KOSPI200 / 과매도</td><td class="mono">≥80 10 / ≤20 1 / 가용 17</td><td class="n">73.9</td></tr>
+        <tr><td>KOSPI200 / 펀더</td><td class="mono">≥80 3 / ≤20 1 / 가용 5</td><td class="n">40.0</td></tr>
+        <tr><td>국고10년(KTB10Y) / 과매도</td><td class="mono">≥80 0 / ≤20 5 / 가용 6</td><td class="n">24.2</td></tr>
+        <tr><td>USDKRW / 밸류</td><td class="mono">≥80 1 / ≤20 0 / 가용 1</td><td class="n">97.7</td></tr>
+        <tr><td>금(GOLD) / 펀더</td><td class="mono">≥80 0 / ≤20 0 / 가용 1</td><td class="n">22.6</td></tr>
+      </tbody>
+    </table></div></dd>
+    <dt>읽는 법</dt>
+    <dd><ul>
+      <li>지표가 많은 과매도 블록(가용 4~17개)에서는 정보가 있습니다. 예: KOSPI200 과매도는 17개 중 10개가 ≥80입니다.</li>
+      <li><b>한계</b>: 30블록 중 15개는 지표가 2개 이하이고, 그중 7개는 1개뿐입니다. 지표가 1개면 개수는 0 아니면 1입니다. 블록 점수보다 더 알려 주는 것이 거의 없습니다.</li>
+    </ul></dd>
+  </dl>
+  <div class="rec"><p><b class="lab">권고</b>: <b>선택 사항</b>입니다. 넣지 않아도 됩니다. 넣는다면 지표가 많은 <b>과매도 블록에만</b> 붙이는 것을 제안합니다. 점수·국면에는 영향이 없습니다.</p></div>
+
+  <h3>2-3. P5-2 추세를 국면 보조 조건으로</h3>
+  <dl class="qa">
+    <dt>왜 시험했나</dt>
+    <dd><p>질문 2: "국면에 모멘텀(추세)을 같이 보면 더 잘 맞지 않나?" 추세 부호가 같은 국면 안에서 이후 수익을 가르는지 봤습니다.</p></dd>
+    <dt>무엇을 했나</dt>
+    <dd><ul>
+      <li><b>H1</b>: 과매도가 낮은 국면(보유 분할 매수·고점 경계·비중 축소)에서 추세 ▲가 ▼보다 이후 63일 초과수익이 높다.</li>
+      <li><b>H2</b>: 과매도가 높은 국면(최우선 매수 등 4개)에서 추세 ▼가 ▲보다 낮다("떨어지는 칼").</li>
+      <li>채택 조건: 두 구간 모두 가설 방향이고, 확인 구간 p ≤ 0.20. 시험한 칸은 4개(가설 2 × 구간 2)입니다.</li>
+    </ul></dd>
+    <dt>결과</dt>
+    <dd><div class="tablewrap"><table>
+      <thead><tr><th>가설</th><th class="n">선택: ▲ − ▼</th><th class="n">확인: ▲ − ▼</th><th class="n">확인 p</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>H1 과매도 낮음: ▲ &gt; ▼</td><td class="n">−0.56%p</td><td class="n">+0.02%p</td><td class="n">0.988</td><td><span class="chip rej">기각</span></td></tr>
+        <tr><td>H2 과매도 높음: ▼ &lt; ▲</td><td class="n">−0.94%p</td><td class="n">−1.48%p</td><td class="n">0.328</td><td><span class="chip rej">기각</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">두 가설 모두 "▲ − ▼ &gt; 0"이 가설 방향입니다. 음수는 가설과 반대라는 뜻입니다.</p></dd>
+    <dt>읽는 법</dt>
+    <dd><ul>
+      <li>H1: 확인 구간 차이가 사실상 0입니다. 선택 구간은 반대 방향입니다.</li>
+      <li>H2: 두 구간 모두 반대입니다. 과매도가 높을 때 오히려 ▼ 쪽 이후 수익이 높았습니다(선택 +0.94%p, 확인 +1.48%p). 그러나 p가 0.3 이상이라 "반대 규칙"으로 삼을 근거도 아닙니다.</li>
+      <li>자산별로도 갈립니다. 과매도 높음 묶음에서 가설 방향인 자산은 10개 중 선택 구간 3개, 확인 구간 3개뿐입니다.</li>
+      <li>US_HY·US_IG는 지금 정의(현금 대비) 추세로 시험했습니다. P5-3을 채택하면 이 두 자산의 추세가 바뀝니다(5장).</li>
+    </ul></dd>
+  </dl>
+  <div class="rec"><p><b class="lab">권고</b>: 국면 문구에 <b>추세 조건을 붙이지 않습니다.</b> 추세는 10-29 결정대로 국면 옆에 정보로만 표시합니다. 매수·매도 보조 조건으로 쓸 근거는 없습니다.</p></div>
+
+  <h3>2-4. P5-3 크레딧 추세를 국채 대비로</h3>
+  <dl class="qa">
+    <dt>왜 시험했나</dt>
+    <dd><p>질문 4: "미국 크레딧 추세도 KR_CORP처럼 국채 대비로 봐야 하지 않나?" 지금 US_HY·US_IG 추세는 총수익 − 현금이라, 금리가 움직인 효과가 그대로 들어갑니다.</p></dd>
+    <dt>무엇을 했나</dt>
+    <dd><ul>
+      <li>새 정의: 하루 초과수익 ≈ −(수정듀레이션) × (스프레드 변화) + 스프레드 캐리. 수정듀레이션은 금리 1%p 변화에 대한 가격 민감도, 스프레드 캐리는 국채보다 더 받는 금리(스프레드)의 하루치입니다. KR_CORP와 같은 방식입니다. 듀레이션은 iBoxx <span class="mono">MOD_DURTN</span> 원자료를 썼습니다.</li>
+      <li>표시는 12개월 누적의 부호입니다. 현금은 빼지 않고 "국채 대비"로 적습니다.</li>
+      <li>사전 등록상 <b>판정 칸이 없고 점검 3건</b>만 합니다. 채택은 표시 정의 선택입니다.</li>
+    </ul></dd>
+    <dt>결과</dt>
+    <dd><div class="tablewrap"><table>
+      <thead><tr><th>점검</th><th>US_HY</th><th>US_IG</th></tr></thead>
+      <tbody>
+        <tr><td>참조(총수익 − 국채 근사)와 부호 일치율</td><td class="mono">87.5% → 90.4%</td><td class="mono">61.2% → 96.7%</td></tr>
+        <tr><td>참조와 월별 상관</td><td class="mono">0.988</td><td class="mono">0.997</td></tr>
+        <tr><td>지금 정의와 부호가 다른 날</td><td class="mono">8.8%</td><td class="mono">40.3%</td></tr>
+        <tr><td>부호가 바뀌는 날(전일 대비)</td><td class="mono">1.05% → 1.91%</td><td class="mono">2.23% → 1.88%</td></tr>
+        <tr><td>2022년 ▼ 일수</td><td class="mono">230일 → 161일</td><td class="mono">260일 → 236일</td></tr>
+        <tr><td>2022년 부호 전환 횟수</td><td class="mono">5회 → 17회 (참조 7회)</td><td class="mono">0회 → 1회 (참조 3회)</td></tr>
+        <tr><td>최신 값 (2026-10-27)</td><td class="mono">−2.37% ▼ → +2.45% ▲</td><td class="mono">−7.10% ▼ → −0.13% ▼</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">화살표는 "지금 정의 → 새 정의"입니다.</p></dd>
+    <dt>읽는 법</dt>
+    <dd><ul>
+      <li>지금 정의는 2022년 금리 급등을 크레딧 약세로 표시했습니다(IG는 260일 내내 ▼). 새 정의는 금리 효과를 빼고 스프레드만 반영합니다.</li>
+      <li>상관과 부호 일치율 모두 일부 구성상 당연합니다. 새 정의와 참조가 같은 듀레이션·스프레드를 쓰기 때문입니다. <b>독립 검증은 아닙니다.</b></li>
+      <li><b>주의 1</b>: HY 새 정의는 0 근처에서 부호가 자주 뒤집힙니다(2022년 5회 → 17회).</li>
+      <li><b>주의 2</b>: IG 최신 값 −0.13%는 0에 가까워, 곧 부호가 바뀔 수 있습니다.</li>
+      <li><b>상태</b>: 코드(<span class="mono">config.py</span>·<span class="mono">api.py</span>)는 추가했지만 <span class="mono">universe.yaml</span>은 켜지 않았습니다. 패널에 <span class="mono">MOD_DURTN</span>이 없어서, 켜기만 하면 두 자산 추세가 비게 됩니다. 켜는 패치(<span class="mono">p5_3_adopt.patch</span>)는 임시 사본에서 테스트 292개 통과를 확인했습니다. 패널 생성 스크립트(<span class="mono">phase2_build.py</span>)는 아직 돌리지 않았습니다.</li>
+    </ul></dd>
+  </dl>
+  <div class="rec"><p><b class="lab">권고</b>: <b>표시 정의로 채택합니다.</b> KR_CORP(결정 4)와 뜻이 같아지고, 2022년 금리 급등을 크레딧 약세로 표시하던 문제(IG 260일 내내 ▼)가 줄어듭니다. 참조와 부호 일치율(IG 61.2% → 96.7%)은 참고로만 봅니다(독립 검증 아님). 점수·국면은 바뀌지 않습니다. 다만 패치 적용과 패널 재생성이 먼저 필요하고, HY·IG가 0 근처에서 자주 뒤집힌다는 점을 표시 설명에 적어 둡니다.</p></div>
+
+  <h3>2-5. P5-4a 주가지수 펀더 블록: 지표 동일가중</h3>
+  <dl class="qa">
+    <dt>왜 시험했나</dt>
+    <dd><p>질문 5: "주가지수 펀더멘털은 결국 이익인데, 지금 구성이 맞나? 매크로를 더 넣어야 하나?" 4a는 무게를 어떻게 줄지, 4b는 무엇을 더할지를 봤습니다.</p></dd>
+    <dt>무엇을 했나</dt>
+    <dd><p>지금은 하위블록(이익·매크로)에 1/2씩 줍니다. KOSPI200은 매크로 지표가 1개(<span class="mono">home_ccy_trend_3m</span>)라 이 지표 하나가 블록의 1/2입니다. 변형은 지표마다 같은 무게를 줘서 이 비중이 1/5로 줄어듭니다.</p></dd>
+    <dt>결과</dt>
+    <dd><div class="tablewrap"><table>
+      <thead><tr><th>단위</th><th class="n">선택 IC</th><th class="n">확인 IC</th><th class="n">확인 p</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>주가지수 풀링 (공식 판정, 두 주가지수를 합쳐 한 번에 판정)</td><td class="n">0.138 → 0.129</td><td class="n">−0.054 → 0.015</td><td class="n">0.707 → 0.969</td><td><span class="chip rej">기각</span> 조건 1·3 실패</td></tr>
+        <tr><td>KOSPI200</td><td class="n">0.202 → 0.185</td><td class="n">−0.166 → −0.025</td><td class="n">0.435 → 0.907</td><td><span class="chip rej">기각</span> 조건 1·3 실패</td></tr>
+        <tr><td>S&amp;P500</td><td class="n">0.070 → 0.070</td><td class="n">0.053 → 0.053</td><td class="n">0.595 → 0.595</td><td><span class="chip rej">동일</span> 하위블록이 이익 하나뿐</td></tr>
+      </tbody>
+    </table></div></dd>
+    <dt>읽는 법</dt>
+    <dd><ul>
+      <li>확인 구간 IC는 오르지만, 선택 구간 IC가 내려가고 p가 나빠집니다.</li>
+      <li>그런데 반영하면 지금 KOSPI200 펀더 블록이 39.99 → 63.07이 되고, 국면이 "저평가 패닉 분할 진입" → "최우선 매수"로 바뀝니다. 근거 없이 큰 변화입니다.</li>
+      <li>남는 문제: KOSPI200 펀더 블록은 확인 구간 IC가 음수입니다(63일 −0.166, 126일 −0.233, 252일 −0.397). 4a·4b 어느 변형도 이를 고치지 못했습니다. 이익 묶음 구성(Phase 3 결정 3)은 별도 결정으로 남아 있습니다.</li>
+    </ul></dd>
+  </dl>
+  <div class="rec"><p><b class="lab">권고</b>: 지금처럼 <b>하위블록 동일가중을 유지</b>합니다. 변형은 미리 정한 조건을 통과하지 못했습니다.</p></div>
+
+  <h3>2-6. P5-4b 주가지수 매크로 후보</h3>
+  <dl class="qa">
+    <dt>무엇을 했나</dt>
+    <dd><ul>
+      <li>후보는 자산당 2개였습니다. KOSPI200: 한국 수출 증가율(전년 대비), OECD 경기선행지수(CLI, 한국) 6개월 변화. S&amp;P500: 장단기 금리차(10년 − 3개월) 3개월 변화, OECD 경기선행지수(미국) 6개월 변화.</li>
+      <li>후보 하나씩, 그리고 둘 다 넣은 변형을 시험했습니다(자산 2 × 3 = 6칸).</li>
+      <li>OECD CLI는 FRED 값이 나중에 다시 추정된 값이라 쓰지 않았습니다. 당시 공표판(OECD 개정 DB 에디션)을 받아 그 안에서 6개월 변화를 계산했습니다.</li>
+    </ul></dd>
+    <dt>결과</dt>
+    <dd><div class="tablewrap"><table>
+      <thead><tr><th>자산</th><th>후보</th><th class="n">선택 IC</th><th class="n">확인 IC</th><th class="n">확인 p</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td>KOSPI200</td><td>수출 증가율</td><td class="n">0.202 → 0.216</td><td class="n">−0.166 → −0.189</td><td class="n">0.435 → 0.467</td><td><span class="chip rej">기각</span></td></tr>
+        <tr><td>KOSPI200</td><td>OECD CLI 한국</td><td class="n">0.202 → 0.155</td><td class="n">−0.166 → 0.008</td><td class="n">0.435 → 0.985</td><td><span class="chip rej">기각</span></td></tr>
+        <tr><td>KOSPI200</td><td>둘 다</td><td class="n">0.202 → 0.177</td><td class="n">−0.166 → −0.057</td><td class="n">0.435 → 0.852</td><td><span class="chip rej">기각</span></td></tr>
+        <tr><td>S&amp;P500</td><td>장단기 금리차</td><td class="n">0.070 → 0.045</td><td class="n">0.053 → 0.003</td><td class="n">0.595 → 0.971</td><td><span class="chip rej">기각</span></td></tr>
+        <tr><td>S&amp;P500</td><td><b>OECD CLI 미국</b></td><td class="n">0.070 → 0.081</td><td class="n">0.053 → 0.145</td><td class="n">0.595 → 0.279</td><td><span class="chip wait">조건 충족 · 비유의</span></td></tr>
+        <tr><td>S&amp;P500</td><td>둘 다</td><td class="n">0.070 → 0.045</td><td class="n">0.053 → 0.067</td><td class="n">0.595 → 0.631</td><td><span class="chip rej">기각</span></td></tr>
+      </tbody>
+    </table></div></dd>
+    <dt>읽는 법</dt>
+    <dd><ul>
+      <li>KOSPI200은 모든 후보가 확인 p 조건에서 탈락했습니다.</li>
+      <li>S&amp;P500 CLI는 세 조건을 통과했지만 확인 p 0.279로 유의하지 않습니다. 검증 레인이 플라시보 시드를 바꿔 다시 돌리면 0.296입니다(검증 레인 재실행 값, 레포 산출물 아님).</li>
+      <li>약점: 지표 동일가중으로 넣으면 기각됩니다(선택 IC 0.070 → 0.051). 252일 IC는 확인 구간에서 나빠집니다(−0.235 → −0.307).</li>
+      <li>강점: 두 팔이 모두 값을 가진 날만 비교해도 조건 1·2를 통과합니다(선택 0.070 → 0.110, 확인 0.053 → 0.145).</li>
+      <li>반영하면 S&amp;P500 펀더 블록이 지금 78.9 → 74.3이고 국면은 그대로입니다. 확인 구간에서 블록 ≥50 판정이 18.6%의 날에서 달라집니다.</li>
+      <li><b>권고</b>: 결정 1 후보 3개와 <b>같은 기준</b>으로 정합니다(3장).</li>
+    </ul></dd>
+  </dl>
+</section>
+
+<section id="decide">
+  <h2>3. 결정 1 + P5-4b: 공통 기준 문제</h2>
+  <p>Phase 4 후보 3개와 P5-4b의 S&amp;P500 CLI, 모두 4개가 <b>사전 등록 규칙을 통과</b>했습니다. 그러나 <b>확인 구간 p가 0.20 이하인 후보는 하나도 없습니다.</b> 그래서 넷을 따로 정하기보다, 하나의 기준으로 함께 정하시는 편이 일관됩니다.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>후보</th><th>넣을 자리</th><th class="n">선택 IC</th><th class="n">확인 IC</th><th class="n">확인 p</th><th>보조 지표 주의</th><th>지금(10-27) 영향</th><th>반영 비용</th></tr></thead>
+    <tbody>
+      <tr><td>C1 원자재 장기 반전</td><td>원자재 밸류</td><td class="n">0.143→0.210</td><td class="n">0.109→0.154</td><td class="n">0.699→0.458</td><td>확인 1년 IC 0.16→0.10. 새 지표 단독 IC 0.077로 기존 0.143보다 낮음</td><td>금 6.1→14.7, WTI 34.7→20.2. 라벨 그대로. 과거 WTI 31.1%의 날 라벨 바뀜</td><td>2005년부터 장기 가격 빌드(Refinitiv로 다시 받아야 함)</td></tr>
+      <tr><td>C2 환율 금리차 수준</td><td>환율 펀더</td><td class="n">−0.012→0.094</td><td class="n">0.038→0.070</td><td class="n">0.892→0.730</td><td>확인 1년 IC가 기존·변형 모두 음수(−0.22, −0.23)</td><td><b>USDKRW 51.2→36.8. 라벨 "보유 분할 매수"→"고점 경계"</b>. 과거 28.7%의 날 라벨 바뀜</td><td>기존 필드로 바로 됨</td></tr>
+      <tr><td>D1 S&amp;P500 CAPE</td><td>S&amp;P500 밸류</td><td class="n">0.202→0.235</td><td class="n">0.113→0.181<br><span class="note">(사전 등록 때 정의 0.171)</span></td><td class="n">0.560→0.373<br><span class="note">(사전 등록 때 정의 0.433)</span></td><td>1년 IC 0.18→0.40(두 정의에서 같음)이지만 독립 표본 7개 안팎. 점수가 0~2점에 몰림</td><td>S&amp;P500 밸류 16.8→11.9. 라벨 그대로. 과거 1.0%</td><td>Shiller 이익 + CPI 빌드</td></tr>
+      <tr><td>P5-4b S&amp;P500 CLI</td><td>S&amp;P500 펀더</td><td class="n">0.070→0.081</td><td class="n">0.053→0.145</td><td class="n">0.595→0.279</td><td>252일 확인 IC 악화. 지표 동일가중에서는 기각</td><td>S&amp;P500 펀더 78.9→74.3. 라벨 그대로. 확인 구간 18.6%</td><td>OECD DB 수집 파이프라인 신설. 빠진 에디션 6개(2016-07·08, 2020-03, 2024-08, 2025-08, 2026-08)</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="note">
+    <li>CAPE는 결정 3(빠진 CPI 달을 건너뜀)을 반영한 현행 정의 값이 0.181·0.373이고, 사전 등록 때 정의 값이 0.171·0.433입니다. 판정은 같습니다.</li>
+    <li>"과거 ~%"는 2013-01~2026-10 중 해당 자산의 국면 라벨이 달라지는 날의 비율입니다(S&amp;P500 CLI는 확인 구간에서 블록 ≥50 판정이 달라지는 날).</li>
+    <li>S&amp;P500에 CAPE와 CLI를 함께 넣은 효과는 계산하지 않았습니다. 따로 넣었을 때 두 블록 모두 50선의 같은 쪽에 머물러, 함께 넣어도 라벨은 그대로일 것입니다 [추정].</li>
+  </ul>
+
+  <h3 class="first">선택지</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>선택지</th><th>내용</th><th>장점</th><th>단점</th></tr></thead>
+    <tbody>
+      <tr><td><b>(가)</b> 모두 반영</td><td>규칙을 통과한 4개를 모두 넣고 "효과 미확인"으로 표기</td><td>결과를 보기 전에 정한 규칙 그대로입니다. Phase 4 문서의 권고도 (가)였습니다.</td><td>USDKRW 국면이 지금 바뀝니다. 데이터 빌드 3개(C1, CAPE, CLI)를 새로 붙이고 관리해야 합니다.</td></tr>
+      <tr><td><b>(나)</b> 모두 보류</td><td>"확인 p ≤ 0.20" 기준을 더해, 4개 모두 반영하지 않음</td><td>근거가 약한 변경을 하지 않습니다. 데이터 비용이 없습니다. 앞으로 대시보드 확장에도 같은 기준을 쓸 수 있습니다.</td><td>결과를 본 뒤 기준을 더하는 <b>사후 수정</b>입니다. 0.20은 P5-2에서 <b>표시 규칙용</b>으로 정한 문턱을 빌려 온 값입니다.</td></tr>
+      <tr><td><b>(다)</b> 항목별</td><td>후보마다 따로 고름</td><td>후보별 사정을 반영할 수 있습니다.</td><td>고르는 기준을 먼저 적지 않으면 "결과 보고 고르기"가 됩니다.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>사전 등록 통과는 "반영할 수 있다"는 <b>필요조건</b>입니다. (나)를 고르셔도 사전 등록을 어기는 것은 아닙니다.</li>
+    <li>Phase 5에서 세 조건을 통과한 칸(기계 판정 기준) 가운데 확인 p ≤ 0.20인 칸은 P5-1 크레딧 / 펀더 / P 하나뿐입니다(확인 p 0.188). 이 칸은 음수 IC 칸이고, 구조적으로 무너져 '판정 불가'로 바뀐 칸입니다. (조건 1에서 탈락한 칸 중에는 확인 p가 낮은 칸도 있습니다. 예: 전체 / 밸류의 M 칸과 D 칸, 둘 다 확인 p 0.0005.)</li>
+  </ul>
+
+  <div class="rec">
+    <p><b class="lab">권고: (나) 모두 보류</b>. "기각"이 아니라 "규칙 통과·보류" 후보로 남기고, 대시보드 유니버스가 커진 뒤 다시 시험합니다.</p>
+    <p><b>Phase 4 문서의 권고 (가)에서 바꿨습니다.</b> 그 뒤에 새로 알게 된 사실 두 가지 때문입니다.</p>
+    <ul>
+      <li><b>세 조건은 우연으로도 자주 통과할 수 있어 보입니다 [추정].</b> P5-1에서 시험 가능한 74칸 중 11칸이 통과했고, 어림한 우연 기대치는 약 9~19칸입니다(4장, 계산 파일 없음). 확인 구간에서 유의한 칸은 0개였습니다.</li>
+      <li><b>가장 약한 후보가 가장 큰 변화를 만듭니다.</b> C2는 확인 p가 0.730으로 넷 중 가장 나쁘고, 확인 1년 IC도 음수입니다. 그런데 지금 USDKRW 국면을 바꾸고, 과거 28.7%의 날에서 라벨을 바꿉니다.</li>
+      <li>이 점만 보면 (다)(예: "확인 1년 IC가 음수인 후보 제외"처럼 기준을 먼저 적고 고르기)로도 해결됩니다. (나)를 권하는 이유는 남은 셋도 확인 p가 0.279 이상이기 때문입니다.</li>
+      <li>그 밖에: 네 후보 모두 확인 p가 0.279 이상이라 우연과 구분되지 않습니다. 반영하려면 데이터 빌드 3개를 새로 붙여야 합니다.</li>
+    </ul>
+    <p><b>(가)를 고를 이유도 있습니다.</b> Phase 4에서는 판정 11칸 중 4칸(원자재 장기 반전, 환율 금리차 수준, CAPE, 조건부 변동성 환율 1칸)이 통과해, 우연 기대치(1.4~2.8칸 [추정])보다 조금 많았습니다. 결정 1 후보 셋은 모두 밸류·캐리 성격이고, Phase 3에서 근거가 나온 블록도 밸류뿐이었습니다. 이 점을 더 무겁게 보시면 (가)도 타당합니다. 권고 (나)를 받지 않으신다면 차선은 (가)입니다.</p>
+  </div>
+</section>
+
+<section id="multi">
+  <h2>4. 다중 비교 경고</h2>
+  <p>칸을 많이 시험하면, 효과가 없어도 우연히 통과하는 칸이 나옵니다. 단계별로 시험한 칸 수와 우연 기대치를 비교했습니다.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>단계</th><th class="n">판정 칸</th><th class="n">시험 가능 칸</th><th class="n">통과</th><th class="n">우연 기대 [추정]</th><th class="n">통과 칸 중 확인 p ≤ 0.20</th></tr></thead>
+    <tbody>
+      <tr><td>Phase 4 (조건부 변동성 6, 장기 반전·캐리 4, CAPE 1)</td><td class="n">11</td><td class="n">11</td><td class="n">4</td><td class="n">1.4~2.8</td><td class="n">0</td></tr>
+      <tr><td>P5-1 블록 집계</td><td class="n">90</td><td class="n">74</td><td class="n">11<br><span class="note">(기계 12, 원표본 9)</span></td><td class="n">약 9~19</td><td class="n">0<br><span class="note">(기계 기준 1: 크레딧/펀더/P 0.188, 판정 불가로 바뀐 칸)</span></td></tr>
+      <tr><td>P5-2 추세 보조 조건 (가설 2 × 구간 2)</td><td class="n">4</td><td class="n">2<br><span class="note">(가설 단위)</span></td><td class="n">0</td><td class="n">약 0.1<br><span class="note">(가설 2 × 1/20)</span></td><td class="n">—</td></tr>
+      <tr><td>P5-3 크레딧 추세</td><td class="n">0</td><td class="n">0</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>P5-4 주가지수 펀더</td><td class="n">9</td><td class="n">8</td><td class="n">1</td><td class="n">1~2</td><td class="n">0</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>시험 가능 칸</b>: 판정 칸에서 기준선과 값이 같은 칸(P5-1 13칸, P5-4 1칸)과 판정 불가 칸(P5-1 3칸)을 뺀 수입니다. Phase 4는 조건부 변동성 12칸 중 비교용 6칸을 빼고 판정 6칸만 셌습니다.</li>
+    <li><b>우연 기대치를 낸 방법 [추정]</b>: 효과가 없으면 조건 1(선택 구간 개선)과 조건 2(확인 구간 개선)는 각각 약 1/2 확률로 통과합니다. 조건 3(확인 p 개선)은 조건 2와 거의 함께 움직이므로, 세 조건을 모두 통과할 확률은 1/8~1/4 사이입니다. 예: P5-1은 74 × 1/8 ≈ 9.3, 74 × 1/4 = 18.5입니다. 어느 파일에도 계산돼 있지 않은 어림값입니다.</li>
+    <li>P5-2는 문턱이 훨씬 엄격합니다(두 구간 방향 + 확인 p ≤ 0.20). 가설 하나가 우연히 통과할 확률은 약 1/2 × 1/10 = 1/20입니다 [추정]. 두 사전 등록의 기준 세기가 크게 다르다는 뜻입니다.</li>
+    <li>읽는 법: Phase 5의 통과 수는 어림한 우연 범위 안입니다 [추정]. Phase 4는 조금 위지만, 칸이 11개뿐이라 우연과 구분하기 어렵습니다 [추정].</li>
+  </ul>
+</section>
+
+<section id="next">
+  <h2>5. 다음 단계</h2>
+  <div class="flow">
+    <div class="step is-run"><b>1. 결정</b><span>이 문서의 6가지</span></div>
+    <div class="step is-wait"><b>2. 설정 반영</b><span>결정한 것만 config에</span></div>
+    <div class="step is-wait"><b>3. 재검증</b><span>기본 점수 재현·테스트·블록 IC</span></div>
+    <div class="step is-wait"><b>4. main 병합</b><span>병합 전에 여쭙니다</span></div>
+    <div class="step is-wait"><b>5. Stock_Dashboard</b><span>고유 자산 41개 이식</span></div>
+    <div class="step is-wait"><b>6. 간략 보고서</b><span>1~2장</span></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>정하실 것</th><th>권고</th><th>권고대로 하면 할 일</th></tr></thead>
+    <tbody>
+      <tr><td>A. P5-1 블록 집계</td><td>평균 유지</td><td>없음</td></tr>
+      <tr><td>B. 확산 표시</td><td>선택(넣는다면 과매도만)</td><td>넣으면 결과 출력 필드 추가(점수 불변)</td></tr>
+      <tr><td>C. P5-2 추세 조건 문구</td><td>붙이지 않음</td><td>없음</td></tr>
+      <tr><td>D. P5-3 크레딧 추세</td><td>표시 정의로 채택</td><td><span class="mono">p5_3_adopt.patch</span> 적용 → <span class="mono">phase2_build.py</span>로 패널 재생성 → P5-2를 새 추세로 다시 돌릴지 정함</td></tr>
+      <tr><td>E. P5-4a 펀더 가중</td><td>하위블록 동일가중 유지</td><td>없음</td></tr>
+      <tr><td>F. 결정 1 + P5-4b 기준</td><td>(나) 모두 보류</td><td>"규칙 통과·보류" 목록으로 기록. (가)를 고르시면 데이터 빌드 3개 + 설정 반영</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>재검증</b>: 반영한 뒤 기본 점수 재현(<span class="mono">outputs/phase2/score_history.csv.gz</span>), 전체 테스트, 바뀐 블록의 IC를 다시 확인합니다. 별도 검증 레인으로 돌립니다.</li>
+    <li><b>main 병합</b>: Phase 1 이후 작업은 모두 main 밖에 있습니다. 재검증 뒤에 병합 여부를 여쭙겠습니다.</li>
+    <li><b>Stock_Dashboard</b>: 유니버스는 대시보드 홈 "유니버스 점수판"에서 가져옵니다. 고유 자산 41개 = 이미 있는 7개 + KOSPI 종합 1개(KOSPI200 대용) + 새 자산 33개입니다(<span class="mono">docs/dashboard_universe.md</span>).
+      <ul>
+        <li>착수 전에 정할 열린 문제 4개: 팩터·섹터·우선주 ETF의 블록 정의, 새 자산의 "검증 전" 표시, 겹치는 타일(나스닥 종합·나스닥100 등), 임계값 이벤트.</li>
+        <li><b>임계값 이벤트 방식은 보류 상태</b>이며 대시보드에도 넣지 않습니다.</li>
+      </ul></li>
+    <li><b>간략 보고서(1~2장)</b>: 사내 보고서면 <span class="mono">/hanwha-report</span> 요약본으로 씁니다. 유형은 작성 전에 한 번 여쭙겠습니다.</li>
+    <li>Phase 4 문서 3장에 적힌 Phase 3 미룬 결정(통화 이중반영, KOSPI200 이익 지표 가중, USDKRW 경상수지 정규화)은 이 문서에서 다루지 않았습니다. 지금 상태는 이 문서 작성 중에 확인하지 않았습니다.</li>
+  </ul>
+</section>
+
+<section id="appx">
+  <h2>부록 A. 가정과 사후 수정 기록</h2>
+  <p>독립 검증 레인이 네 레인 모두 "PASS-with-issues"로 판정했습니다. 숫자는 재실행으로 재현됐습니다. 아래는 사전 등록에 없던 선택들입니다. <span class="mono">docs/prereg_phase5.md</span> "사후 수정 기록"에 모두 적었습니다.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>단계</th><th>내용</th><th>언제 정했나</th><th>판정 영향</th></tr></thead>
+    <tbody>
+      <tr><td>P5-1</td><td>'판정 불가(P 퇴화)' 라벨 추가</td><td><span class="crit">결과를 본 뒤</span></td><td>있음. 채택 12 → 11(크레딧 / 펀더 / P). 방향은 보수적</td></tr>
+      <tr><td>P5-1</td><td>짝지은 표본(기준선과 변형 모두 값이 있는 날만)을 주 판정으로</td><td>실행 전, 기록 누락</td><td>있음. 원표본이면 채택 9(환율 R 2칸 기각)</td></tr>
+      <tr><td>P5-1</td><td>임계 50 분석의 수익은 현금을 빼지 않은 지수 수익</td><td>실행 전, 기록 누락</td><td>없음(보고용)</td></tr>
+      <tr><td>P5-2</td><td>초과수익 기준을 구간별 평균으로</td><td>실행 전, 기록 누락</td><td>없음. 전 기간 평균으로 해도 둘 다 기각</td></tr>
+      <tr><td>P5-2</td><td>플라시보 p를 양측으로</td><td>실행 전, 기록 누락</td><td>없음. 단측 p 0.496~0.692</td></tr>
+      <tr><td>P5-2</td><td>'축약:' 라벨 655행 제외</td><td>실행 전, 기록 누락</td><td>계산 안 함. 뒤집힐 가능성 낮음 [추정]</td></tr>
+      <tr><td>P5-3</td><td>공식에 /100 단위 환산(스프레드가 %p 단위)</td><td>실행 전, 기록 누락</td><td>없음(판정 칸 없음). KR_CORP와 같은 방식</td></tr>
+      <tr><td>P5-4</td><td>판정 IC를 각 팔의 자기 날짜로 계산</td><td>시점 불명</td><td>교집합 날짜(두 팔 모두 값이 있는 날)로도 S&amp;P500 CLI 조건 1·2 통과. 그 경우의 p는 미계산</td></tr>
+      <tr><td>P5-4</td><td>전체 10개 자산 풀링 칸, 국면별 이후 초과수익 미계산</td><td>기록 누락</td><td>없다고 봄 [추정]. 바뀌는 자산이 10개 중 2개</td></tr>
+      <tr><td>P5-4</td><td>플라시보 난수 시작값(시드 오프셋) 5400</td><td>레인이 정한 상수</td><td>없음. 오프셋 1000으로도 9칸 판정 같음(CLI p 0.279 → 0.296, 검증 레인 재실행 값, 레포 산출물 아님)</td></tr>
+      <tr><td>P5-4</td><td>경기선행지수 변화는 같은 공표판 안에서 계산. 수출 지표는 다음 달 15일에 안다고 가정. 경기선행지수는 공표판이 나온 달 말에 안다고 가정</td><td>실행 전, 기록 누락</td><td>이 선택으로 낸 판정이 보고 판정. 다른 선택과의 민감도는 없음</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="note">
+    <li>"실행 전"의 근거는 각 스크립트 머리말뿐입니다. 스크립트가 git에 없어서 git으로 시점을 확인할 수 없습니다.</li>
+    <li>검증 레인이 재실행해 확인한 것: P5-1 CSV 12개 완전 일치, P5-2 CSV 바이트 일치·독립 재구현 일치, P5-3 기본 점수 34,573행 정확 일치·최신 추세값 독립 재계산 일치, P5-4 CSV 9개 바이트 일치·테스트 292개 통과.</li>
+  </ul>
+
+  <h2 style="margin-top:22px">부록 B. 근거 파일</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>내용</th><th>위치 (mtscore, 브랜치 phase4-wiki)</th></tr></thead>
+    <tbody>
+      <tr><td>사전 등록 (Phase 5, 사후 수정 기록 포함)</td><td class="mono">docs/prereg_phase5.md</td></tr>
+      <tr><td>사전 등록 (Phase 4, 채택 규칙 §1)</td><td class="mono">docs/prereg_2026-10-29.md</td></tr>
+      <tr><td>P5-1 블록 집계</td><td class="mono">outputs/phase5/p5_1_report.md · p5_1_verdict.csv · p5_1_diffusion_display_latest.csv · p5_1_regime_label_change.csv</td></tr>
+      <tr><td>P5-2 추세 보조 조건</td><td class="mono">outputs/phase5/p5_2_report.md · p5_2_verdict.csv · p5_2_cells.csv · p5_2_aux_sensitivity.csv</td></tr>
+      <tr><td>P5-3 크레딧 추세</td><td class="mono">outputs/phase5/p5_3_report.md · p5_3_2022_month_end.csv · p5_3_adopt.patch</td></tr>
+      <tr><td>P5-4 주가지수 펀더</td><td class="mono">outputs/phase5/p5_4_report.md · p5_4_verdict.csv · p5_4_impact.csv</td></tr>
+      <tr><td>결정 1 근거·영향</td><td class="mono">outputs/phase4/phase4_summary.pdf · phase4c_verdict.csv · phase4d_verdict.csv · phase4d_report.md · phase4e_impact_report.md</td></tr>
+      <tr><td>대시보드 유니버스</td><td class="mono">docs/dashboard_universe.md</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+</body>
+</html>

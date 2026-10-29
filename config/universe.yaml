@@ -6,6 +6,9 @@
 #   field_transforms: {field: reciprocal | negate}  — 이 자산 계산 직전에 적용
 #   trend: {cash: none, basis: <라벨>}  — 추세 표시(scoring.yaml trend)에서 현금을 빼지 않는다(수익 지수가 이미 초과수익 근사인 자산).
 #         basis 는 결과 trend.basis 로 나가는 부호의 기준 라벨(필수). 생략하면 현금을 빼고 기준은 "현금 대비"(2026-10-29 결정 4)
+#         return: {yield_field, duration_field | duration} (선택, cash: none 일 때만) — 추세 표시에서만 수익 지수를 스프레드(%p) 필드의
+#         −D×Δs/100 + s/100/252 (국채 대비 초과수익 근사)로 바꾼다. D 는 패널 필드 duration_field 의 직전 관측일 값(시변) 또는 상수 duration(가정).
+#         return_field·백테스트·점수는 그대로(P5-3, 2026-10-29). 켜려면 패널에 duration_field 가 있어야 한다(outputs/phase5/p5_3_adopt.patch)
 #   overrides: {exclude: [지표명 | 블록 | 하위블록 | 블록.하위블록], weights: {지표명 | 블록.하위블록: w}, params: {지표명: {...}}}
 #   그 밖의 키는 meta 로 보존(엔진 계산에 쓰지 않음)
 - asset_id: KOSPI200

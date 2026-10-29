@@ -1,0 +1,5 @@
+split,group,n_assets,n_pos
+confirmation,high,10,3
+confirmation,low,10,7
+selection,high,10,3
+selection,low,10,5

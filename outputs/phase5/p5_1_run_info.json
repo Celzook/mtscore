@@ -1,0 +1,109 @@
+{
+ "seconds": 578.1,
+ "cells_tested": 90,
+ "groups": {
+  "equity_index": [
+   "KOSPI200",
+   "SP500"
+  ],
+  "rates": [
+   "KTB10Y",
+   "UST10Y"
+  ],
+  "fx": [
+   "USDKRW"
+  ],
+  "commodity": [
+   "GOLD",
+   "WTI"
+  ],
+  "credit": [
+   "US_HY",
+   "US_IG",
+   "KR_CORP"
+  ],
+  "ALL": [
+   "KOSPI200",
+   "SP500",
+   "KTB10Y",
+   "UST10Y",
+   "USDKRW",
+   "GOLD",
+   "WTI",
+   "US_HY",
+   "US_IG",
+   "KR_CORP"
+  ]
+ },
+ "variants": [
+  "R",
+  "D",
+  "M",
+  "G",
+  "P"
+ ],
+ "periods": {
+  "selection": [
+   "2013-01-01",
+   "2019-12-31"
+  ],
+  "confirmation": [
+   "2020-01-01",
+   null
+  ]
+ },
+ "primary_horizon": 63,
+ "placebo_shifts": 2000,
+ "seed_rule": "11 + 5000 + 100*group_idx + 10*block_idx + period_idx (임계50: +6000 + 100*asset_idx + ...)",
+ "r_min_obs": 252,
+ "g_floor": 0.5,
+ "pca_min_pairs": 252,
+ "verdict_counts": {
+  "기각": 63,
+  "동일(기준선과 같음)": 13,
+  "채택": 11,
+  "판정 불가(P 퇴화)": 3
+ },
+ "provenance": {
+  "git_head": "2ea1194dfdc6f80550c98454fc25b1e03a9c9151",
+  "git_branch": "phase4-wiki",
+  "git_status_at_start": [
+   "M config/universe.yaml",
+   " M docs/result_schema.md",
+   " M src/mtscore/api.py",
+   " M src/mtscore/config.py",
+   " M tests/test_phase4b.py",
+   "?? outputs/phase5/",
+   "?? scripts/phase5_p5_1.py",
+   "?? scripts/phase5_p5_2.py",
+   "?? scripts/phase5_p5_3.py",
+   "?? scripts/phase5_p5_4.py"
+  ],
+  "sha256_16": {
+   "config/scoring.yaml": "c84a6fdaa4756f3e",
+   "config/universe.yaml": "5fda736685d37bf9",
+   "config/profiles/commodity.yaml": "47ffea5ca040a58a",
+   "config/profiles/credit.yaml": "5bbcb770847c6803",
+   "config/profiles/equity_index.yaml": "95c13f65086434b1",
+   "config/profiles/fx.yaml": "9c691261fed26319",
+   "config/profiles/rates.yaml": "e9ae51a57934b44d",
+   "src/mtscore/core/scoring.py": "ec8f953dc0236ceb",
+   "src/mtscore/api.py": "932042f27867aa91",
+   "src/mtscore/config.py": "ce923edff7580aa7",
+   "src/mtscore/core/backtest.py": "3c392b97dc2c3997",
+   "src/mtscore/core/transform.py": "4655e3109e710a74"
+  },
+  "git_status_at_end": [
+   "M config/universe.yaml",
+   " M docs/result_schema.md",
+   " M src/mtscore/api.py",
+   " M src/mtscore/config.py",
+   " M tests/test_phase4b.py",
+   "?? outputs/phase5/",
+   "?? scripts/phase5_p5_1.py",
+   "?? scripts/phase5_p5_2.py",
+   "?? scripts/phase5_p5_3.py",
+   "?? scripts/phase5_p5_4.py"
+  ]
+ }
+}

@@ -1,0 +1,4 @@
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+292 passed, 77 warnings in 31.12s
+--- adoption(patch applied on temp copy): 292 passed (src 동일, 위 패치 적용본)

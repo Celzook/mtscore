@@ -322,3 +322,120 @@ def test_real_universe_exempts_only_kr_corp():
     exempt = {a.asset_id: a.trend_basis for a in cfg.universe if a.trend_cash == "none"}
     assert exempt == {"KR_CORP": "국고 대비"}
     assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id != "KR_CORP")
+
+
+# ---- P5-3. 추세 표시 전용 수익 지수(trend.return): 스프레드 −D×Δs + s 캐리, 국채 대비. 합성 데이터는 테스트 전용
+def _spread_universe(**ret):
+    tr = {"cash": "none", "basis": "국채 대비", "return": ret}
+    return [{"asset_id": "CR", "asset_class": "equity_index", "return_field": "index_level", "trend": tr}]
+
+
+def _spread_panel(d_gap_at=None):
+    idx = pd.bdate_range("2010-01-01", "2016-12-31")
+    rng = np.random.default_rng(3)
+    spread = pd.Series(3.0 + np.cumsum(rng.normal(0, 0.02, len(idx))), index=idx)
+    dur = pd.Series(5.0 + np.cumsum(rng.normal(0, 0.005, len(idx))), index=idx)
+    level = pd.Series(100.0 * np.exp(np.cumsum(rng.normal(0.0002, 0.003, len(idx)))), index=idx)
+    if d_gap_at is not None:
+        dur = dur.drop(idx[d_gap_at:d_gap_at + 10])   # 10영업일 연속 결측(5영업일 ffill 한도를 넘는다)
+    return spread, dur, level, pd.concat([to_panel("CR", "spread", spread), to_panel("CR", "mod_durtn", dur),
+                                         to_panel("CR", "index_level", level)], ignore_index=True)
+
+
+def _eng(mini_profiles, scoring_cfg, **ret):
+    return ScoringEngine(build_config(_spread_universe(**ret), mini_profiles, scoring_cfg))
+
+
+def test_trend_return_spread_excess_matches_independent_formula(mini_profiles, scoring_cfg):
+    spread, dur, level, panel = _spread_panel()
+    eng = _eng(mini_profiles, scoring_cfg, yield_field="spread", duration_field="mod_durtn")
+    t = pd.Timestamp(T)
+    h = eng.trend_history(panel, ["CR"])["CR"]
+    # 독립 계산: 일별 r_t = −D_(t−1)·Δs_t/100 + s_(t−1)/100/252 를 복리, 12달력월 전 달력일 대비
+    r = -dur.shift(1) * spread.diff() / 100 + spread.shift(1) / 100 / 252
+    ix = (1 + r.fillna(0)).cumprod()
+    lag = ix.index[ix.index <= t - pd.DateOffset(months=12)][-1]
+    exp = ix[t] / ix[lag] - 1
+    assert h.at[t, "value"] == pytest.approx(exp, rel=1e-12) and h.at[t, "reason"] == ""
+    assert h.at[t, "sign"] == np.sign(exp)
+    tr = eng.score(panel, as_of=T).trend.loc["CR"]   # 현금 필드 없이도 나오고 라벨은 국채 대비
+    assert tr["value"] == pytest.approx(exp, rel=1e-12) and tr["basis"] == "국채 대비"
+
+
+def test_trend_return_uses_previous_day_duration_and_is_pit(mini_profiles, scoring_cfg):
+    spread, dur, level, panel = _spread_panel()
+    eng = _eng(mini_profiles, scoring_cfg, yield_field="spread", duration_field="mod_durtn")
+    t = pd.Timestamp(T)
+    full = eng.trend_history(panel, ["CR"])["CR"]["value"]
+    fut = panel.copy()
+    m = fut["date"] > t
+    fut.loc[m & fut["field"].isin(["spread", "mod_durtn"]), "value"] *= 2.0   # 미래 값을 바꿔도 t 값 불변
+    alt = eng.trend_history(fut, ["CR"])["CR"]["value"]
+    pd.testing.assert_series_equal(full[:T], alt[:T])
+    d2 = panel.copy()   # t 당일 D 만 바꾸면 t 의 값은 불변(D_(t−1) 사용), 다음 날 값은 바뀐다
+    d2.loc[(d2["field"] == "mod_durtn") & (d2["date"] == t), "value"] *= 3.0
+    a2 = eng.trend_history(d2, ["CR"])["CR"]["value"]
+    nxt = full.index[full.index > t][0]
+    assert a2[t] == pytest.approx(full[t], rel=1e-12) and a2[nxt] != pytest.approx(full[nxt], rel=1e-9)
+
+
+def test_trend_return_constant_duration_and_gap_handling(mini_profiles, scoring_cfg):
+    spread, dur, level, panel = _spread_panel()
+    const = _eng(mini_profiles, scoring_cfg, yield_field="spread", duration=5.0)
+    r = -5.0 * spread.diff() / 100 + spread.shift(1) / 100 / 252
+    ix = (1 + r.fillna(0)).cumprod()
+    t = pd.Timestamp(T)
+    lag = ix.index[ix.index <= t - pd.DateOffset(months=12)][-1]
+    assert const.trend_history(panel, ["CR"])["CR"].at[t, "value"] == pytest.approx(ix[t] / ix[lag] - 1, rel=1e-12)
+    # D 결측(ffill 한도 초과): 그 날이 12개월 창 안에 있는 날은 결측(0 수익으로 채우지 않음), 창 밖은 값이 있다
+    k = list(spread.index).index(t) - 40
+    _, _, _, gp = _spread_panel(d_gap_at=k)
+    gh = _eng(mini_profiles, scoring_cfg, yield_field="spread", duration_field="mod_durtn").trend_history(gp, ["CR"])["CR"]
+    gd = spread.index[k]
+    assert gh.at[t, "reason"] == "insufficient_history" and np.isnan(gh.at[t, "value"])
+    assert not np.isnan(gh["value"].loc[gh.index < gd].iloc[-1])   # 결측 이전 값은 그대로
+    after = gh.index[gh.index > gd + pd.DateOffset(months=12, days=60)][0]
+    assert not np.isnan(gh.at[after, "value"])
+
+
+def test_trend_return_missing_fields_and_scores_unchanged(mini_profiles, scoring_cfg):
+    spread, dur, level, panel = _spread_panel()
+    no_d = panel[panel["field"] != "mod_durtn"]
+    h = _eng(mini_profiles, scoring_cfg, yield_field="spread", duration_field="mod_durtn").trend_history(no_d, ["CR"])["CR"]
+    assert h["value"].isna().all() and h["reason"].iloc[-1].startswith("return_index:") and "mod_durtn" in h["reason"].iloc[-1]
+    no_s = panel[panel["field"] != "spread"]
+    h2 = _eng(mini_profiles, scoring_cfg, yield_field="spread", duration=5.0).trend_history(no_s, ["CR"])["CR"]
+    assert h2["value"].isna().all()   # 달력 필드(spread)가 없어도 죽지 않고 결측으로 남는다
+    # 점수·국면·백테스트 수익률은 trend.return 과 무관
+    plain = ScoringEngine(build_config([{"asset_id": "CR", "asset_class": "equity_index", "return_field": "index_level",
+                                         "trend": {"cash": "none", "basis": "국채 대비"}}], mini_profiles, scoring_cfg))
+    ov = _eng(mini_profiles, scoring_cfg, yield_field="spread", duration_field="mod_durtn")
+    a, b = plain.score_history(panel)["CR"], ov.score_history(panel)["CR"]
+    pd.testing.assert_frame_equal(a.blocks, b.blocks)
+    pd.testing.assert_frame_equal(a.score, b.score)
+    pd.testing.assert_frame_equal(plain.return_index(panel, plain.config.asset("CR"))[0].to_frame(),
+                                  ov.return_index(panel, ov.config.asset("CR"))[0].to_frame())
+
+
+@pytest.mark.parametrize("trend,msg", [
+    ({"cash": "none", "basis": "x", "return": "spread"}, "매핑"),
+    ({"cash": "none", "basis": "x", "return": {"duration": 3.0}}, "yield_field"),
+    ({"cash": "none", "basis": "x", "return": {"yield_field": "spread"}}, "중 하나"),
+    ({"cash": "none", "basis": "x", "return": {"yield_field": "spread", "duration": 3.0, "duration_field": "d"}}, "중 하나"),
+    ({"cash": "none", "basis": "x", "return": {"yield_field": "spread", "duration": -1}}, "양의 유한값"),
+    ({"cash": "none", "basis": "x", "return": {"yield_field": "spread", "duration": float("nan")}}, "양의 유한값"),
+    ({"cash": "none", "basis": "x", "return": {"yield_field": "spread", "duration_field": ""}}, "duration_field"),
+    ({"cash": "none", "basis": "x", "return": {"yield_field": "spread", "duration": 3.0, "typo": 1}}, "알 수 없는 키"),
+    ({"cash": "subtract", "return": {"yield_field": "spread", "duration": 3.0}}, "cash=none"),
+])
+def test_trend_return_config_rejected(mini_profiles, scoring_cfg, trend, msg):
+    u = [{"asset_id": "CR", "asset_class": "equity_index", "trend": trend}]
+    with pytest.raises(ConfigError, match=msg):
+        build_config(u, mini_profiles, scoring_cfg)
+
+
+def test_trend_return_default_none_and_real_universe_unchanged():
+    from pathlib import Path
+    from mtscore import load_config
+    cfg = load_config(Path(__file__).resolve().parents[1] / "config")
+    assert all(a.trend_return is None for a in cfg.universe if a.asset_id not in ("US_HY", "US_IG"))

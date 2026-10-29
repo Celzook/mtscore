@@ -1,0 +1,7 @@
+variant,asset_id,existing_indicator_scores_identical,other_blocks_identical,new_in_variant
+X1,KOSPI200,True,True,kr_exports_yoy
+X1,SP500,True,True,t10y3m_chg_3m
+X2,KOSPI200,True,True,kr_cli_chg6m
+X2,SP500,True,True,us_cli_chg6m
+X12,KOSPI200,True,True,"kr_cli_chg6m,kr_exports_yoy"
+X12,SP500,True,True,"t10y3m_chg_3m,us_cli_chg6m"

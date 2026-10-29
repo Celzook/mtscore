@@ -1,0 +1,51 @@
+{
+ "seconds": 21.3,
+ "git_head": "0030aee5dddb50530e35b25ef53e5b97fc49795f",
+ "source_mode": "HEAD archive(작업 트리 src/config 가 다른 레인으로 수정 중)",
+ "splits": {
+  "selection": [
+   "2013-01-01",
+   "2019-12-31"
+  ],
+  "confirmation": [
+   "2020-01-01",
+   null
+  ]
+ },
+ "primary_horizon": 63,
+ "placebo_shifts": 2000,
+ "placebo_seed_base": 11,
+ "placebo_seed_rule": "seed + 2000 + 10*5 + split_index (ALL 순번 5; Phase 3/4 규칙)",
+ "shifts": {
+  "selection": {
+   "nmin": 1717,
+   "seed": 2061,
+   "n_shifts": 2000
+  },
+  "confirmation": {
+   "nmin": 1673,
+   "seed": 2062,
+   "n_shifts": 2000
+  }
+ },
+ "n_cells_tested": 4,
+ "n_hypotheses": 2,
+ "adoption_p_cut": 0.2,
+ "trend_basis": {
+  "KOSPI200": "현금 대비",
+  "SP500": "현금 대비",
+  "KTB10Y": "현금 대비",
+  "UST10Y": "현금 대비",
+  "USDKRW": "현금 대비",
+  "GOLD": "현금 대비",
+  "WTI": "현금 대비",
+  "US_HY": "현금 대비",
+  "US_IG": "현금 대비",
+  "KR_CORP": "국고 대비"
+ },
+ "n_partial_inside_groups": 0,
+ "n_abbreviated_label_rows": 655,
+ "trend_share_pos_changed_vs_phase4b": [
+  "KR_CORP"
+ ]
+}

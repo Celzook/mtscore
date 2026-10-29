@@ -1,0 +1,7 @@
+asset,candidate,source_tried,status,pit_method,reason
+KOSPI200,한국 수출 YoY,"ECOS 901Y118/T002 (통관 수출금액, 월, 천불)",사용(가정 포함),as_of = 기준월 다음 달 15일,ECOS 는 확정치만(빈티지 없음) → 속보치(매월 1일 산업부)→확정치 수정 크기는 측정 불가(가정). 2026-10-29 기준 ECOS 최신월 2026-08
+KOSPI200,한국 수출 YoY,OECD 개정 DB(DSD_STES_REVISIONS) EX KOR,미사용,,"에디션마다 단위가 달라(2007 편 ≈ 1/1000 규모) 빈티지 비교 불가, 통화도 KRW, 첫 등장이 보통 2개월 지연"
+KOSPI200/SP500,OECD CLI 6개월 변화,FRED KORLOLITONOSTSAM·USALOLITONOSTSAM,불가,,최신 빈티지가 2024-01 에서 끝남(수집 확인). 최신 빈티지는 재추정 포함 → PIT 아님(KOR 6개월 차분의 에디션 값과 상관 0.68)
+KOSPI200/SP500,OECD CLI 6개월 변화,ALFRED 빈티지(KOR/USA CLI),불가,,"첫 빈티지가 약 2018-07-17(이분 탐색) → 선택 구간(2013~2019) 대부분 N/A, 2024-01 에서 끝남"
+KOSPI200/SP500,OECD CLI 6개월 변화,OECD 개정 DB(DSD_STES_REVISIONS) LI_AA KOR/USA,사용(가정 포함),"에디션(월 빈티지) 안 최근월 − 6개월 전(같은 에디션), as_of = 에디션 월말","에디션 2007-03~2026-10(결측 에디션 2016-07·08, 2020-03, 2024-08, 2025-08, 2026-08). 에디션 정확한 발간일은 DB에 없어 월말로 보수적"
+SP500,T10Y3M 3개월 변화,FRED T10Y3M(일별),사용(가정 포함),"as_of = 다음 미국 영업일(H.15 규칙, DGS10 과 같음)",일별 시장금리 차라 사실상 수정 없음(가정). 최신 빈티지 사용

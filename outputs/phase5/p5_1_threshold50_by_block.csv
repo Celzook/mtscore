@@ -1,0 +1,19 @@
+arm,period,block,n_cells,n_diff_pos,n_sig_pos(p2<0.05)
+R,confirmation,fundamental,10,5,0
+R,confirmation,oversold,10,4,0
+R,confirmation,valuation,8,7,0
+R,selection,fundamental,10,4,0
+R,selection,oversold,10,8,0
+R,selection,valuation,10,7,0
+base(R 표본),confirmation,fundamental,10,3,0
+base(R 표본),confirmation,oversold,10,4,0
+base(R 표본),confirmation,valuation,10,9,2
+base(R 표본),selection,fundamental,10,5,0
+base(R 표본),selection,oversold,10,8,2
+base(R 표본),selection,valuation,10,8,1
+base(원표본),confirmation,fundamental,10,3,0
+base(원표본),confirmation,oversold,10,4,0
+base(원표본),confirmation,valuation,10,9,2
+base(원표본),selection,fundamental,10,6,0
+base(원표본),selection,oversold,10,8,1
+base(원표본),selection,valuation,10,8,2

@@ -1,0 +1,7 @@
+asset_id,reference,n_new,n_ref,identical,max_abs_diff
+KOSPI200,원 패널·원 설정 재계산(매크로 행 없음),3354,3354,True,0.0
+KOSPI200,outputs/phase2/score_history.csv.gz(round 4),3354,3354,True,0.0
+KOSPI200,data/processed/phase3_forward_returns.csv.gz(round 6),3354,3354,True,0.0
+SP500,원 패널·원 설정 재계산(매크로 행 없음),3446,3446,True,0.0
+SP500,outputs/phase2/score_history.csv.gz(round 4),3446,3446,True,0.0
+SP500,data/processed/phase3_forward_returns.csv.gz(round 6),3446,3446,True,0.0

@@ -1,0 +1,11 @@
+asset_id,identical_oversold,identical_valuation,identical_fundamental,maxabs_oversold,maxabs_valuation,maxabs_fundamental,rows,rows_phase3,only_new,only_ref,mismatch_oversold,mismatch_valuation,mismatch_fundamental
+KOSPI200,True,True,True,0.0,0.0,0.0,4139,4139,0,0,0,0,0
+SP500,True,True,True,0.0,0.0,0.0,4241,4241,0,0,0,0,0
+KTB10Y,True,True,True,0.0,0.0,0.0,4151,4151,0,0,0,0,0
+UST10Y,True,True,True,0.0,0.0,0.0,4208,4208,0,0,0,0,0
+USDKRW,True,True,True,0.0,0.0,0.0,4149,4149,0,0,0,0,0
+GOLD,True,True,True,0.0,0.0,0.0,4234,4234,0,0,0,0,0
+WTI,True,True,True,0.0,0.0,0.0,4235,4235,0,0,0,0,0
+US_HY,True,True,True,0.0,0.0,0.0,4353,4353,0,0,0,0,0
+US_IG,True,True,True,0.0,0.0,0.0,4256,4256,0,0,0,0,0
+KR_CORP,True,True,True,0.0,0.0,0.0,4152,4152,0,0,0,0,0

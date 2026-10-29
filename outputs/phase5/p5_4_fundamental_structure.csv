@@ -1,0 +1,3 @@
+asset_id,fundamental_indicators,sub_blocks,n_sub_blocks,indicator_weights_all_1,subblock_weights,block_equals_mean_of_subblocks,ie_equals_block_identical
+KOSPI200,"revision_breadth,fwd_eps_chg_1m,fwd_eps_chg_3m,revision_momentum,home_ccy_trend_3m","earnings,macro",2,True,"{""earnings"": 1.0, ""macro"": 1.0}",True,False
+SP500,"revision_breadth,fwd_eps_chg_1m,fwd_eps_chg_3m,revision_momentum",earnings,1,True,"{""earnings"": 1.0}",True,True

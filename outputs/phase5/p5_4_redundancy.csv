@@ -1,0 +1,27 @@
+asset_id,new,other,kind,n,corr_selection,over_cut
+KOSPI200,kr_exports_yoy,revision_breadth,새-기존,1681,0.23514380757624798,False
+KOSPI200,kr_exports_yoy,fwd_eps_chg_1m,새-기존,1678,0.27207825996015206,False
+KOSPI200,kr_exports_yoy,fwd_eps_chg_3m,새-기존,1635,0.4242631703256635,False
+KOSPI200,kr_exports_yoy,revision_momentum,새-기존,1657,-0.07552089617797461,False
+KOSPI200,kr_exports_yoy,home_ccy_trend_3m,새-기존,1654,-0.151896172681067,False
+KOSPI200,kr_exports_yoy,kr_cli_chg6m,새-새,1717,-0.29684702919348827,False
+KOSPI200,kr_exports_yoy,(현행 펀더멘털 블록),새-블록(참고),1681,0.0850037805296227,False
+KOSPI200,kr_cli_chg6m,revision_breadth,새-기존,1681,-0.024193804081205562,False
+KOSPI200,kr_cli_chg6m,fwd_eps_chg_1m,새-기존,1678,-0.0032326558574080956,False
+KOSPI200,kr_cli_chg6m,fwd_eps_chg_3m,새-기존,1635,0.0151856535958521,False
+KOSPI200,kr_cli_chg6m,revision_momentum,새-기존,1657,-0.011670758399102001,False
+KOSPI200,kr_cli_chg6m,home_ccy_trend_3m,새-기존,1654,0.0158888067951877,False
+KOSPI200,kr_cli_chg6m,kr_exports_yoy,새-새,1717,-0.29684702919348815,False
+KOSPI200,kr_cli_chg6m,(현행 펀더멘털 블록),새-블록(참고),1681,0.0007883608609610981,False
+SP500,t10y3m_chg_3m,revision_breadth,새-기존,1702,0.14970265637458813,False
+SP500,t10y3m_chg_3m,fwd_eps_chg_1m,새-기존,1702,-0.00224166654182731,False
+SP500,t10y3m_chg_3m,fwd_eps_chg_3m,새-기존,1682,-0.04785076409791987,False
+SP500,t10y3m_chg_3m,revision_momentum,새-기존,1702,0.009946080023236294,False
+SP500,t10y3m_chg_3m,us_cli_chg6m,새-새,1702,0.028619958028483612,False
+SP500,t10y3m_chg_3m,(현행 펀더멘털 블록),새-블록(참고),1702,0.03742654710988639,False
+SP500,us_cli_chg6m,revision_breadth,새-기존,1722,0.3078037386740644,False
+SP500,us_cli_chg6m,fwd_eps_chg_1m,새-기존,1722,0.45487735961283143,False
+SP500,us_cli_chg6m,fwd_eps_chg_3m,새-기존,1682,0.6007520821849475,False
+SP500,us_cli_chg6m,revision_momentum,새-기존,1702,0.022148085528957098,False
+SP500,us_cli_chg6m,t10y3m_chg_3m,새-새,1702,0.028619958028483557,False
+SP500,us_cli_chg6m,(현행 펀더멘털 블록),새-블록(참고),1722,0.48456228810558005,False

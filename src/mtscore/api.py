@@ -232,7 +232,8 @@ class ScoringEngine:
         value = 수익 지수(return_index 규칙)의 trend.months 달력월 수익 − 같은 구간 현금 수익(core.backtest.tsmom_excess).
         현금 금리는 scoring.yaml trend.cash_field(자기 필드 또는 universe.yaml refs). sign = value 의 부호(±1, 0 이면 0).
         universe.yaml 자산 trend.cash=none 이면 현금을 빼지 않는다(수익 지수가 이미 초과수익 근사, 예 KR_CORP) —
-        이 자산은 현금 필드도 필요 없다.
+        이 자산은 현금 필드도 필요 없다. trend.return 이 있으면 수익 지수를 스프레드 필드의 국채 대비 초과수익 근사로
+        대체한다(_trend_spread_index, 추세 표시 전용 — return_field·백테스트·점수는 그대로).
         as_of 를 주면 그 뒤에 알려진 행을 먼저 버린다(PIT, score_history 와 같은 규칙).
         값이 없으면 reason: trend 설정 없음 | missing_field:<f> | return_index:<사유> | insufficient_history."""
         p = validate_panel(panel)
@@ -257,17 +258,51 @@ class ScoringEngine:
             if cash is None or cash.notna().sum() == 0:
                 out[aid] = frame.assign(reason=f"missing_field:{cf}")
                 continue
+            gaps = None
             try:
-                idx, valid, _ = self.return_index(p, asset, cal)
+                if asset.trend_return:
+                    idx, valid, gaps = self._trend_spread_index(p, asset, cal)
+                else:
+                    idx, valid, _ = self.return_index(p, asset, cal)
             except ValueError as e:
                 out[aid] = frame.assign(reason=f"return_index:{e}")
                 continue
-            v = bt.tsmom_excess(idx.where(valid), cash, int(tcfg["months"]), float(tcfg["cash_days_per_year"]))
+            months = int(tcfg["months"])
+            v = bt.tsmom_excess(idx.where(valid), cash, months, float(tcfg["cash_days_per_year"]))
+            if gaps is not None:   # 구간 안에 D 결측일이 있으면 결측(0 수익으로 채우지 않는다, tsmom_excess 의 현금 결측과 같은 규칙)
+                cg = gaps.astype(float).cumsum()
+                v = v.where((cg - bt.lag_months(cg, months)) == 0)
             frame["value"] = v
             frame["sign"] = np.sign(v)
             frame.loc[v.isna(), "reason"] = "insufficient_history"
             out[aid] = frame
         return out
+
+    def _trend_spread_index(self, panel: pd.DataFrame, asset: AssetSpec,
+                            cal: pd.DatetimeIndex) -> tuple[pd.Series, pd.Series, pd.Series]:
+        """추세 표시 전용 수익 지수(universe.yaml trend.return, P5-3): 스프레드(%p) 필드의 국채 대비 초과수익 근사.
+
+        r_t = −D_(t−1) × Δs_t/100 + s_(t−1)/100/carry (core.backtest.duration_returns 와 같은 식, D 만 시변).
+        D 는 trend.return.duration_field 의 직전 관측일 값(PIT) 또는 상수 trend.return.duration(가정).
+        Returns (수익 지수, 유효일 마스크, D 결측일 마스크). D_(t−1) 이 없는 관측일은 수익을 0 으로 채우지 않고 gaps 로 알린다."""
+        spec = asset.trend_return
+        yf = spec["yield_field"]
+        y = self._field_series(panel, asset.asset_id, yf, cal)
+        if y is None:
+            raise ValueError(f"{asset.asset_id}: 추세용 스프레드 필드 {yf} 없음")
+        if "duration_field" in spec:
+            d = self._field_series(panel, asset.asset_id, spec["duration_field"], cal)
+            if d is None:
+                raise ValueError(f"{asset.asset_id}: 추세용 듀레이션 필드 {spec['duration_field']} 없음")
+        else:
+            d = pd.Series(float(spec["duration"]), index=cal)
+        carry = float((self.config.scoring.get("backtest", {}) or {}).get("carry_days_per_year", 252))
+        s = y.dropna().astype(float)
+        d_prev = d.astype(float).reindex(s.index).shift(1)
+        r = -d_prev * s.diff() / 100.0 + s.shift(1) / 100.0 / carry
+        gaps = (s.diff().notna() & d_prev.isna()).reindex(cal, fill_value=False)
+        idx = bt.return_index(r.reindex(cal).fillna(0.0)).where(y.notna().cummax())
+        return idx, y.notna(), gaps
 
     def score(self, panel: pd.DataFrame, as_of: str | pd.Timestamp | None = None,
               asset_ids: list[str] | None = None) -> ScoreResult:

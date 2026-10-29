@@ -17,7 +17,8 @@ log = logging.getLogger(__name__)
 
 KNOWN_ASSET_KEYS = {"asset_id", "name", "asset_class", "currency", "return_field", "calendar_field", "refs",
                     "field_transforms", "overrides", "trend"}
-TREND_ASSET_KEYS = {"cash", "basis"}
+TREND_ASSET_KEYS = {"cash", "basis", "return"}
+TREND_RETURN_KEYS = {"yield_field", "duration_field", "duration"}
 TREND_CASH_MODES = ("subtract", "none")
 TREND_BASIS_DEFAULT = "현금 대비"
 FIELD_TRANSFORMS = ("reciprocal", "negate")
@@ -47,6 +48,7 @@ class AssetSpec:
     meta: dict = field(default_factory=dict)
     trend_cash: str = "subtract"                 # 추세 표시의 현금 차감: subtract(기본) | none(수익 지수가 이미 초과수익 근사)
     trend_basis: str = TREND_BASIS_DEFAULT       # 추세 부호의 기준 라벨(결과 trend.basis). none 이면 universe.yaml 이 적는다
+    trend_return: dict | None = None             # 추세 표시 전용 수익 지수 대체(P5-3): {yield_field, duration_field | duration}. 백테스트 수익률은 그대로
 
 
 @dataclass
@@ -188,7 +190,7 @@ def _parse_asset(raw: dict) -> AssetSpec:
     bad = {k: v for k, v in tr.items() if v not in FIELD_TRANSFORMS}
     if bad:
         raise ConfigError(f"{raw['asset_id']}: field_transforms 값 오류 {bad} (허용 {FIELD_TRANSFORMS})")
-    trend_cash, trend_basis = _parse_asset_trend(raw)
+    trend_cash, trend_basis, trend_return = _parse_asset_trend(raw)
     return AssetSpec(asset_id=str(raw["asset_id"]), name=str(raw.get("name", raw["asset_id"])),
                      asset_class=str(raw["asset_class"]), currency=str(raw.get("currency", "")),
                      return_field=str(raw.get("return_field", "close")),
@@ -196,18 +198,21 @@ def _parse_asset(raw: dict) -> AssetSpec:
                      refs=refs, field_transforms=tr,
                      overrides=dict(raw.get("overrides") or {}),
                      meta={k: v for k, v in raw.items() if k not in KNOWN_ASSET_KEYS},
-                     trend_cash=trend_cash, trend_basis=trend_basis)
+                     trend_cash=trend_cash, trend_basis=trend_basis, trend_return=trend_return)
 
 
-def _parse_asset_trend(raw: dict) -> tuple[str, str]:
-    """자산별 추세 표시 설정 `trend: {cash: subtract|none, basis: <라벨>}` 검증.
-    cash=none 이면 현금을 빼지 않으므로(수익 지수가 이미 초과수익 근사인 자산) 부호의 기준을 basis 로 적어야 한다."""
+def _parse_asset_trend(raw: dict) -> tuple[str, str, dict | None]:
+    """자산별 추세 표시 설정 `trend: {cash: subtract|none, basis: <라벨>, return: {...}}` 검증.
+    cash=none 이면 현금을 빼지 않으므로(수익 지수가 이미 초과수익 근사인 자산) 부호의 기준을 basis 로 적어야 한다.
+    return(선택, P5-3)은 추세 표시에만 쓰는 수익 지수 대체다: 스프레드 필드의 −D×Δs + s 캐리(국채 대비 초과수익 근사,
+    KR_CORP duration_approx 와 같은 식). D 는 duration_field(시변, 직전 관측일 값) 또는 duration(상수, 가정) 중 하나.
+    스프레드는 이미 국채 대비라 cash=none 일 때만 허용한다."""
     tr = raw.get("trend")
     if tr is None:
-        return "subtract", TREND_BASIS_DEFAULT
+        return "subtract", TREND_BASIS_DEFAULT, None
     aid = raw["asset_id"]
     if not isinstance(tr, dict):
-        raise ConfigError(f"{aid}: trend 는 매핑 {{cash, basis}} ({tr!r})")
+        raise ConfigError(f"{aid}: trend 는 매핑 {{cash, basis, return}} ({tr!r})")
     bad = set(tr) - TREND_ASSET_KEYS
     if bad:
         raise ConfigError(f"{aid}: trend 에 알 수 없는 키 {sorted(bad)} (허용 {sorted(TREND_ASSET_KEYS)})")
@@ -215,13 +220,41 @@ def _parse_asset_trend(raw: dict) -> tuple[str, str]:
     if cash not in TREND_CASH_MODES:
         raise ConfigError(f"{aid}: trend.cash 값 오류 {cash!r} (허용 {TREND_CASH_MODES})")
     basis = tr.get("basis")
+    ret = _parse_trend_return(aid, tr["return"]) if "return" in tr else None
     if cash == "none":
         if not (isinstance(basis, str) and basis.strip()):
             raise ConfigError(f"{aid}: trend.cash=none 이면 trend.basis(부호의 기준 라벨)를 적어야 함 ({basis!r})")
-        return cash, basis.strip()
+        return cash, basis.strip(), ret
     if basis is not None:
         raise ConfigError(f"{aid}: trend.basis 는 trend.cash=none 일 때만 쓴다 ({basis!r})")
-    return cash, TREND_BASIS_DEFAULT
+    if ret is not None:
+        raise ConfigError(f"{aid}: trend.return 은 trend.cash=none 일 때만 쓴다(스프레드 수익은 이미 국채 대비) ({tr['return']!r})")
+    return cash, TREND_BASIS_DEFAULT, None
+
+
+def _parse_trend_return(aid: str, r) -> dict:
+    if not isinstance(r, dict):
+        raise ConfigError(f"{aid}: trend.return 은 매핑 ({r!r})")
+    bad = set(r) - TREND_RETURN_KEYS
+    if bad:
+        raise ConfigError(f"{aid}: trend.return 에 알 수 없는 키 {sorted(bad)} (허용 {sorted(TREND_RETURN_KEYS)})")
+    yf = r.get("yield_field")
+    if not (isinstance(yf, str) and yf.strip()):
+        raise ConfigError(f"{aid}: trend.return.yield_field 는 필드 이름 문자열 ({yf!r})")
+    if ("duration_field" in r) == ("duration" in r):
+        raise ConfigError(f"{aid}: trend.return 은 duration_field(시변) 또는 duration(상수) 중 하나만 ({sorted(r)})")
+    out = {"yield_field": yf.strip()}
+    if "duration_field" in r:
+        df = r["duration_field"]
+        if not (isinstance(df, str) and df.strip()):
+            raise ConfigError(f"{aid}: trend.return.duration_field 는 필드 이름 문자열 ({df!r})")
+        out["duration_field"] = df.strip()
+    else:
+        d = r["duration"]
+        if isinstance(d, bool) or not isinstance(d, (int, float)) or not np.isfinite(d) or d <= 0:
+            raise ConfigError(f"{aid}: trend.return.duration 은 양의 유한값 ({d!r})")
+        out["duration"] = float(d)
+    return out
 
 
 SCORING_KEYS = {
