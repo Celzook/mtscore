@@ -175,7 +175,7 @@ def test_ranking_is_descending(mini_config, mini_panel):
 
 def test_repo_config_loads_and_all_functions_registered():
     cfg = load_config(ROOT / "config")
-    assert len(cfg.universe) == 10
+    assert len(cfg.universe) == 23   # 10 + 대시보드 2단계 ① 13개(config/dash_assets.yaml)
     for a in cfg.universe:
         defs, _, _ = cfg.indicator_defs(a)
         for d in defs:

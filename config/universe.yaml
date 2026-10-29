@@ -109,3 +109,110 @@
   trend: {cash: none, basis: 국고 대비}   # 수익 지수가 이미 국고 대비 초과수익 근사라 현금을 또 빼지 않는다(사용자 결정 2026-10-29 결정 4)
   refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread, policy_rate: KTB10Y.policy_rate}   # spread_low_grade(BBB−−국고3년)는 자체 필드(KRCORP=KQ, 2010~ 확인 2026-10-28)
   overrides: {}
+# ── 대시보드 2단계 ① (2026-10-29 사용자 결정): 가격만으로 과매도 블록. 밸류·펀더멘털 블록은 자료가 없어 제외 → 국면은 부분판정.
+#    가격 원천: config/dash_assets.yaml → scripts/dash_import.py → data/processed/panel_dash.csv.gz. 과거 검증 안 함(검증 전).
+#    추세: 현금 금리 자료가 없어 현금을 빼지 않는 가격 기준(가정).
+- asset_id: KOSDAQ
+  name: 코스닥
+  asset_class: equity_index
+  currency: KRW
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: NDX
+  name: 나스닥100
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: SX5E
+  name: 유로스톡스50
+  asset_class: equity_index
+  currency: EUR
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: NIKKEI
+  name: 닛케이225
+  asset_class: equity_index
+  currency: JPY
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: CSI300
+  name: 중국 CSI300(ETF)
+  asset_class: equity_index
+  currency: CNY
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: HSI
+  name: 홍콩 항셍
+  asset_class: equity_index
+  currency: HKD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: NIFTY
+  name: 인도 Nifty50
+  asset_class: equity_index
+  currency: INR
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: TAIEX
+  name: 대만 가권
+  asset_class: equity_index
+  currency: TWD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: AAXJ
+  name: 아시아(일본 제외) ETF
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: EEM
+  name: 신흥국 전체 ETF
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: USDJPY
+  name: USD/JPY (달러 매수 관점)
+  asset_class: fx
+  currency: JPY
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, spec_positioning]}
+- asset_id: EURUSD
+  name: EUR/USD (유로 매수 관점)
+  asset_class: fx
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, spec_positioning]}
+- asset_id: DXY
+  name: 달러인덱스 (달러 매수 관점)
+  asset_class: fx
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, spec_positioning]}

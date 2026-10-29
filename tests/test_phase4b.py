@@ -324,8 +324,10 @@ def test_real_universe_exempts_only_kr_corp():
     from mtscore import load_config
     cfg = load_config(Path(__file__).resolve().parents[1] / "config")
     exempt = {a.asset_id: a.trend_basis for a in cfg.universe if a.trend_cash == "none"}
+    dash = {a.asset_id for a in cfg.universe if a.meta.get("stage") == "dash_2a"}   # 대시보드 2단계 ①: 현금 금리 없음 → 가격 기준
+    assert dash and {a: exempt.pop(a) for a in sorted(dash)} == {a: "가격 기준" for a in sorted(dash)}
     assert exempt == {"KR_CORP": "국고 대비", "US_HY": "국채 대비", "US_IG": "국채 대비"}   # P5-3 활성화 후
-    assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id not in exempt)
+    assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id not in exempt and a.asset_id not in dash)
     assert {a.asset_id for a in cfg.universe if a.trend_return} == {"US_HY", "US_IG"}
 
 

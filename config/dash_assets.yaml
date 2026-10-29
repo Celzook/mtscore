@@ -1,0 +1,21 @@
+# 대시보드 2단계 ① (2026-10-29 사용자 결정): Stock_Dashboard 점수판 자산 중 가격만으로 과매도 블록을 내는 13개.
+# 원천 열 대응 — scripts/dash_import.py 가 data/processed/panel_dash.csv.gz 로 옮긴다. 자산 설정은 universe.yaml.
+files:
+  equity_daily.csv:
+    KOSDAQ: ^KQ11
+    NDX: ^NDX
+    SX5E: ^STOXX50E
+    NIKKEI: ^N225
+    CSI300: 510300.SS
+    HSI: ^HSI
+    NIFTY: ^NSEI
+    TAIEX: ^TWII
+    AAXJ: AAXJ
+    EEM: EEM
+  yf_daily.csv:
+    USDJPY: usdjpy
+    EURUSD: eurusd
+    DXY: dxy
+# 시작일 하한: 유로 출범(1999-01-04) 전 EUR/USD 값은 대용 시계열로 보고 쓰지 않는다(가정)
+start:
+  EURUSD: 1999-01-04

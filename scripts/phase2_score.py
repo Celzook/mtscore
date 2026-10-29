@@ -22,6 +22,9 @@ OUT = ROOT / "outputs" / "phase2"
 def main(as_of="2026-10-27"):
     t0 = time.time()
     panel = pd.read_csv(ROOT / "data" / "processed" / "panel.csv.gz", parse_dates=["date", "as_of"])
+    dash = ROOT / "data" / "processed" / "panel_dash.csv.gz"   # 대시보드 2단계 ①(scripts/dash_import.py) — 없으면 10개 자산만
+    if dash.exists():
+        panel = pd.concat([panel, pd.read_csv(dash, parse_dates=["date", "as_of"])], ignore_index=True)
     eng = ScoringEngine(load_config(ROOT / "config"))
     res = eng.score(panel, as_of=as_of)
     OUT.mkdir(parents=True, exist_ok=True)
