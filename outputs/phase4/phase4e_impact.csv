@@ -1,0 +1,539 @@
+section,asset_id,arm,item,value_num,value_text
+sanity,,default(load_config),reproduce_phase2_mismatch_total,0.0,
+sanity,,base(raw_cfg 사본),reproduce_phase2_mismatch_total,0.0,
+sanity,,C1,unaffected_assets_identical,1.0,
+sanity,,C2,unaffected_assets_identical,1.0,
+sanity,,D1,unaffected_assets_identical,1.0,
+sanity,,all3,unaffected_assets_identical,1.0,
+snapshot,KOSPI200,base,oversold,73.91330846384476,
+snapshot,KOSPI200,base,valuation,55.493956939072824,
+snapshot,KOSPI200,base,fundamental,39.99373361160093,
+snapshot,KOSPI200,base,regime_label,,저평가 패닉 분할 진입
+snapshot,KOSPI200,base,regime_display,,저평가 패닉 분할 진입
+snapshot,SP500,base,oversold,62.64290318293377,
+snapshot,SP500,base,valuation,16.8285172903837,
+snapshot,SP500,base,fundamental,78.8969007321065,
+snapshot,SP500,base,regime_label,,단기 반등 트레이드
+snapshot,SP500,base,regime_display,,단기 반등 트레이드
+snapshot,KTB10Y,base,oversold,24.184585786562014,
+snapshot,KTB10Y,base,valuation,62.50912689184816,
+snapshot,KTB10Y,base,fundamental,37.408753238446415,
+snapshot,KTB10Y,base,regime_label,,고점 경계
+snapshot,KTB10Y,base,regime_display,,고점 경계
+snapshot,UST10Y,base,oversold,55.297355158312854,
+snapshot,UST10Y,base,valuation,80.12938849089979,
+snapshot,UST10Y,base,fundamental,45.62249704871343,
+snapshot,UST10Y,base,regime_label,,저평가 패닉 분할 진입
+snapshot,UST10Y,base,regime_display,,저평가 패닉 분할 진입
+snapshot,USDKRW,base,oversold,10.317815917032288,
+snapshot,USDKRW,base,valuation,97.67413834658954,
+snapshot,USDKRW,base,fundamental,51.22980910425844,
+snapshot,USDKRW,base,regime_label,,보유 분할 매수
+snapshot,USDKRW,base,regime_display,,보유 분할 매수
+snapshot,GOLD,base,oversold,55.32433709986499,
+snapshot,GOLD,base,valuation,6.058101086443074,
+snapshot,GOLD,base,fundamental,22.609633357296914,
+snapshot,GOLD,base,regime_label,,가치함정 경계
+snapshot,GOLD,base,regime_display,,가치함정 경계
+snapshot,WTI,base,oversold,31.923550335466636,
+snapshot,WTI,base,valuation,34.675324675324674,
+snapshot,WTI,base,fundamental,89.5824612131282,
+snapshot,WTI,base,regime_label,,비중 축소
+snapshot,WTI,base,regime_display,,비중 축소
+snapshot,US_HY,base,oversold,78.34236517850883,
+snapshot,US_HY,base,valuation,16.919365954514127,
+snapshot,US_HY,base,fundamental,57.751076475060295,
+snapshot,US_HY,base,regime_label,,단기 반등 트레이드
+snapshot,US_HY,base,regime_display,,단기 반등 트레이드
+snapshot,US_IG,base,oversold,69.97289034085343,
+snapshot,US_IG,base,valuation,16.835056390977442,
+snapshot,US_IG,base,fundamental,57.79916602640865,
+snapshot,US_IG,base,regime_label,,단기 반등 트레이드
+snapshot,US_IG,base,regime_display,,단기 반등 트레이드
+snapshot,KR_CORP,base,oversold,56.63225354362493,
+snapshot,KR_CORP,base,valuation,66.71483622350674,
+snapshot,KR_CORP,base,fundamental,62.69946564342735,
+snapshot,KR_CORP,base,regime_label,,최우선 매수
+snapshot,KR_CORP,base,regime_display,,최우선 매수
+snapshot,KOSPI200,C1,oversold,73.91330846384476,
+snapshot,KOSPI200,C1,valuation,55.493956939072824,
+snapshot,KOSPI200,C1,fundamental,39.99373361160093,
+snapshot,KOSPI200,C1,regime_label,,저평가 패닉 분할 진입
+snapshot,KOSPI200,C1,regime_display,,저평가 패닉 분할 진입
+snapshot,SP500,C1,oversold,62.64290318293377,
+snapshot,SP500,C1,valuation,16.8285172903837,
+snapshot,SP500,C1,fundamental,78.8969007321065,
+snapshot,SP500,C1,regime_label,,단기 반등 트레이드
+snapshot,SP500,C1,regime_display,,단기 반등 트레이드
+snapshot,KTB10Y,C1,oversold,24.184585786562014,
+snapshot,KTB10Y,C1,valuation,62.50912689184816,
+snapshot,KTB10Y,C1,fundamental,37.408753238446415,
+snapshot,KTB10Y,C1,regime_label,,고점 경계
+snapshot,KTB10Y,C1,regime_display,,고점 경계
+snapshot,UST10Y,C1,oversold,55.297355158312854,
+snapshot,UST10Y,C1,valuation,80.12938849089979,
+snapshot,UST10Y,C1,fundamental,45.62249704871343,
+snapshot,UST10Y,C1,regime_label,,저평가 패닉 분할 진입
+snapshot,UST10Y,C1,regime_display,,저평가 패닉 분할 진입
+snapshot,USDKRW,C1,oversold,10.317815917032288,
+snapshot,USDKRW,C1,valuation,97.67413834658954,
+snapshot,USDKRW,C1,fundamental,51.22980910425844,
+snapshot,USDKRW,C1,regime_label,,보유 분할 매수
+snapshot,USDKRW,C1,regime_display,,보유 분할 매수
+snapshot,GOLD,C1,oversold,55.32433709986499,
+snapshot,GOLD,C1,valuation,14.666981577704298,
+snapshot,GOLD,C1,fundamental,22.609633357296914,
+snapshot,GOLD,C1,regime_label,,가치함정 경계
+snapshot,GOLD,C1,regime_display,,가치함정 경계
+snapshot,WTI,C1,oversold,31.923550335466636,
+snapshot,WTI,C1,valuation,20.212514757969302,
+snapshot,WTI,C1,fundamental,89.5824612131282,
+snapshot,WTI,C1,regime_label,,비중 축소
+snapshot,WTI,C1,regime_display,,비중 축소
+snapshot,US_HY,C1,oversold,78.34236517850883,
+snapshot,US_HY,C1,valuation,16.919365954514127,
+snapshot,US_HY,C1,fundamental,57.751076475060295,
+snapshot,US_HY,C1,regime_label,,단기 반등 트레이드
+snapshot,US_HY,C1,regime_display,,단기 반등 트레이드
+snapshot,US_IG,C1,oversold,69.97289034085343,
+snapshot,US_IG,C1,valuation,16.835056390977442,
+snapshot,US_IG,C1,fundamental,57.79916602640865,
+snapshot,US_IG,C1,regime_label,,단기 반등 트레이드
+snapshot,US_IG,C1,regime_display,,단기 반등 트레이드
+snapshot,KR_CORP,C1,oversold,56.63225354362493,
+snapshot,KR_CORP,C1,valuation,66.71483622350674,
+snapshot,KR_CORP,C1,fundamental,62.69946564342735,
+snapshot,KR_CORP,C1,regime_label,,최우선 매수
+snapshot,KR_CORP,C1,regime_display,,최우선 매수
+snapshot,KOSPI200,C2,oversold,73.91330846384476,
+snapshot,KOSPI200,C2,valuation,55.493956939072824,
+snapshot,KOSPI200,C2,fundamental,39.99373361160093,
+snapshot,KOSPI200,C2,regime_label,,저평가 패닉 분할 진입
+snapshot,KOSPI200,C2,regime_display,,저평가 패닉 분할 진입
+snapshot,SP500,C2,oversold,62.64290318293377,
+snapshot,SP500,C2,valuation,16.8285172903837,
+snapshot,SP500,C2,fundamental,78.8969007321065,
+snapshot,SP500,C2,regime_label,,단기 반등 트레이드
+snapshot,SP500,C2,regime_display,,단기 반등 트레이드
+snapshot,KTB10Y,C2,oversold,24.184585786562014,
+snapshot,KTB10Y,C2,valuation,62.50912689184816,
+snapshot,KTB10Y,C2,fundamental,37.408753238446415,
+snapshot,KTB10Y,C2,regime_label,,고점 경계
+snapshot,KTB10Y,C2,regime_display,,고점 경계
+snapshot,UST10Y,C2,oversold,55.297355158312854,
+snapshot,UST10Y,C2,valuation,80.12938849089979,
+snapshot,UST10Y,C2,fundamental,45.62249704871343,
+snapshot,UST10Y,C2,regime_label,,저평가 패닉 분할 진입
+snapshot,UST10Y,C2,regime_display,,저평가 패닉 분할 진입
+snapshot,USDKRW,C2,oversold,10.317815917032288,
+snapshot,USDKRW,C2,valuation,97.67413834658954,
+snapshot,USDKRW,C2,fundamental,36.8251764970209,
+snapshot,USDKRW,C2,regime_label,,고점 경계
+snapshot,USDKRW,C2,regime_display,,고점 경계
+snapshot,GOLD,C2,oversold,55.32433709986499,
+snapshot,GOLD,C2,valuation,6.058101086443074,
+snapshot,GOLD,C2,fundamental,22.609633357296914,
+snapshot,GOLD,C2,regime_label,,가치함정 경계
+snapshot,GOLD,C2,regime_display,,가치함정 경계
+snapshot,WTI,C2,oversold,31.923550335466636,
+snapshot,WTI,C2,valuation,34.675324675324674,
+snapshot,WTI,C2,fundamental,89.5824612131282,
+snapshot,WTI,C2,regime_label,,비중 축소
+snapshot,WTI,C2,regime_display,,비중 축소
+snapshot,US_HY,C2,oversold,78.34236517850883,
+snapshot,US_HY,C2,valuation,16.919365954514127,
+snapshot,US_HY,C2,fundamental,57.751076475060295,
+snapshot,US_HY,C2,regime_label,,단기 반등 트레이드
+snapshot,US_HY,C2,regime_display,,단기 반등 트레이드
+snapshot,US_IG,C2,oversold,69.97289034085343,
+snapshot,US_IG,C2,valuation,16.835056390977442,
+snapshot,US_IG,C2,fundamental,57.79916602640865,
+snapshot,US_IG,C2,regime_label,,단기 반등 트레이드
+snapshot,US_IG,C2,regime_display,,단기 반등 트레이드
+snapshot,KR_CORP,C2,oversold,56.63225354362493,
+snapshot,KR_CORP,C2,valuation,66.71483622350674,
+snapshot,KR_CORP,C2,fundamental,62.69946564342735,
+snapshot,KR_CORP,C2,regime_label,,최우선 매수
+snapshot,KR_CORP,C2,regime_display,,최우선 매수
+snapshot,KOSPI200,D1,oversold,73.91330846384476,
+snapshot,KOSPI200,D1,valuation,55.493956939072824,
+snapshot,KOSPI200,D1,fundamental,39.99373361160093,
+snapshot,KOSPI200,D1,regime_label,,저평가 패닉 분할 진입
+snapshot,KOSPI200,D1,regime_display,,저평가 패닉 분할 진입
+snapshot,SP500,D1,oversold,62.64290318293377,
+snapshot,SP500,D1,valuation,11.8988826265059,
+snapshot,SP500,D1,fundamental,78.8969007321065,
+snapshot,SP500,D1,regime_label,,단기 반등 트레이드
+snapshot,SP500,D1,regime_display,,단기 반등 트레이드
+snapshot,KTB10Y,D1,oversold,24.184585786562014,
+snapshot,KTB10Y,D1,valuation,62.50912689184816,
+snapshot,KTB10Y,D1,fundamental,37.408753238446415,
+snapshot,KTB10Y,D1,regime_label,,고점 경계
+snapshot,KTB10Y,D1,regime_display,,고점 경계
+snapshot,UST10Y,D1,oversold,55.297355158312854,
+snapshot,UST10Y,D1,valuation,80.12938849089979,
+snapshot,UST10Y,D1,fundamental,45.62249704871343,
+snapshot,UST10Y,D1,regime_label,,저평가 패닉 분할 진입
+snapshot,UST10Y,D1,regime_display,,저평가 패닉 분할 진입
+snapshot,USDKRW,D1,oversold,10.317815917032288,
+snapshot,USDKRW,D1,valuation,97.67413834658954,
+snapshot,USDKRW,D1,fundamental,51.22980910425844,
+snapshot,USDKRW,D1,regime_label,,보유 분할 매수
+snapshot,USDKRW,D1,regime_display,,보유 분할 매수
+snapshot,GOLD,D1,oversold,55.32433709986499,
+snapshot,GOLD,D1,valuation,6.058101086443074,
+snapshot,GOLD,D1,fundamental,22.609633357296914,
+snapshot,GOLD,D1,regime_label,,가치함정 경계
+snapshot,GOLD,D1,regime_display,,가치함정 경계
+snapshot,WTI,D1,oversold,31.923550335466636,
+snapshot,WTI,D1,valuation,34.675324675324674,
+snapshot,WTI,D1,fundamental,89.5824612131282,
+snapshot,WTI,D1,regime_label,,비중 축소
+snapshot,WTI,D1,regime_display,,비중 축소
+snapshot,US_HY,D1,oversold,78.34236517850883,
+snapshot,US_HY,D1,valuation,16.919365954514127,
+snapshot,US_HY,D1,fundamental,57.751076475060295,
+snapshot,US_HY,D1,regime_label,,단기 반등 트레이드
+snapshot,US_HY,D1,regime_display,,단기 반등 트레이드
+snapshot,US_IG,D1,oversold,69.97289034085343,
+snapshot,US_IG,D1,valuation,16.835056390977442,
+snapshot,US_IG,D1,fundamental,57.79916602640865,
+snapshot,US_IG,D1,regime_label,,단기 반등 트레이드
+snapshot,US_IG,D1,regime_display,,단기 반등 트레이드
+snapshot,KR_CORP,D1,oversold,56.63225354362493,
+snapshot,KR_CORP,D1,valuation,66.71483622350674,
+snapshot,KR_CORP,D1,fundamental,62.69946564342735,
+snapshot,KR_CORP,D1,regime_label,,최우선 매수
+snapshot,KR_CORP,D1,regime_display,,최우선 매수
+snapshot,KOSPI200,all3,oversold,73.91330846384476,
+snapshot,KOSPI200,all3,valuation,55.493956939072824,
+snapshot,KOSPI200,all3,fundamental,39.99373361160093,
+snapshot,KOSPI200,all3,regime_label,,저평가 패닉 분할 진입
+snapshot,KOSPI200,all3,regime_display,,저평가 패닉 분할 진입
+snapshot,SP500,all3,oversold,62.64290318293377,
+snapshot,SP500,all3,valuation,11.8988826265059,
+snapshot,SP500,all3,fundamental,78.8969007321065,
+snapshot,SP500,all3,regime_label,,단기 반등 트레이드
+snapshot,SP500,all3,regime_display,,단기 반등 트레이드
+snapshot,KTB10Y,all3,oversold,24.184585786562014,
+snapshot,KTB10Y,all3,valuation,62.50912689184816,
+snapshot,KTB10Y,all3,fundamental,37.408753238446415,
+snapshot,KTB10Y,all3,regime_label,,고점 경계
+snapshot,KTB10Y,all3,regime_display,,고점 경계
+snapshot,UST10Y,all3,oversold,55.297355158312854,
+snapshot,UST10Y,all3,valuation,80.12938849089979,
+snapshot,UST10Y,all3,fundamental,45.62249704871343,
+snapshot,UST10Y,all3,regime_label,,저평가 패닉 분할 진입
+snapshot,UST10Y,all3,regime_display,,저평가 패닉 분할 진입
+snapshot,USDKRW,all3,oversold,10.317815917032288,
+snapshot,USDKRW,all3,valuation,97.67413834658954,
+snapshot,USDKRW,all3,fundamental,36.8251764970209,
+snapshot,USDKRW,all3,regime_label,,고점 경계
+snapshot,USDKRW,all3,regime_display,,고점 경계
+snapshot,GOLD,all3,oversold,55.32433709986499,
+snapshot,GOLD,all3,valuation,14.666981577704298,
+snapshot,GOLD,all3,fundamental,22.609633357296914,
+snapshot,GOLD,all3,regime_label,,가치함정 경계
+snapshot,GOLD,all3,regime_display,,가치함정 경계
+snapshot,WTI,all3,oversold,31.923550335466636,
+snapshot,WTI,all3,valuation,20.212514757969302,
+snapshot,WTI,all3,fundamental,89.5824612131282,
+snapshot,WTI,all3,regime_label,,비중 축소
+snapshot,WTI,all3,regime_display,,비중 축소
+snapshot,US_HY,all3,oversold,78.34236517850883,
+snapshot,US_HY,all3,valuation,16.919365954514127,
+snapshot,US_HY,all3,fundamental,57.751076475060295,
+snapshot,US_HY,all3,regime_label,,단기 반등 트레이드
+snapshot,US_HY,all3,regime_display,,단기 반등 트레이드
+snapshot,US_IG,all3,oversold,69.97289034085343,
+snapshot,US_IG,all3,valuation,16.835056390977442,
+snapshot,US_IG,all3,fundamental,57.79916602640865,
+snapshot,US_IG,all3,regime_label,,단기 반등 트레이드
+snapshot,US_IG,all3,regime_display,,단기 반등 트레이드
+snapshot,KR_CORP,all3,oversold,56.63225354362493,
+snapshot,KR_CORP,all3,valuation,66.71483622350674,
+snapshot,KR_CORP,all3,fundamental,62.69946564342735,
+snapshot,KR_CORP,all3,regime_label,,최우선 매수
+snapshot,KR_CORP,all3,regime_display,,최우선 매수
+new_indicator,GOLD,C1,long_reversal_60m.raw,0.8013270509963106,
+new_indicator,GOLD,C1,long_reversal_60m.percentile,76.72413793103448,
+new_indicator,GOLD,C1,long_reversal_60m.score,23.275862068965523,
+new_indicator,GOLD,C1,long_reversal_60m.weight_in_block,0.5,
+new_indicator,GOLD,C1,long_reversal_60m.contribution,11.637931034482762,
+new_indicator,GOLD,all3,long_reversal_60m.raw,0.8013270509963106,
+new_indicator,GOLD,all3,long_reversal_60m.percentile,76.72413793103448,
+new_indicator,GOLD,all3,long_reversal_60m.score,23.275862068965523,
+new_indicator,GOLD,all3,long_reversal_60m.weight_in_block,0.5,
+new_indicator,GOLD,all3,long_reversal_60m.contribution,11.637931034482762,
+block_members,GOLD,all3,real_price_level_spot.score,6.058101086443074,
+block_members,GOLD,all3,real_price_level_spot.weight_in_block,0.5,
+block_members,GOLD,all3,long_reversal_60m.weight_in_block,0.5,
+new_indicator,WTI,C1,long_reversal_60m.raw,1.1249401648178634,
+new_indicator,WTI,C1,long_reversal_60m.percentile,94.25029515938607,
+new_indicator,WTI,C1,long_reversal_60m.score,5.74970484061393,
+new_indicator,WTI,C1,long_reversal_60m.weight_in_block,0.5,
+new_indicator,WTI,C1,long_reversal_60m.contribution,2.874852420306965,
+new_indicator,WTI,all3,long_reversal_60m.raw,1.1249401648178634,
+new_indicator,WTI,all3,long_reversal_60m.percentile,94.25029515938607,
+new_indicator,WTI,all3,long_reversal_60m.score,5.74970484061393,
+new_indicator,WTI,all3,long_reversal_60m.weight_in_block,0.5,
+new_indicator,WTI,all3,long_reversal_60m.contribution,2.874852420306965,
+block_members,WTI,all3,real_price_level_spot.score,34.675324675324674,
+block_members,WTI,all3,real_price_level_spot.weight_in_block,0.5,
+block_members,WTI,all3,long_reversal_60m.weight_in_block,0.5,
+new_indicator,USDKRW,C2,rate_diff_level.raw,-0.9539999999999996,
+new_indicator,USDKRW,C2,rate_diff_level.percentile,8.015911282545805,
+new_indicator,USDKRW,C2,rate_diff_level.score,8.015911282545805,
+new_indicator,USDKRW,C2,rate_diff_level.weight_in_block,0.3333333333333333,
+new_indicator,USDKRW,C2,rate_diff_level.contribution,2.671970427515268,
+new_indicator,USDKRW,all3,rate_diff_level.raw,-0.9539999999999996,
+new_indicator,USDKRW,all3,rate_diff_level.percentile,8.015911282545805,
+new_indicator,USDKRW,all3,rate_diff_level.score,8.015911282545805,
+new_indicator,USDKRW,all3,rate_diff_level.weight_in_block,0.3333333333333333,
+new_indicator,USDKRW,all3,rate_diff_level.contribution,2.671970427515268,
+block_members,USDKRW,all3,rate_diff_chg_3m.score,2.6309348996573667,
+block_members,USDKRW,all3,rate_diff_chg_3m.weight_in_block,0.3333333333333333,
+block_members,USDKRW,all3,current_account_trend.score,99.82868330885952,
+block_members,USDKRW,all3,current_account_trend.weight_in_block,0.3333333333333333,
+block_members,USDKRW,all3,rate_diff_level.weight_in_block,0.3333333333333333,
+new_indicator,SP500,D1,cape.raw,41.2325572931294,
+new_indicator,SP500,D1,cape.percentile,97.9603867012497,
+new_indicator,SP500,D1,cape.score,2.0396132987502966,
+new_indicator,SP500,D1,cape.weight_in_block,0.3333333333333333,
+new_indicator,SP500,D1,cape.contribution,0.6798710995834322,
+new_indicator,SP500,all3,cape.raw,41.2325572931294,
+new_indicator,SP500,all3,cape.percentile,97.9603867012497,
+new_indicator,SP500,all3,cape.score,2.0396132987502966,
+new_indicator,SP500,all3,cape.weight_in_block,0.3333333333333333,
+new_indicator,SP500,all3,cape.contribution,0.6798710995834322,
+block_members,SP500,all3,per_fwd_12m.score,28.837044054950255,
+block_members,SP500,all3,per_fwd_12m.weight_in_block,0.3333333333333333,
+block_members,SP500,all3,erp.score,4.819990525817149,
+block_members,SP500,all3,erp.weight_in_block,0.3333333333333333,
+block_members,SP500,all3,cape.weight_in_block,0.3333333333333333,
+block_members,GOLD,all3,long_reversal_60m.sub_block,,valuation.real_price
+block_members,GOLD,all3,long_reversal_60m.sub_block_n_indicators,2.0,
+block_members,GOLD,all3,long_reversal_60m.first_score_date,,2013-01-04
+block_members,WTI,all3,long_reversal_60m.sub_block,,valuation.real_price
+block_members,WTI,all3,long_reversal_60m.sub_block_n_indicators,2.0,
+block_members,WTI,all3,long_reversal_60m.first_score_date,,2013-01-04
+block_members,USDKRW,all3,rate_diff_level.sub_block,,fundamental.macro
+block_members,USDKRW,all3,rate_diff_level.sub_block_n_indicators,3.0,
+block_members,USDKRW,all3,rate_diff_level.first_score_date,,2013-01-07
+block_members,SP500,all3,cape.sub_block,,valuation.multiples
+block_members,SP500,all3,cape.sub_block_n_indicators,3.0,
+block_members,SP500,all3,cape.first_score_date,,2012-12-31
+hist_label_days,GOLD,base,고점 경계,1004.0,
+hist_label_days,GOLD,base,저평가 패닉 분할 진입,620.0,
+hist_label_days,GOLD,base,가치함정 경계,562.0,
+hist_label_days,GOLD,base,비중 축소,557.0,
+hist_label_days,GOLD,base,보유 분할 매수,340.0,
+hist_label_days,GOLD,base,단기 반등 트레이드,216.0,
+hist_label_days,GOLD,base,최우선 매수,117.0,
+hist_label_days,GOLD,C1,고점 경계,1004.0,
+hist_label_days,GOLD,C1,저평가 패닉 분할 진입,644.0,
+hist_label_days,GOLD,C1,비중 축소,546.0,
+hist_label_days,GOLD,C1,가치함정 경계,538.0,
+hist_label_days,GOLD,C1,보유 분할 매수,351.0,
+hist_label_days,GOLD,C1,단기 반등 트레이드,216.0,
+hist_label_days,GOLD,C1,최우선 매수,117.0,
+hist_label_changed_by_year,GOLD,C1,2016,6.0,
+hist_label_changed_by_year,GOLD,C1,2017,1.0,
+hist_label_changed_by_year,GOLD,C1,2019,4.0,
+hist_label_changed_by_year,GOLD,C1,2022,24.0,
+hist_transition,GOLD,C1,가치함정 경계 -> 저평가 패닉 분할 진입,24.0,
+hist_transition,GOLD,C1,비중 축소 -> 보유 분할 매수,11.0,
+hist_summary,GOLD,C1,block,,valuation
+hist_summary,GOLD,C1,n_days,3480.0,
+hist_summary,GOLD,C1,n_days_all_blocks_both,3416.0,
+hist_summary,GOLD,C1,n_days_label_changed,35.0,
+hist_summary,GOLD,C1,pct_label_changed,1.0245901639344261,
+hist_summary,GOLD,C1,n_days_partial_label_changed,44.0,
+hist_summary,GOLD,C1,n_days_na_in_either,64.0,
+hist_summary,GOLD,C1,n_days_block_both,3478.0,
+hist_summary,GOLD,C1,n_block_cross50,85.0,
+hist_summary,GOLD,C1,pct_block_cross50,2.443933294997125,
+hist_summary,GOLD,C1,n_cross_down,0.0,
+hist_summary,GOLD,C1,n_cross_up,85.0,
+hist_summary,GOLD,C1,pct_block_ge50_base,45.88844163312248,
+hist_summary,GOLD,C1,pct_block_ge50_variant,48.332374928119606,
+hist_summary,GOLD,C1,block_mean_base,46.84178747144282,
+hist_summary,GOLD,C1,block_mean_variant,54.2220269228744,
+hist_summary,GOLD,C1,block_delta_mean,7.38023945143158,
+hist_summary,GOLD,C1,block_delta_mean_abs,8.779097317713394,
+hist_summary,GOLD,C1,block_delta_min,-15.02452073116362,
+hist_summary,GOLD,C1,block_delta_max,37.43489583333333,
+hist_summary,GOLD,C1,first_day_both,,2013-04-05
+hist_summary,GOLD,C1,block_first_base,,2013-01-04
+hist_summary,GOLD,C1,block_first_variant,,2013-01-04
+hist_label_days,WTI,base,최우선 매수,869.0,
+hist_label_days,WTI,base,보유 분할 매수,651.0,
+hist_label_days,WTI,base,저평가 패닉 분할 진입,645.0,
+hist_label_days,WTI,base,비중 축소,485.0,
+hist_label_days,WTI,base,고점 경계,422.0,
+hist_label_days,WTI,base,단기 반등 트레이드,350.0,
+hist_label_days,WTI,base,가치함정 경계,41.0,
+hist_label_days,WTI,C1,단기 반등 트레이드,917.0,
+hist_label_days,WTI,C1,비중 축소,670.0,
+hist_label_days,WTI,C1,저평가 패닉 분할 진입,534.0,
+hist_label_days,WTI,C1,보유 분할 매수,466.0,
+hist_label_days,WTI,C1,고점 경계,422.0,
+hist_label_days,WTI,C1,최우선 매수,302.0,
+hist_label_days,WTI,C1,가치함정 경계,152.0,
+hist_label_changed_by_year,WTI,C1,2013,121.0,
+hist_label_changed_by_year,WTI,C1,2014,54.0,
+hist_label_changed_by_year,WTI,C1,2019,18.0,
+hist_label_changed_by_year,WTI,C1,2020,22.0,
+hist_label_changed_by_year,WTI,C1,2021,130.0,
+hist_label_changed_by_year,WTI,C1,2022,28.0,
+hist_label_changed_by_year,WTI,C1,2023,168.0,
+hist_label_changed_by_year,WTI,C1,2024,207.0,
+hist_label_changed_by_year,WTI,C1,2025,249.0,
+hist_label_changed_by_year,WTI,C1,2026,80.0,
+hist_transition,WTI,C1,가치함정 경계 -> 저평가 패닉 분할 진입,16.0,
+hist_transition,WTI,C1,단기 반등 트레이드 -> 최우선 매수,22.0,
+hist_transition,WTI,C1,보유 분할 매수 -> 비중 축소,254.0,
+hist_transition,WTI,C1,비중 축소 -> 보유 분할 매수,69.0,
+hist_transition,WTI,C1,저평가 패닉 분할 진입 -> 가치함정 경계,127.0,
+hist_transition,WTI,C1,최우선 매수 -> 단기 반등 트레이드,589.0,
+hist_summary,WTI,C1,block,,valuation
+hist_summary,WTI,C1,n_days,3479.0,
+hist_summary,WTI,C1,n_days_all_blocks_both,3463.0,
+hist_summary,WTI,C1,n_days_label_changed,1077.0,
+hist_summary,WTI,C1,pct_label_changed,31.10020213687554,
+hist_summary,WTI,C1,n_days_partial_label_changed,16.0,
+hist_summary,WTI,C1,n_days_na_in_either,16.0,
+hist_summary,WTI,C1,n_days_block_both,3477.0,
+hist_summary,WTI,C1,n_block_cross50,1143.0,
+hist_summary,WTI,C1,pct_block_cross50,32.87316652286454,
+hist_summary,WTI,C1,n_cross_down,1009.0,
+hist_summary,WTI,C1,n_cross_up,134.0,
+hist_summary,WTI,C1,pct_block_ge50_base,73.56916882369859,
+hist_summary,WTI,C1,pct_block_ge50_variant,48.40379637618637,
+hist_summary,WTI,C1,block_mean_base,65.74086891765026,
+hist_summary,WTI,C1,block_mean_variant,53.104095876761015,
+hist_summary,WTI,C1,block_delta_mean,-12.636773040889228,
+hist_summary,WTI,C1,block_delta_mean_abs,17.176266281679013,
+hist_summary,WTI,C1,block_delta_min,-45.49456240290005,
+hist_summary,WTI,C1,block_delta_max,44.25028184892897,
+hist_summary,WTI,C1,first_day_both,,2013-01-25
+hist_summary,WTI,C1,block_first_base,,2013-01-04
+hist_summary,WTI,C1,block_first_variant,,2013-01-04
+hist_label_days,USDKRW,base,고점 경계,646.0,
+hist_label_days,USDKRW,base,가치함정 경계,560.0,
+hist_label_days,USDKRW,base,보유 분할 매수,511.0,
+hist_label_days,USDKRW,base,단기 반등 트레이드,455.0,
+hist_label_days,USDKRW,base,비중 축소,404.0,
+hist_label_days,USDKRW,base,최우선 매수,394.0,
+hist_label_days,USDKRW,base,저평가 패닉 분할 진입,367.0,
+hist_label_days,USDKRW,C2,고점 경계,1144.0,
+hist_label_days,USDKRW,C2,가치함정 경계,855.0,
+hist_label_days,USDKRW,C2,저평가 패닉 분할 진입,501.0,
+hist_label_days,USDKRW,C2,보유 분할 매수,317.0,
+hist_label_days,USDKRW,C2,최우선 매수,260.0,
+hist_label_days,USDKRW,C2,단기 반등 트레이드,160.0,
+hist_label_days,USDKRW,C2,비중 축소,100.0,
+hist_label_changed_by_year,USDKRW,C2,2013,109.0,
+hist_label_changed_by_year,USDKRW,C2,2014,43.0,
+hist_label_changed_by_year,USDKRW,C2,2015,164.0,
+hist_label_changed_by_year,USDKRW,C2,2016,75.0,
+hist_label_changed_by_year,USDKRW,C2,2017,44.0,
+hist_label_changed_by_year,USDKRW,C2,2018,18.0,
+hist_label_changed_by_year,USDKRW,C2,2019,175.0,
+hist_label_changed_by_year,USDKRW,C2,2020,20.0,
+hist_label_changed_by_year,USDKRW,C2,2021,6.0,
+hist_label_changed_by_year,USDKRW,C2,2022,3.0,
+hist_label_changed_by_year,USDKRW,C2,2023,51.0,
+hist_label_changed_by_year,USDKRW,C2,2024,151.0,
+hist_label_changed_by_year,USDKRW,C2,2025,68.0,
+hist_label_changed_by_year,USDKRW,C2,2026,30.0,
+hist_transition,USDKRW,C2,고점 경계 -> 보유 분할 매수,10.0,
+hist_transition,USDKRW,C2,단기 반등 트레이드 -> 가치함정 경계,295.0,
+hist_transition,USDKRW,C2,보유 분할 매수 -> 고점 경계,204.0,
+hist_transition,USDKRW,C2,비중 축소 -> 고점 경계,304.0,
+hist_transition,USDKRW,C2,저평가 패닉 분할 진입 -> 최우선 매수,5.0,
+hist_transition,USDKRW,C2,최우선 매수 -> 저평가 패닉 분할 진입,139.0,
+hist_summary,USDKRW,C2,block,,fundamental
+hist_summary,USDKRW,C2,n_days,3402.0,
+hist_summary,USDKRW,C2,n_days_all_blocks_both,3337.0,
+hist_summary,USDKRW,C2,n_days_label_changed,957.0,
+hist_summary,USDKRW,C2,pct_label_changed,28.678453700928976,
+hist_summary,USDKRW,C2,n_days_partial_label_changed,64.0,
+hist_summary,USDKRW,C2,n_days_na_in_either,65.0,
+hist_summary,USDKRW,C2,n_days_block_both,3337.0,
+hist_summary,USDKRW,C2,n_block_cross50,957.0,
+hist_summary,USDKRW,C2,pct_block_cross50,28.678453700928976,
+hist_summary,USDKRW,C2,n_cross_down,942.0,
+hist_summary,USDKRW,C2,n_cross_up,15.0,
+hist_summary,USDKRW,C2,pct_block_ge50_base,52.86185196284088,
+hist_summary,USDKRW,C2,pct_block_ge50_variant,25.082409349715313,
+hist_summary,USDKRW,C2,block_mean_base,51.03468779776962,
+hist_summary,USDKRW,C2,block_mean_variant,39.69342693973468,
+hist_summary,USDKRW,C2,block_delta_mean,-11.341260858034936,
+hist_summary,USDKRW,C2,block_delta_mean_abs,12.901120627492787,
+hist_summary,USDKRW,C2,block_delta_min,-30.340637461472895,
+hist_summary,USDKRW,C2,block_delta_max,14.48493772995765,
+hist_summary,USDKRW,C2,first_day_both,,2013-04-05
+hist_summary,USDKRW,C2,block_first_base,,2013-04-05
+hist_summary,USDKRW,C2,block_first_variant,,2013-01-07
+hist_label_days,SP500,base,비중 축소,1061.0,
+hist_label_days,SP500,base,고점 경계,897.0,
+hist_label_days,SP500,base,단기 반등 트레이드,846.0,
+hist_label_days,SP500,base,가치함정 경계,606.0,
+hist_label_days,SP500,base,저평가 패닉 분할 진입,36.0,
+hist_label_days,SP500,D1,비중 축소,1061.0,
+hist_label_days,SP500,D1,고점 경계,897.0,
+hist_label_days,SP500,D1,단기 반등 트레이드,846.0,
+hist_label_days,SP500,D1,가치함정 경계,615.0,
+hist_label_days,SP500,D1,저평가 패닉 분할 진입,27.0,
+hist_label_changed_by_year,SP500,D1,2016,1.0,
+hist_label_changed_by_year,SP500,D1,2018,1.0,
+hist_label_changed_by_year,SP500,D1,2019,20.0,
+hist_label_changed_by_year,SP500,D1,2020,13.0,
+hist_transition,SP500,D1,가치함정 경계 -> 저평가 패닉 분할 진입,13.0,
+hist_transition,SP500,D1,저평가 패닉 분할 진입 -> 가치함정 경계,22.0,
+hist_summary,SP500,D1,block,,valuation
+hist_summary,SP500,D1,n_days,3486.0,
+hist_summary,SP500,D1,n_days_all_blocks_both,3446.0,
+hist_summary,SP500,D1,n_days_label_changed,35.0,
+hist_summary,SP500,D1,pct_label_changed,1.0156703424260012,
+hist_summary,SP500,D1,n_days_partial_label_changed,20.0,
+hist_summary,SP500,D1,n_days_na_in_either,40.0,
+hist_summary,SP500,D1,n_days_block_both,3468.0,
+hist_summary,SP500,D1,n_block_cross50,60.0,
+hist_summary,SP500,D1,pct_block_cross50,1.7301038062283738,
+hist_summary,SP500,D1,n_cross_down,47.0,
+hist_summary,SP500,D1,n_cross_up,13.0,
+hist_summary,SP500,D1,pct_block_ge50_base,1.9319492502883506,
+hist_summary,SP500,D1,pct_block_ge50_variant,0.9515570934256056,
+hist_summary,SP500,D1,block_mean_base,15.951119178296846,
+hist_summary,SP500,D1,block_mean_variant,14.377214310305524,
+hist_summary,SP500,D1,block_delta_mean,-1.5739048679913235,
+hist_summary,SP500,D1,block_delta_mean_abs,3.3683170590073472,
+hist_summary,SP500,D1,block_delta_min,-14.837961434384702,
+hist_summary,SP500,D1,block_delta_max,13.18412052230444,
+hist_summary,SP500,D1,first_day_both,,2013-03-01
+hist_summary,SP500,D1,block_first_base,,2013-01-29
+hist_summary,SP500,D1,block_first_variant,,2013-01-02
+sp500_cape,SP500,D1,cape_last_raw,41.2325572931294,
+sp500_cape,SP500,D1,cape_last_pct,97.9603867012497,
+sp500_cape,SP500,D1,cape_last_score,2.0396132987502966,
+sp500_cape,SP500,D1,cape_first_score_date,,2012-12-31
+sp500_cape,SP500,D1,valuation_base_last,16.8285172903837,
+sp500_cape,SP500,D1,valuation_d1_last,11.8988826265059,
+sp500_cape,SP500,D1,n_cape_score_days,3487.0,
+sp500_cape,SP500,D1,cape_score_lt5_share_pct,45.65529108115859,
+sp500_cape,SP500,D1,cape_score_lt20_share_pct,79.32320045884714,
+sp500_cape,SP500,D1,cape_raw_max,42.72479166718518,
+sp500_cape,SP500,D1,cape_raw_max_date,,2026-08-13
+sp500_cape,SP500,D1,cape_score_min_date,,2026-08-13
+sp500_cape,SP500,D1,valuation_delta_mean_2013-2019,-3.400769484621254,
+sp500_cape,SP500,D1,valuation_base_mean_2013-2019,18.793672859692805,
+sp500_cape,SP500,D1,valuation_d1_mean_2013-2019,15.392903375071553,
+sp500_cape,SP500,D1,valuation_delta_min_2013-2019,-14.837961434384702,
+sp500_cape,SP500,D1,valuation_delta_max_2013-2019,7.642370394429726,
+sp500_cape,SP500,D1,valuation_delta_mean_2020-2026,0.2741530736575148,
+sp500_cape,SP500,D1,valuation_base_mean_2020-2026,13.075589236095832,
+sp500_cape,SP500,D1,valuation_d1_mean_2020-2026,13.349742309753346,
+sp500_cape,SP500,D1,valuation_delta_min_2020-2026,-9.472169528530657,
+sp500_cape,SP500,D1,valuation_delta_max_2020-2026,13.18412052230444,
