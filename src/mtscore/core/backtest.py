@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import rankdata
 
+from .indicators.price import lag_months
 from .scoring import regime
 
 
@@ -69,6 +70,22 @@ def trend_up(index: pd.Series, window: int = 200) -> pd.Series:
     """추세 게이트: 수익 지수 ≥ 그 window 일 단순이동평균(현재 포함, 과거만 사용). 워밍업 중은 NaN."""
     ma = index.rolling(int(window), min_periods=int(window)).mean()
     return (index >= ma).where(ma.notna())
+
+
+def tsmom_excess(index: pd.Series, cash_rate: pd.Series, months: int, days_per_year: float = 252.0) -> pd.Series:
+    """추세 표시(사전 등록 B3): 수익 지수의 months 달력월 수익 − 같은 구간의 현금 수익(TSMOM, 현금 대비 초과).
+
+    - 수익: index_t / index_(t − months 달력월) − 1. 비교 시점은 lag_months(그 시점 이전 마지막 달력일의 값)와 같은
+      정의이고, 그 날 값이 결측이면 결측이다. t 이전 값만 쓴다(PIT).
+    - 현금: 자산 달력일마다 직전 달력일 금리(%)/100/days_per_year 를 복리로 쌓는다(가정: duration_approx 캐리와 같은
+      관례, 실제 일수 무시). 구간 (t − months, t] 안에 금리 결측일이 하나라도 있으면 결측(다른 값으로 채우지 않음).
+    점수·국면 판정에는 쓰지 않는다(표시 전용)."""
+    acc = np.log1p(cash_rate.astype(float).shift(1) / 100.0 / float(days_per_year))
+    cum = acc.fillna(0.0).cumsum()
+    gaps = acc.isna().astype(float).cumsum()
+    cash = np.exp(cum - lag_months(cum, months)) - 1.0
+    cash = cash.where((gaps - lag_months(gaps, months)) == 0)
+    return index / lag_months(index, months) - 1.0 - cash
 
 
 # ---- 통계

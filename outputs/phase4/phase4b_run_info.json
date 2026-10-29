@@ -1,0 +1,34 @@
+{
+ "seconds": 129.4,
+ "panel_rows": 149597,
+ "splits": {
+  "selection": [
+   "2013-01-01",
+   "2019-12-31"
+  ],
+  "confirmation": [
+   "2020-01-01",
+   null
+  ]
+ },
+ "primary_horizon": 63,
+ "placebo_shifts": 2000,
+ "placebo_seed_base": 11,
+ "placebo_seed_rule": "seed + 2000 + 10*class_index + split_index (class 순서: universe 등장 순 + ALL)",
+ "class_order": [
+  "equity_index",
+  "rates",
+  "fx",
+  "commodity",
+  "credit",
+  "ALL"
+ ],
+ "regression_score_history_equal": true,
+ "regression_result_json_equal": true,
+ "horizons": [
+  21,
+  63,
+  126,
+  252
+ ]
+}

@@ -1,0 +1,223 @@
+asset_class: equity_index
+blocks:
+  oversold:
+    price:
+    - name: disparity_20
+      indicator: disparity
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 20
+    - name: disparity_60
+      indicator: disparity
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 60
+    - name: disparity_200
+      indicator: disparity
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 200
+    - name: drawdown_52w_over_rv
+      indicator: drawdown_over_rv
+      direction: '-'
+      fields:
+      - close
+      params:
+        lookback: 252
+        rv_window: 60
+    - name: return_z_5
+      indicator: return_z
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 5
+    - name: return_z_20
+      indicator: return_z
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 20
+    - name: rsi_2
+      indicator: rsi
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 2
+    confluence:
+    - name: bb_pctb_20
+      indicator: bb_pctb
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 20
+        k: 2
+    - name: rsi_14
+      indicator: rsi
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 14
+    breadth:
+    - name: pct_above_ma20
+      indicator: level
+      direction: '-'
+      fields:
+      - breadth_above_ma20
+    - name: pct_above_ma200
+      indicator: level
+      direction: '-'
+      fields:
+      - breadth_above_ma200
+    - name: pct_new_low_52w
+      indicator: level
+      direction: +
+      fields:
+      - breadth_new_low_52w
+    - name: adr_20
+      indicator: adr
+      direction: '-'
+      fields:
+      - breadth_adv
+      - breadth_dec
+      params:
+        window: 20
+    vol_sentiment:
+    - name: vol_index_level
+      indicator: level
+      direction: +
+      fields:
+      - vol_index
+    - name: vol_index_over_rv
+      indicator: vol_over_rv
+      direction: +
+      fields:
+      - vol_index
+      - close
+      params:
+        rv_window: 20
+    - name: vol_term_inversion
+      indicator: term_ratio
+      direction: +
+      fields:
+      - vol_index
+      - vol_index_3m
+    - name: put_call
+      indicator: level
+      direction: +
+      fields:
+      - put_call
+      status: na_until_found
+    - name: home_ccy_shock_20
+      indicator: shock_return
+      direction: +
+      fields:
+      - fx_home
+      params:
+        window: 20
+      flags:
+      - currency
+    flows:
+    - name: foreign_net_buy_intensity
+      indicator: flow_intensity
+      direction: '-'
+      fields:
+      - foreign_net_buy
+    - name: inst_net_buy_intensity
+      indicator: flow_intensity
+      direction: '-'
+      fields:
+      - inst_net_buy
+      status: na_until_found
+    - name: margin_debt_change
+      indicator: pct_change_months
+      direction: '-'
+      fields:
+      - margin_debt
+      params:
+        months: 1
+      status: na_until_found
+    - name: forced_liquidation
+      indicator: level
+      direction: +
+      fields:
+      - forced_liquidation
+      status: na_until_found
+  valuation:
+    multiples:
+    - name: pbr_trailing
+      indicator: level
+      direction: '-'
+      fields:
+      - pbr
+    - name: per_fwd_12m
+      indicator: level
+      direction: '-'
+      fields:
+      - fwd_per
+    - name: dividend_yield
+      indicator: level
+      direction: +
+      fields:
+      - div_yield
+    - name: erp
+      indicator: erp
+      direction: +
+      fields:
+      - fwd_per
+      - local_10y
+  fundamental:
+    earnings:
+    - name: revision_ratio
+      indicator: revision_ratio
+      direction: +
+      fields:
+      - eps_rev_up
+      - eps_rev_down
+      status: na_until_found
+    - name: revision_breadth
+      indicator: level
+      direction: +
+      fields:
+      - eps_up_share
+    - name: fwd_eps_chg_1m
+      indicator: pct_change_months
+      direction: +
+      fields:
+      - fwd_eps_12m
+      params:
+        months: 1
+    - name: fwd_eps_chg_3m
+      indicator: pct_change_months
+      direction: +
+      fields:
+      - fwd_eps_12m
+      params:
+        months: 3
+    - name: revision_momentum
+      indicator: revision_momentum
+      direction: +
+      fields:
+      - fwd_eps_12m
+      params:
+        months: 1
+    macro:
+    - name: home_ccy_trend_3m
+      indicator: pct_change_months
+      direction: +
+      fields:
+      - fx_home
+      params:
+        months: 3
+      flags:
+      - currency

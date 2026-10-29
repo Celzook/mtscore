@@ -1,0 +1,11 @@
+asset_id,first_value_date,n_days,share_pos,reason_when_na
+KOSPI200,2012-01-03,3639,0.5416323165704864,insufficient_history
+SP500,2010-12-31,3989,0.8440711957884183,insufficient_history
+KTB10Y,2011-05-18,3808,0.5698529411764707,insufficient_history
+UST10Y,2011-01-04,3956,0.5015166835187057,insufficient_history
+USDKRW,2011-05-18,3807,0.2850013133701077,insufficient_history
+GOLD,2011-01-04,3982,0.5607734806629834,insufficient_history
+WTI,2011-01-04,3982,0.43420391762933197,insufficient_history
+US_HY,2011-01-04,4096,0.798583984375,insufficient_history
+US_IG,2011-01-10,4000,0.67075,insufficient_history
+KR_CORP,2011-05-18,3809,0.07587293252822262,insufficient_history

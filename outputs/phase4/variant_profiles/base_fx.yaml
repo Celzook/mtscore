@@ -1,0 +1,79 @@
+asset_class: fx
+blocks:
+  oversold:
+    price:
+    - name: disparity_60
+      indicator: disparity
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 60
+    - name: return_z_20
+      indicator: return_z
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 20
+    confluence:
+    - name: bb_pctb_20
+      indicator: bb_pctb
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 20
+        k: 2
+    - name: rsi_14
+      indicator: rsi
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 14
+    volatility:
+    - name: rv_ratio_20
+      indicator: rv_ratio
+      direction: +
+      fields:
+      - close
+      params:
+        window: 20
+    positioning:
+    - name: spec_positioning
+      indicator: positioning_z
+      direction: '-'
+      fields:
+      - cot_net
+  valuation:
+    reer:
+    - name: reer_level
+      indicator: level
+      direction: '-'
+      fields:
+      - reer
+  fundamental:
+    macro:
+    - name: rate_diff_chg_3m
+      indicator: diff_months
+      direction: +
+      fields:
+      - rate_diff
+      params:
+        months: 3
+    - name: current_account_trend
+      indicator: diff_months
+      direction: +
+      fields:
+      - current_account_12m
+      params:
+        months: 3
+    - name: terms_of_trade_trend
+      indicator: pct_change_months
+      direction: +
+      fields:
+      - terms_of_trade
+      params:
+        months: 3
+      status: na_until_found

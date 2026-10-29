@@ -1,0 +1,74 @@
+asset_class: credit
+blocks:
+  oversold:
+    spread:
+    - name: spread_chg_z_20
+      indicator: change_z
+      direction: +
+      fields:
+      - spread
+      params:
+        window: 20
+    confluence:
+    - name: bb_pctb_20
+      indicator: bb_pctb
+      direction: +
+      fields:
+      - spread
+      params:
+        window: 20
+        k: 2
+    - name: rsi_14
+      indicator: rsi
+      direction: +
+      fields:
+      - spread
+      params:
+        window: 14
+    volatility:
+    - name: level_rv_ratio_20_if_oversold
+      indicator: level_rv_ratio_if_oversold
+      direction: +
+      fields:
+      - spread
+      params:
+        window: 20
+        lookback: 252
+        bb_window: 20
+        bb_k: 2
+        oversold_side: upper
+        pctb_edge: 1.0
+        neutral: 1.0
+  valuation:
+    level:
+    - name: spread_level
+      indicator: level
+      direction: +
+      fields:
+      - spread
+  fundamental:
+    defaults:
+    - name: default_trend
+      indicator: diff_months
+      direction: '-'
+      fields:
+      - default_rate
+      params:
+        months: 3
+      status: na_until_found
+    cycle:
+    - name: equity_eps_momentum
+      indicator: pct_change_months
+      direction: +
+      fields:
+      - equity_fwd_eps
+      params:
+        months: 3
+    - name: quality_gap_trend
+      indicator: spread_gap_change
+      direction: '-'
+      fields:
+      - spread_low_grade
+      - spread_high_grade
+      params:
+        months: 3

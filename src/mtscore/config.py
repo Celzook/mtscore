@@ -197,13 +197,19 @@ SCORING_KEYS = {
     "missing": {"daily_ffill_max_bdays", "lowfreq_max_hold_bdays", "lowfreq_threshold_days"},
     "bands": {"extreme", "alert", "contra_alert", "contra_extreme"},
     "regime": {"threshold", "partial_label", "matrix"},
+    "staged_entry": {"oversold_min", "vol_ratio_min", "vol_functions"},
+    "trend": {"months", "cash_field", "cash_days_per_year"},
     "currency_variant": None, "confirm_trigger": None, "backtest": None, "sub_block_agg": None,
 }
 
 
+def _finite_num(v) -> bool:
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and bool(np.isfinite(v))
+
+
 def validate_scoring(sc: dict) -> None:
     """scoring.yaml 검증: 알 수 없는 키, 백분위 방식·연수, 결측 규칙, 구간 순서, 국면 매트릭스, 통화 변형,
-    하위블록 집계(sub_block_agg)."""
+    분할 진입 표시(staged_entry)·추세 표시(trend), 하위블록 집계(sub_block_agg)."""
     bad = set(sc) - set(SCORING_KEYS)
     if bad:
         raise ConfigError(f"scoring.yaml 알 수 없는 키 {sorted(bad)} (허용 {sorted(SCORING_KEYS)})")
@@ -245,6 +251,30 @@ def validate_scoring(sc: dict) -> None:
                 raise ConfigError(f"regime.matrix[{i}].{k} 는 high·low·null ({row.get(k)!r})")
     if sc.get("currency_variant", "both") not in CURRENCY_VARIANTS:
         raise ConfigError(f"currency_variant 값 오류 {sc.get('currency_variant')!r} (허용 {CURRENCY_VARIANTS})")
+    for sec in ("staged_entry", "trend"):   # 표시 전용 섹션: 있으면 키를 모두 적어야 한다(엔진에 숨은 기본값 없음)
+        if sc.get(sec) and set(sc[sec]) != SCORING_KEYS[sec]:
+            raise ConfigError(f"scoring.yaml {sec} 에 빠진 키 {sorted(SCORING_KEYS[sec] - set(sc[sec]))}")
+    se = sc.get("staged_entry", {}) or {}
+    if "oversold_min" in se and not (_finite_num(se["oversold_min"]) and 0 <= se["oversold_min"] <= 100):
+        raise ConfigError(f"staged_entry.oversold_min 은 0~100 숫자 ({se['oversold_min']!r})")
+    if "vol_ratio_min" in se and not (_finite_num(se["vol_ratio_min"]) and se["vol_ratio_min"] > 0):
+        raise ConfigError(f"staged_entry.vol_ratio_min 은 양의 유한값 ({se['vol_ratio_min']!r})")
+    if "vol_functions" in se:
+        vf = se["vol_functions"]
+        if not (isinstance(vf, list) and vf and all(isinstance(x, str) for x in vf)):
+            raise ConfigError(f"staged_entry.vol_functions 는 계산 함수 이름의 비어 있지 않은 리스트 ({vf!r})")
+        for x in vf:
+            try:
+                get_func(x)
+            except KeyError as e:
+                raise ConfigError(f"staged_entry.vol_functions: {e.args[0]}") from None
+    tr = sc.get("trend", {}) or {}
+    if "months" in tr and not (isinstance(tr["months"], int) and not isinstance(tr["months"], bool) and tr["months"] > 0):
+        raise ConfigError(f"trend.months 는 양의 정수 ({tr['months']!r})")
+    if "cash_field" in tr and not (isinstance(tr["cash_field"], str) and tr["cash_field"]):
+        raise ConfigError(f"trend.cash_field 는 필드 이름 문자열 ({tr['cash_field']!r})")
+    if "cash_days_per_year" in tr and not (_finite_num(tr["cash_days_per_year"]) and tr["cash_days_per_year"] > 0):
+        raise ConfigError(f"trend.cash_days_per_year 는 양의 유한값 ({tr['cash_days_per_year']!r})")
     agg = sc.get("sub_block_agg")
     if agg is not None and not isinstance(agg, dict):
         raise ConfigError("sub_block_agg 는 {'block.sub_block': mean | min} 매핑")

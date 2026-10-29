@@ -221,3 +221,11 @@ def regime(block_scores: dict[str, float], regime_cfg: dict) -> dict:
         abbr = {"high": "高", "low": "低"}
         label = "축약:" + "·".join(f"{k.upper()}{abbr[s]}" for k, s in states.items() if s is not None)
     return {"label": label, "partial": True, "states": states}
+
+
+def staged_entry_flag(oversold: float, vol_ratio: float, oversold_min: float, vol_ratio_min: float) -> bool | None:
+    """분할 진입 표시(사전 등록 B2): 과매도 블록 점수 ≥ oversold_min 이고 변동성비(원시값) ≥ vol_ratio_min.
+    둘 중 하나라도 결측이면 None(판정 불가). 점수·국면에는 영향이 없다(표시 전용)."""
+    if oversold is None or vol_ratio is None or np.isnan(oversold) or np.isnan(vol_ratio):
+        return None
+    return bool(oversold >= oversold_min and vol_ratio >= vol_ratio_min)

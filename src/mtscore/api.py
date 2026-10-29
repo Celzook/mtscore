@@ -17,13 +17,13 @@ import pandas as pd
 
 from .config import AssetSpec, Config
 from .core import backtest as bt
-from .core.scoring import BLOCKS, AssetScores, band, regime, score_asset
+from .core.scoring import BLOCKS, AssetScores, band, regime, score_asset, staged_entry_flag
 from .core.transform import pit_frame, to_calendar
 from .data.schema import validate_panel
 
 log = logging.getLogger(__name__)
 
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = "1.1"   # 1.1(2026-10-29): staged_entry·trend 표시 필드 추가
 ENGINE_VERSION = "0.1.0"
 CALENDAR_FIELD_CANDIDATES = ("close", "yield", "spread")
 
@@ -42,6 +42,8 @@ class ScoreResult:
         contributions: 지표별 원시값·백분위·점수·블록 기여도(기준일 시점).
         coverage: 지표별 사용/제외와 사유. available = 기준일에 점수가 있었는지.
         history: asset_id → AssetScores(일별 전체 이력). to_json 에는 넣지 않는다.
+        staged_entry: asset_id 별 분할 진입 표시(flag·oversold·vol_ratio·vol_indicator·reason). 점수·국면에 영향 없음.
+        trend: asset_id 별 추세 표시(value = TSMOM 현금 대비 초과, sign = ±1, months·reason). 점수·국면에 쓰지 않음.
     """
 
     as_of: pd.Timestamp
@@ -53,6 +55,8 @@ class ScoreResult:
     contributions: pd.DataFrame
     coverage: pd.DataFrame
     history: dict = field(default_factory=dict, repr=False)
+    staged_entry: pd.DataFrame = field(default_factory=pd.DataFrame)
+    trend: pd.DataFrame = field(default_factory=pd.DataFrame)
 
     @property
     def ranking(self) -> pd.DataFrame:
@@ -88,6 +92,10 @@ class ScoreResult:
                 "bands": {b: self.bands.at[aid, b] for b in BLOCKS},
                 "regime": {"label": rg["label"], "display": rg["display"], "partial": bool(rg["partial"]),
                            "states": {k: rg[k] for k in ("o", "v", "f")}},
+                "staged_entry": {k: clean(self.staged_entry.at[aid, k]) for k in self.staged_entry.columns}
+                if aid in self.staged_entry.index else None,
+                "trend": {k: clean(self.trend.at[aid, k]) for k in self.trend.columns}
+                if aid in self.trend.index else None,
                 "contributions": [{k: clean(v) for k, v in r.items()} for r in contrib.to_dict("records")],
                 "coverage": [{k: clean(v) for k, v in r.items()} for r in cov.to_dict("records")],
             })
@@ -216,6 +224,45 @@ class ScoringEngine:
             out[aid] = score_asset(defs, fields, cal, self.config.scoring, asset.asset_class, excluded, sub_w)
         return out
 
+    def trend_history(self, panel: pd.DataFrame, asset_ids: list[str] | None = None,
+                      as_of: str | pd.Timestamp | None = None) -> dict[str, pd.DataFrame]:
+        """자산별 일별 추세 표시(사전 등록 B3, 점수·국면에 쓰지 않음) — DataFrame[value, sign, reason](자산 달력).
+
+        value = 수익 지수(return_index 규칙)의 trend.months 달력월 수익 − 같은 구간 현금 수익(core.backtest.tsmom_excess).
+        현금 금리는 scoring.yaml trend.cash_field(자기 필드 또는 universe.yaml refs). sign = value 의 부호(±1, 0 이면 0).
+        as_of 를 주면 그 뒤에 알려진 행을 먼저 버린다(PIT, score_history 와 같은 규칙).
+        값이 없으면 reason: trend 설정 없음 | missing_field:<f> | return_index:<사유> | insufficient_history."""
+        p = validate_panel(panel)
+        cutoff = pd.Timestamp(as_of).normalize() if as_of is not None else None
+        if cutoff is not None:
+            p = p[p["as_of"] <= cutoff]
+        tcfg = self.config.scoring.get("trend")
+        out = {}
+        for aid in asset_ids or [a.asset_id for a in self.config.universe]:
+            asset = self.config.asset(aid)
+            cal = self._calendar(p, asset, cutoff)
+            frame = pd.DataFrame({"value": np.nan, "sign": np.nan, "reason": ""}, index=cal)
+            if not tcfg:
+                out[aid] = frame.assign(reason="trend 설정 없음")
+                continue
+            cf = tcfg["cash_field"]
+            ra, rf = asset.refs.get(cf, (aid, cf))
+            cash = self._field_series(p, ra, rf, cal)
+            if cash is None or cash.notna().sum() == 0:
+                out[aid] = frame.assign(reason=f"missing_field:{cf}")
+                continue
+            try:
+                idx, valid, _ = self.return_index(p, asset, cal)
+            except ValueError as e:
+                out[aid] = frame.assign(reason=f"return_index:{e}")
+                continue
+            v = bt.tsmom_excess(idx.where(valid), cash, int(tcfg["months"]), float(tcfg["cash_days_per_year"]))
+            frame["value"] = v
+            frame["sign"] = np.sign(v)
+            frame.loc[v.isna(), "reason"] = "insufficient_history"
+            out[aid] = frame
+        return out
+
     def score(self, panel: pd.DataFrame, as_of: str | pd.Timestamp | None = None,
               asset_ids: list[str] | None = None) -> ScoreResult:
         """기준일(as_of, 없으면 각 자산의 마지막 가용일) 시점의 블록 점수·구간·국면·기여도·커버리지."""
@@ -224,7 +271,10 @@ class ScoringEngine:
         bands_cfg = self.config.scoring.get("bands", {}) or {}
         rg_cfg = self.config.scoring.get("regime", {}) or {}
         partial_label = rg_cfg.get("partial_label", "부분판정")
+        se_cfg = self.config.scoring.get("staged_entry")
+        trend = self.trend_history(panel, list(hist), as_of)
         dates, stale, blk_rows, band_rows, rg_rows, contrib, cov = {}, {}, {}, {}, {}, [], []
+        se_rows, tr_rows = {}, {}
         for aid, h in hist.items():
             cal = h.blocks.index
             cal = cal if req is None else cal[cal <= req]
@@ -243,6 +293,13 @@ class ScoringEngine:
             r = regime(b.to_dict(), rg_cfg)
             disp = None if r["label"] is None else (f"{r['label']} ({partial_label})" if r["partial"] else r["label"])
             rg_rows[aid] = {"label": r["label"], "display": disp, "partial": r["partial"], **r["states"]}
+            se_rows[aid] = _staged_entry(h, t, b["oversold"], se_cfg, is_stale)
+            tr = trend[aid]
+            tv = np.nan if is_stale or t not in tr.index else tr.at[t, "value"]
+            tr_rows[aid] = {"sign": None if np.isnan(tv) else int(np.sign(tv)), "value": tv,
+                            "months": (self.config.scoring.get("trend") or {}).get("months"),
+                            "reason": "unavailable_at_as_of" if is_stale else
+                            ("" if t not in tr.index else tr.at[t, "reason"])}
             rows_c = _contributions(aid, h, t)
             if is_stale:
                 for r_ in rows_c:
@@ -266,6 +323,8 @@ class ScoringEngine:
                                                          "percentile", "score", "weight_in_block", "contribution"]),
             coverage=pd.concat(cov, ignore_index=True) if cov else pd.DataFrame(),
             history=hist,
+            staged_entry=pd.DataFrame(se_rows).T[["flag", "oversold", "vol_ratio", "vol_indicator", "reason"]],
+            trend=pd.DataFrame(tr_rows).T[["sign", "value", "months", "reason"]],
         )
 
 
@@ -465,6 +524,29 @@ class ScoringEngine:
                         br.append({"asset_class": cls, "block": blk, "horizon": hz, "band": lab,
                                    **bt.ret_stats(f, m, hz, min_n)})
         return pd.DataFrame(icr), pd.DataFrame(br)
+
+
+def _staged_entry(h: AssetScores, t: pd.Timestamp, oversold: float, se_cfg: dict | None, is_stale: bool) -> dict:
+    """t 시점 분할 진입 표시(사전 등록 B2). 변동성비는 계산 함수가 staged_entry.vol_functions 에 있는 이 자산의
+    사용 지표(정확히 1개)의 원시값이다. 표시 전용 — 점수·국면에 영향 없음.
+    reason: '' | staged_entry 설정 없음 | unavailable_at_as_of | no_vol_indicator | multiple_vol_indicators:<a,b> |
+            oversold_na | vol_ratio_na"""
+    row = {"flag": None, "oversold": oversold, "vol_ratio": np.nan, "vol_indicator": None, "reason": ""}
+    if not se_cfg:
+        return {**row, "reason": "staged_entry 설정 없음"}
+    cov = h.coverage
+    names = list(cov.loc[cov["function"].isin(se_cfg["vol_functions"]) & cov["used"].astype(bool), "indicator"])
+    if len(names) != 1:
+        return {**row, "reason": "no_vol_indicator" if not names else "multiple_vol_indicators:" + ",".join(names)}
+    row["vol_indicator"] = names[0]
+    if is_stale:
+        return {**row, "reason": "unavailable_at_as_of"}
+    row["vol_ratio"] = h.raw.at[t, names[0]]
+    row["flag"] = staged_entry_flag(oversold, row["vol_ratio"], float(se_cfg["oversold_min"]),
+                                    float(se_cfg["vol_ratio_min"]))
+    if row["flag"] is None:
+        row["reason"] = "oversold_na" if np.isnan(oversold) else "vol_ratio_na"
+    return row
 
 
 def _contributions(aid: str, h: AssetScores, t: pd.Timestamp) -> list[dict]:

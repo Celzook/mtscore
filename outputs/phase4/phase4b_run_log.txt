@@ -1,0 +1,35 @@
+패널 149,597행, as_of 최대 2026-10-27, 플라시보 2000회 시드 11
+[B4] score_history 34,573행 Phase 2 와 동일: True / result JSON(새 필드·버전 제외) 동일: True
+[B2·B3] 기준일 표시:
+               display   flag   oversold vol_ratio      vol_indicator reason trend_sign trend_value trend_months trend_reason
+asset_id                                                                                                                     
+KOSPI200  저평가 패닉 분할 진입  False  73.913308   0.93428        rv_ratio_20                 1    0.550192           12             
+SP500       단기 반등 트레이드  False  62.642903  0.804639        rv_ratio_20                 1    0.085759           12             
+KTB10Y           고점 경계  False  24.184586   1.10771  level_rv_ratio_20                -1   -0.080092           12             
+UST10Y    저평가 패닉 분할 진입  False  55.297355  1.398866  level_rv_ratio_20                -1   -0.078681           12             
+USDKRW        보유 분할 매수  False  10.317816  0.533696        rv_ratio_20                 1    0.053788           12             
+GOLD           가치함정 경계  False  55.324337  0.581858        rv_ratio_20                -1   -0.068824           12             
+WTI              비중 축소  False   31.92355  0.607534        rv_ratio_20                 1    0.945879           12             
+US_HY       단기 반등 트레이드   True  78.342365  1.878067  level_rv_ratio_20                -1   -0.023703           12             
+US_IG       단기 반등 트레이드  False   69.97289  1.295101  level_rv_ratio_20                -1   -0.070982           12             
+KR_CORP         최우선 매수  False  56.632254  1.489591  level_rv_ratio_20                -1   -0.027239           12             
+[B1] 변형 base 백테스트 13.7초
+[B1] 변형 cond 백테스트 13.3초
+[B1] 변형 drop 백테스트 13.2초
+[B1] 63일 IC 쌍 수가 변형 간 다른 자산×구간: 0
+[B1] 판정(63일):
+candidate  asset_class  sel_ic_base  sel_ic_cand  sel_p_base  sel_p_cand  conf_ic_base  conf_ic_cand  conf_p_base  conf_p_cand  c1_sel_gt  c2_conf_ge  c3_conf_p_le  verdict  conf_ic_sign_negative
+     cond equity_index       0.1646       0.1631      0.0485      0.0350       -0.0367       -0.0373       0.7571       0.7396      False       False          True       기각                   True
+     cond        rates      -0.0478      -0.0359      0.5562      0.6452       -0.0210       -0.0228       0.8886       0.8826       True       False          True       기각                   True
+     cond           fx       0.0557       0.0651      0.6662      0.5277        0.0236        0.0438       0.8126       0.6997       True        True          True 채택 조건 충족                  False
+     cond    commodity       0.0978       0.0667      0.1824      0.3133       -0.0089       -0.0221       0.9375       0.7336      False       False          True       기각                   True
+     cond       credit       0.0088      -0.0097      0.9270      0.8951       -0.1317       -0.1137       0.2484       0.2239      False        True          True       기각                   True
+     cond          ALL       0.0490       0.0404      0.4158      0.4678       -0.0510       -0.0469       0.4768       0.2549      False        True          True       기각                   True
+     drop equity_index       0.1646       0.1661      0.0485      0.0325       -0.0367       -0.0274       0.7571       0.7776       True        True         False      비교용                   True
+     drop        rates      -0.0478      -0.0467      0.5562      0.5667       -0.0210       -0.0225       0.8886       0.8731       True       False          True      비교용                   True
+     drop           fx       0.0557       0.0834      0.6662      0.4048        0.0236        0.0499       0.8126       0.6367       True        True          True      비교용                  False
+     drop    commodity       0.0978       0.0656      0.1824      0.3293       -0.0089       -0.0252       0.9375       0.6947      False       False          True      비교용                   True
+     drop       credit       0.0088      -0.0113      0.9270      0.8466       -0.1317       -0.1128       0.2484       0.2049      False        True          True      비교용                   True
+     drop          ALL       0.0490       0.0401      0.4158      0.4873       -0.0510       -0.0448       0.4768       0.2824      False        True          True      비교용                   True
+[B1] 중복 규칙(선택 구간 Pearson > 0.9) 해당: 없음
+총 129.4초

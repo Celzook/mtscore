@@ -1,0 +1,78 @@
+asset_class: commodity
+blocks:
+  oversold:
+    price:
+    - name: disparity_60
+      indicator: disparity
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 60
+    - name: return_z_20
+      indicator: return_z
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 20
+    confluence:
+    - name: bb_pctb_20
+      indicator: bb_pctb
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 20
+        k: 2
+    - name: rsi_14
+      indicator: rsi
+      direction: '-'
+      fields:
+      - close
+      params:
+        window: 14
+    volatility:
+    - name: rv_ratio_20_if_oversold
+      indicator: rv_ratio_if_oversold
+      direction: +
+      fields:
+      - close
+      params:
+        window: 20
+        lookback: 252
+        bb_window: 20
+        bb_k: 2
+        oversold_side: lower
+        pctb_edge: 0.0
+        neutral: 1.0
+    positioning:
+    - name: spec_positioning
+      indicator: positioning_z
+      direction: '-'
+      fields:
+      - cot_net
+  valuation:
+    real_price:
+    - name: real_price_level
+      indicator: ratio
+      direction: '-'
+      fields:
+      - close
+      - cpi
+  fundamental:
+    curve:
+    - name: backwardation
+      indicator: ratio_minus_one
+      direction: +
+      fields:
+      - close
+      - close_c2
+    inventory:
+    - name: inventory_change
+      indicator: pct_change_months
+      direction: '-'
+      fields:
+      - inventory
+      params:
+        months: 1

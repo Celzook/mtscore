@@ -2,6 +2,7 @@
 # 키
 #   asset_id · name · asset_class · currency · return_field
 #   refs: {이 자산에서 쓸 field: 다른자산ID.field}  — 다른 자산의 PIT 시계열을 그대로 빌려 쓴다(변환 전 원값)
+#         policy_rate 는 추세 표시(scoring.yaml trend)의 현금 금리용이다(점수 미사용, 2026-10-29)
 #   field_transforms: {field: reciprocal | negate}  — 이 자산 계산 직전에 적용
 #   overrides: {exclude: [지표명 | 블록 | 하위블록 | 블록.하위블록], weights: {지표명 | 블록.하위블록: w}, params: {지표명: {...}}}
 #   그 밖의 키는 meta 로 보존(엔진 계산에 쓰지 않음)
@@ -11,14 +12,14 @@
   currency: KRW
   return_field: close_tr          # .KS200TR(2011~), 이전 구간은 가격지수
   constituents: KOSPI200          # 현재 구성종목(KODEX200 069500.KS 보유종목) 바텀업 — 생존편향(가정, 사용자 결정 2026-10-28). KRX 로그인 생기면 과거 구성종목으로
-  refs: {local_10y: KTB10Y.yield, fx_home: USDKRW.close}
+  refs: {local_10y: KTB10Y.yield, fx_home: USDKRW.close, policy_rate: KTB10Y.policy_rate}
   overrides: {}
 - asset_id: SP500
   name: S&P500
   asset_class: equity_index
   currency: USD
   return_field: close
-  refs: {local_10y: UST10Y.yield}
+  refs: {local_10y: UST10Y.yield, policy_rate: UST10Y.policy_rate}
   overrides:
     exclude: [flows, breadth, pbr_trailing, dividend_yield, home_ccy_shock_20, home_ccy_trend_3m]   # PBR·배당 불가(R2), 자국통화 지표 해당 없음
 - asset_id: KTB10Y
@@ -42,13 +43,14 @@
   quote_view: buy_quote           # 원화 매수 관점: USDKRW 상승 = 원화 과매도
   return_field: close             # 변환 후(원화 가격) 기준
   field_transforms: {close: reciprocal}
+  refs: {policy_rate: KTB10Y.policy_rate}   # 추세 표시 현금 금리(점수 미사용)
   overrides: {exclude: [spec_positioning]}   # CFTC KRW 계약 검색 0건(F3)
 - asset_id: GOLD
   name: 금
   asset_class: commodity
   currency: USD
   return_field: close             # 활성월(G J M Q V Z) 비율 백어저스트 연속물(사용자 결정 2026-10-28 B)
-  refs: {real_yield_us: UST10Y.real_yield}
+  refs: {real_yield_us: UST10Y.real_yield, policy_rate: UST10Y.policy_rate}
   overrides:
     # 재고는 WTI 전용, 금 커브는 금리 캐리만 반영(사용자 결정 2026-10-26).
     # close 는 활성월 비율 백어저스트 연속물이라 실질가격은 원 근월물(close_c1_raw)로 본다(사용자 결정 2026-10-28 B)
@@ -63,6 +65,7 @@
   asset_class: commodity
   currency: USD
   return_field: close             # 비율 백어저스트 연속물(롤 수익 포함, 사용자 결정 2026-10-28). 근월물 교체 5영업일 전 교체(가정)
+  refs: {policy_rate: UST10Y.policy_rate}   # 추세 표시 현금 금리(점수 미사용)
   overrides:
     # close 는 백어저스트 연속물이라 수준(실질가격)과 커브(c1/c2) 비교에는 맞지 않는다 → 원 근월물 가격(close_c1_raw)으로 바꾼다
     exclude: [real_price_level, backwardation]
@@ -78,7 +81,7 @@
   return_field: index_level       # iBoxx USD Liquid HY(.IBLUS0004) TRDPRC_1 = 총수익지수(TRTN_PRICE 와 동일, Phase 2 확인)
   spread_source: iboxx_gspread    # YLDTOMAT − 동일 듀레이션 UST 보간. 2023-10~ FRED ICE OAS 와 대조
   ric: .IBLUS0004
-  refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread}
+  refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread, policy_rate: UST10Y.policy_rate}
   overrides: {}
 - asset_id: US_IG
   name: 미국 투자등급
@@ -87,7 +90,7 @@
   return_field: index_level       # iBoxx USD Liquid IG(.IBLUS0005) TRDPRC_1 = 총수익지수(TRTN_PRICE 와 동일, Phase 2 확인)
   spread_source: iboxx_gspread
   ric: .IBLUS0005
-  refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread}
+  refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread, policy_rate: UST10Y.policy_rate}
   overrides: {}
 - asset_id: KR_CORP
   name: 국내 회사채 AA-(3년) − 국고3년
@@ -96,5 +99,5 @@
   return_field: duration_approx
   duration: 2.7
   return_yield_field: spread      # 가정: 스프레드(AA−3년 − 국고3년)로 −D×Δs + s 캐리 = 같은 듀레이션 국고 대비 초과수익 근사(총수익 아님)
-  refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread}   # spread_low_grade(BBB−−국고3년)는 자체 필드(KRCORP=KQ, 2010~ 확인 2026-10-28)
+  refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread, policy_rate: KTB10Y.policy_rate}   # spread_low_grade(BBB−−국고3년)는 자체 필드(KRCORP=KQ, 2010~ 확인 2026-10-28)
   overrides: {}

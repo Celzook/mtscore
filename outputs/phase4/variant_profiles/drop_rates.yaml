@@ -1,0 +1,94 @@
+asset_class: rates
+blocks:
+  oversold:
+    price:
+    - name: yield_chg_z_20
+      indicator: change_z
+      direction: +
+      fields:
+      - yield
+      params:
+        window: 20
+    - name: yield_chg_z_60
+      indicator: change_z
+      direction: +
+      fields:
+      - yield
+      params:
+        window: 60
+    - name: yield_disparity_60
+      indicator: level_disparity
+      direction: +
+      fields:
+      - yield
+      params:
+        window: 60
+    confluence:
+    - name: bb_pctb_20
+      indicator: bb_pctb
+      direction: +
+      fields:
+      - yield
+      params:
+        window: 20
+        k: 2
+    - name: rsi_14
+      indicator: rsi
+      direction: +
+      fields:
+      - yield
+      params:
+        window: 14
+    positioning:
+    - name: futures_net_spec
+      indicator: positioning_z
+      direction: '-'
+      fields:
+      - cot_net
+  valuation:
+    level:
+    - name: real_yield
+      indicator: level
+      direction: +
+      fields:
+      - real_yield
+    - name: spread_to_policy
+      indicator: spread
+      direction: +
+      fields:
+      - yield
+      - policy_rate
+    - name: term_premium
+      indicator: level
+      direction: +
+      fields:
+      - term_premium
+  fundamental:
+    macro:
+    - name: macro_surprise
+      indicator: level
+      direction: '-'
+      fields:
+      - macro_surprise
+      status: na_until_found
+    - name: inflation_momentum
+      indicator: yoy_momentum
+      direction: '-'
+      fields:
+      - cpi
+      params:
+        months: 3
+    - name: policy_direction
+      indicator: diff_months
+      direction: '-'
+      fields:
+      - policy_rate
+      params:
+        months: 6
+    - name: financial_conditions
+      indicator: diff_months
+      direction: +
+      fields:
+      - nfci
+      params:
+        months: 3
