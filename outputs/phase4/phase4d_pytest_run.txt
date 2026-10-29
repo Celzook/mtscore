@@ -1,0 +1,2 @@
+# PYTHONPATH=src .venv/bin/python -m pytest -q -p no:cacheprovider  (mtscore 경로: /home/infomax/Desktop/Infomax/_project/mtscore-d/src/mtscore/__init__.py)
+224 passed, 22 warnings in 16.33s

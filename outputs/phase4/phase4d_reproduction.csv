@@ -1,0 +1,3 @@
+comparison,rows_a,rows_b,only_a,only_b,diff_oversold,max_abs_oversold,diff_valuation,max_abs_valuation,diff_fundamental,max_abs_fundamental,identical
+default_on_original_panel_vs_phase2,34573,34573,0,0,0,0.0,0,0.0,0,0.0,True
+default_on_panel_plus_cape_e10_vs_phase2,34573,34573,0,0,0,0.0,0,0.0,0,0.0,True

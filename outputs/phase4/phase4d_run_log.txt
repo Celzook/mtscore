@@ -1,0 +1,25 @@
+패널 149,597행, as_of 최대 2026-10-27
+CPI 최초 공표값 1999-07-01~2026-09-01, 빠진 달 ['2025-10-01']
+  새 수집분 vs 패널 겹침: [{'date': '2006-11-01', 'value': 201.7, 'as_of': '2006-12-15', 'value_panel': 201.7, 'as_of_panel': '2007-01-01'}]
+cape_e10 391행 2009-10-01~2026-01-13 (E 마지막 월 2026-06-01, as_of 2026-10-01)
+Shiller E 빈티지 대조(겹침 1830개월): 바뀐 달 ['2023-04-01', '2023-05-01', '2023-06-01'] [-0.0301, -0.0595, -0.0883]%
+[재현] 8.6초 {"default_on_original_panel_vs_phase2": {"rows_a": 34573, "rows_b": 34573, "only_a": 0, "only_b": 0, "diff_oversold": 0, "max_abs_oversold": 0.0, "diff_valuation": 0, "max_abs_valuation": 0.0, "diff_fundamental": 0, "max_abs_fundamental": 0.0, "identical": true}, "default_on_panel_plus_cape_e10_vs_phase2": {"rows_a": 34573, "rows_b": 34573, "only_a": 0, "only_b": 0, "diff_oversold": 0, "max_abs_oversold": 0.0, "diff_valuation": 0, "max_abs_valuation": 0.0, "diff_fundamental": 0, "max_abs_fundamental": 0.0, "identical": true}}
+[백테스트] 기준선·변형 3.4초
+[재현] Phase 3 SP500 full IC 최대 차 6.94e-17 (12셀)
+[민감도: 빠진 달 건너뜀] {"rows": 409, "last": "2026-10-14", "span_months_max": 121, "first_span_121": "2026-02-01", "cape_last": 41.23, "cape_last_date": "2026-10-27", "cape_score_last": 2.04, "valuation_last": 11.9}
+[커버리지] {"first_cape_value": "2009-12-31", "first_cape_score": "2012-12-31", "first_base_valuation_score": "2013-01-29", "first_variant_valuation_score": "2012-12-31", "cape_last": 41.6, "cape_last_date": "2026-04-24", "cape_score_last": 0.01, "valuation_last_base": 16.83, "valuation_last_variant": 16.83, "cape_n_days": 4113, "cape_nan_after_first": 128, "first_score_le_2013": true}
+  변형 SP500 밸류 지표: [{'indicator': 'pbr_trailing', 'sub_block': 'multiples'}, {'indicator': 'per_fwd_12m', 'sub_block': 'multiples'}, {'indicator': 'dividend_yield', 'sub_block': 'multiples'}, {'indicator': 'erp', 'sub_block': 'multiples'}, {'indicator': 'cape', 'sub_block': 'multiples'}]
+[중복] [{'a': 'cape', 'b': 'per_fwd_12m', 'corr_selection': 0.539, 'n': 1744, 'over_cut': False, 'ic63_selection_cape': 0.303, 'ic63_selection_other': 0.198, 'candidate': ''}, {'a': 'cape', 'b': 'erp', 'corr_selection': 0.696, 'n': 1744, 'over_cut': False, 'ic63_selection_cape': 0.303, 'ic63_selection_other': 0.214, 'candidate': ''}]
+[판정] {"horizon": 63, "sel_ic_base": 0.20171164629376015, "sel_ic_cape": 0.23463191109908998, "conf_ic_base": 0.11318031915271087, "conf_ic_cape": 0.17146709843872365, "conf_p_base": 0.559720139930035, "conf_p_cape": 0.4332833583208396, "cond1_sel_ic_up": true, "cond2_conf_ic_not_lower": true, "cond3_conf_p_not_worse": true, "redundancy_candidate": false, "adopt": true}
+                         ic                                  p_placebo                                 
+variant                base sens_cape_skip_missing with_cape      base sens_cape_skip_missing with_cape
+period       horizon                                                                                   
+confirmation 21       0.162                  0.191     0.188     0.035                  0.000     0.023
+             63       0.113                  0.181     0.171     0.560                  0.373     0.433
+             126      0.113                  0.219     0.217     0.737                  0.489     0.541
+             252      0.183                  0.404     0.404     0.608                  0.287     0.335
+selection    21       0.217                  0.239     0.239     0.000                  0.000     0.000
+             63       0.202                  0.235     0.235     0.453                  0.357     0.357
+             126      0.059                  0.088     0.088     0.948                  0.915     0.915
+             252      0.210                  0.251     0.251     0.747                  0.721     0.721
+[Shiller 대조] {"ours_vs_shiller": {"n": 197, "corr": 0.9986, "mean_abs_diff": 0.453, "mean_diff": 0.438, "first": "2009-12", "last": "2026-04"}, "replica_lag0_vs_shiller": {"n": 197, "corr": 0.9999, "mean_abs_diff": 0.116, "mean_diff": -0.115, "first": "2009-12", "last": "2026-04"}, "replica_lag4_vs_shiller": {"n": 197, "corr": 0.9991, "mean_abs_diff": 0.348, "mean_diff": 0.337, "first": "2009-12", "last": "2026-04"}, "ours_vs_replica_lag4": {"n": 197, "corr": 0.9996, "mean_abs_diff": 0.141, "mean_diff": 0.101, "first": "2009-12", "last": "2026-04"}, "cpi_alfred_first_vs_shiller_pct": {"mean": 0.003, "max_abs": 0.737, "n": 326}}

@@ -1,0 +1,2 @@
+horizon,sel_ic_base,sel_ic_cape,conf_ic_base,conf_ic_cape,conf_p_base,conf_p_cape,cond1_sel_ic_up,cond2_conf_ic_not_lower,cond3_conf_p_not_worse,redundancy_candidate,adopt
+63,0.20171164629376015,0.23463191109908998,0.11318031915271087,0.17146709843872365,0.559720139930035,0.4332833583208396,True,True,True,False,True
