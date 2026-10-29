@@ -150,10 +150,12 @@ def test_regime_partial_unique_and_abbreviated():
 def test_to_json_schema(mini_config, mini_panel):
     res = ScoringEngine(mini_config).score(mini_panel, as_of=T)
     d = json.loads(res.to_json())
-    assert d["schema_version"] == "1.2" and d["as_of"] == T
+    assert d["schema_version"] == "1.3" and d["as_of"] == T
     a = {x["asset_id"]: x for x in d["assets"]}["EQ"]
-    assert set(a) == {"asset_id", "date", "stale", "blocks", "bands", "regime", "staged_entry", "trend",
+    assert set(a) == {"asset_id", "date", "stale", "blocks", "bands", "regime", "staged_entry", "trend", "diffusion",
                       "contributions", "coverage"}
+    assert set(a["diffusion"]) == {"block", "high", "low", "n_high", "n_low", "n_available", "reason"}
+    assert a["diffusion"]["block"] == "oversold" and (a["diffusion"]["high"], a["diffusion"]["low"]) == (80, 20)
     assert set(a["regime"]) == {"label", "display", "partial", "states"}
     assert set(a["staged_entry"]) == {"flag", "oversold", "vol_ratio", "vol_indicator", "reason"}
     assert set(a["trend"]) == {"sign", "value", "months", "basis", "reason"}

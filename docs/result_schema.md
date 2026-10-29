@@ -1,10 +1,10 @@
-# ScoreResult JSON 스키마 (schema_version 1.2)
+# ScoreResult JSON 스키마 (schema_version 1.3)
 
-`ScoringEngine.score(...).to_json()`이 내는 문서 구조다. 필드를 추가하면 minor 버전(1.x)을 올리고(1.1: `staged_entry`·`trend` 추가, 2026-10-29 / 1.2: `trend.basis` 추가, 2026-10-29), 필드의 의미나 형식을 바꾸면 major 버전을 올린다. 결측값은 모두 `null`이다(NaN을 쓰지 않는다).
+`ScoringEngine.score(...).to_json()`이 내는 문서 구조다. 필드를 추가하면 minor 버전(1.x)을 올리고(1.1: `staged_entry`·`trend` 추가, 2026-10-29 / 1.2: `trend.basis` 추가, 2026-10-29 / 1.3: `diffusion` 추가, 2026-10-29), 필드의 의미나 형식을 바꾸면 major 버전을 올린다. 결측값은 모두 `null`이다(NaN을 쓰지 않는다).
 
 ```json
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "engine_version": "0.1.0",
   "as_of": "YYYY-MM-DD",
   "note": "블록 점수는 자산별 자기 과거 분포 대비 백분위(0~100, 클수록 매수 매력)",
@@ -26,6 +26,9 @@
                 "basis": "현금 대비"|"국고 대비"|...|null,
                 "reason": ""|"trend 설정 없음"|"missing_field:<f>"|"return_index:<사유>"|"insufficient_history"|
                           "unavailable_at_as_of"},
+      "diffusion": {"block": "oversold", "high": float|null, "low": float|null,
+                    "n_high": int|null, "n_low": int|null, "n_available": int|null,
+                    "reason": ""|"diffusion 설정 없음"|"unavailable_at_as_of"},
       "contributions": [
         {"block": "oversold", "sub_block": "price", "indicator": "disparity_20",
          "raw": float|null, "percentile": 0-100|null, "score": 0-100|null,
@@ -58,6 +61,7 @@
 | `regime.display` | 부분판정이면 라벨 뒤에 `scoring.yaml regime.partial_label`을 붙인 표시용 문자열이다 |
 | `staged_entry` | 분할 진입 표시(1.1 추가, 사전 등록 B2). `flag`는 과매도 블록 점수 ≥ `scoring.yaml staged_entry.oversold_min`이고 변동성비 원시값 ≥ `vol_ratio_min`일 때 참이다. 변동성비는 계산 함수가 `staged_entry.vol_functions`에 있는 이 자산의 사용 지표(정확히 1개, 이름은 `vol_indicator`)의 원시값이다. 판정할 수 없으면 `flag`가 null이고 `reason`에 사유가 있다. **점수·국면에 영향이 없다**(표시 전용) |
 | `trend` | 추세 표시(1.1 추가, 사전 등록 B3). `value` = 수익 지수(백테스트 수익률 규칙: `close_tr`·`close`·`duration_approx`·USDKRW 역수)의 `trend.months` 달력월 수익 − 같은 구간 현금 수익(`trend.cash_field` 정책금리, 없는 자산은 `universe.yaml refs`, 직전일 금리/100/`cash_days_per_year` 복리, 가정). `sign`은 그 부호(±1, 정확히 0이면 0). 구간 안에 금리 결측일이 있거나 이력이 짧으면 null. **점수·국면 판정에 쓰지 않는다** |
-| `trend.basis` | 추세 부호의 기준(1.2 추가). 기본 `"현금 대비"`(위 설명대로 현금 수익을 뺌). `universe.yaml`의 자산 `trend: {cash: none, basis: ...}`이면 현금을 빼지 않고 그 라벨이 나간다 — 현재 KR_CORP는 수익 지수가 이미 국고 대비 초과수익 근사라서 `"국고 대비"`이며, 이때 `value`·`sign`은 현금이 아니라 같은 듀레이션 국고 대비 초과수익의 12개월 값이다. `trend` 설정이 없으면 null. **P5-3 확장(스키마 버전 불변, 필드·형식 변화 없음)**: 자산 `trend`에 `return: {yield_field, duration_field | duration}`을 더하면 수익 지수를 추세 표시에서만 스프레드(%p) 필드의 국채 대비 초과수익 근사 r_t = −D_(t−1)×Δs_t/100 + s_(t−1)/100/`backtest.carry_days_per_year`로 바꾼다(KR_CORP `duration_approx`와 같은 식, D만 시변: `duration_field`의 직전 관측일 값, 또는 상수 `duration`=가정). `cash: none`일 때만 허용하며 라벨은 `"국채 대비"`(US_HY·US_IG 예정, KR_CORP `"국고 대비"`와 구분)다. 구간 안에 D 결측일이 있으면 0 수익으로 채우지 않고 `insufficient_history`로 둔다. 점수·국면·백테스트 수익률은 그대로다. 이 설정을 켠 자산은 패널에 `duration_field`가 있어야 하며, 없으면 `reason`이 `return_index:...듀레이션 필드 <f> 없음`이다 |
+| `trend.basis` | 추세 부호의 기준(1.2 추가). 기본 `"현금 대비"`(위 설명대로 현금 수익을 뺌). `universe.yaml`의 자산 `trend: {cash: none, basis: ...}`이면 현금을 빼지 않고 그 라벨이 나간다 — 현재 KR_CORP는 수익 지수가 이미 국고 대비 초과수익 근사라서 `"국고 대비"`이며, 이때 `value`·`sign`은 현금이 아니라 같은 듀레이션 국고 대비 초과수익의 12개월 값이다. `trend` 설정이 없으면 null. **P5-3 확장(스키마 버전 불변, 필드·형식 변화 없음)**: 자산 `trend`에 `return: {yield_field, duration_field | duration}`을 더하면 수익 지수를 추세 표시에서만 스프레드(%p) 필드의 국채 대비 초과수익 근사 r_t = −D_(t−1)×Δs_t/100 + s_(t−1)/100/`backtest.carry_days_per_year`로 바꾼다(KR_CORP `duration_approx`와 같은 식, D만 시변: `duration_field`의 직전 관측일 값, 또는 상수 `duration`=가정). `cash: none`일 때만 허용하며 라벨은 `"국채 대비"`(US_HY·US_IG 적용 — 사용자 결정 2026-10-29, `D` = iBoxx `mod_durtn`. KR_CORP `"국고 대비"`와 구분)다. 구간 안에 D 결측일이 있으면 0 수익으로 채우지 않고 `insufficient_history`로 둔다. 점수·국면·백테스트 수익률은 그대로다. 이 설정을 켠 자산은 패널에 `duration_field`가 있어야 하며, 없으면 `reason`이 `return_index:...듀레이션 필드 <f> 없음`이다 |
+| `diffusion` | 확산 표시(1.3 추가, 사용자 결정 2026-10-29). **과매도 블록만** 낸다. 기준일의 과매도 지표 `score`(방향 반영, 위 `contributions`의 과매도 행 — `confluence` 하위블록 지표도 각각 1개로 센다) 중 `n_high` = `score` ≥ `high`, `n_low` = `score` ≤ `low`, `n_available` = `score`가 null이 아닌 지표 수다. `high`·`low`는 `scoring.yaml diffusion.high`·`diffusion.low`(현재 80·20)를 실수(float, 예: 80.0)로 옮긴 값이다. `stale`이면 기준일에 가용 지표가 없으므로 세 개수가 모두 0이고 `reason`이 `unavailable_at_as_of`다. `diffusion` 설정이 없으면 개수·임계값이 null이고 `reason`이 `"diffusion 설정 없음"`이다. **점수·국면에 영향이 없다**(표시 전용) |
 
 자산 간 순위(`ScoreResult.ranking`)는 JSON에 넣지 않는다. 블록 점수가 자기 역사 대비 백분위이므로, 순위는 자기 역사 대비 극단성을 비교한 것이다.

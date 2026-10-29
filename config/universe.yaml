@@ -87,6 +87,7 @@
   spread_source: iboxx_gspread    # YLDTOMAT − 동일 듀레이션 UST 보간. 2023-10~ FRED ICE OAS 와 대조
   ric: .IBLUS0004
   refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread, policy_rate: UST10Y.policy_rate}
+  trend: {cash: none, basis: 국채 대비, return: {yield_field: spread, duration_field: mod_durtn}}   # P5-3: 추세는 스프레드 −D×Δs + s 캐리(국채 대비 초과수익 근사, D = iBoxx MOD_DURTN). 점수·국면·백테스트 수익률 불변
   overrides: {}
 - asset_id: US_IG
   name: 미국 투자등급
@@ -96,6 +97,7 @@
   spread_source: iboxx_gspread
   ric: .IBLUS0005
   refs: {equity_fwd_eps: SP500.fwd_eps_12m, spread_low_grade: US_HY.spread, spread_high_grade: US_IG.spread, policy_rate: UST10Y.policy_rate}
+  trend: {cash: none, basis: 국채 대비, return: {yield_field: spread, duration_field: mod_durtn}}   # P5-3: 추세는 스프레드 −D×Δs + s 캐리(국채 대비 초과수익 근사, D = iBoxx MOD_DURTN). 점수·국면·백테스트 수익률 불변
   overrides: {}
 - asset_id: KR_CORP
   name: 국내 회사채 AA-(3년) − 국고3년

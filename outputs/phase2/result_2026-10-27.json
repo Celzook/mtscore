@@ -1,5 +1,5 @@
 {
- "schema_version": "1.0",
+ "schema_version": "1.3",
  "engine_version": "0.1.0",
  "as_of": "2026-10-27",
  "note": "블록 점수는 자산별 자기 과거 분포 대비 백분위(0~100, 클수록 매수 매력)",
@@ -27,6 +27,29 @@
      "v": "high",
      "f": "low"
     }
+   },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 73.9133,
+    "vol_ratio": 0.9343,
+    "vol_indicator": "rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": 1,
+    "value": 0.5502,
+    "months": 12,
+    "basis": "현금 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 10,
+    "n_low": 1,
+    "n_available": 17,
+    "reason": ""
    },
    "contributions": [
     {
@@ -713,6 +736,29 @@
      "f": "high"
     }
    },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 62.6429,
+    "vol_ratio": 0.8046,
+    "vol_indicator": "rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": 1,
+    "value": 0.0858,
+    "months": 12,
+    "basis": "현금 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 1,
+    "n_low": 0,
+    "n_available": 13,
+    "reason": ""
+   },
    "contributions": [
     {
      "block": "oversold",
@@ -1328,6 +1374,29 @@
      "f": "low"
     }
    },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 24.1846,
+    "vol_ratio": 1.1077,
+    "vol_indicator": "level_rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": -1,
+    "value": -0.0801,
+    "months": 12,
+    "basis": "현금 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 0,
+    "n_low": 5,
+    "n_available": 6,
+    "reason": ""
+   },
    "contributions": [
     {
      "block": "oversold",
@@ -1624,6 +1693,29 @@
      "v": "high",
      "f": "low"
     }
+   },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 55.2974,
+    "vol_ratio": 1.3989,
+    "vol_indicator": "level_rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": -1,
+    "value": -0.0787,
+    "months": 12,
+    "basis": "현금 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 1,
+    "n_low": 2,
+    "n_available": 7,
+    "reason": ""
    },
    "contributions": [
     {
@@ -1952,6 +2044,29 @@
      "f": "high"
     }
    },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 10.3178,
+    "vol_ratio": 0.5337,
+    "vol_indicator": "rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": 1,
+    "value": 0.0538,
+    "months": 12,
+    "basis": "현금 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 0,
+    "n_low": 3,
+    "n_available": 5,
+    "reason": ""
+   },
    "contributions": [
     {
      "block": "oversold",
@@ -2180,6 +2295,29 @@
      "v": "low",
      "f": "low"
     }
+   },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 55.3243,
+    "vol_ratio": 0.5819,
+    "vol_indicator": "rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": -1,
+    "value": -0.0688,
+    "months": 12,
+    "basis": "현금 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 3,
+    "n_low": 1,
+    "n_available": 6,
+    "reason": ""
    },
    "contributions": [
     {
@@ -2421,6 +2559,29 @@
      "v": "low",
      "f": "high"
     }
+   },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 31.9236,
+    "vol_ratio": 0.6075,
+    "vol_indicator": "rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": 1,
+    "value": 0.9459,
+    "months": 12,
+    "basis": "현금 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 1,
+    "n_low": 3,
+    "n_available": 6,
+    "reason": ""
    },
    "contributions": [
     {
@@ -2673,6 +2834,29 @@
      "f": "high"
     }
    },
+   "staged_entry": {
+    "flag": true,
+    "oversold": 78.3424,
+    "vol_ratio": 1.8781,
+    "vol_indicator": "level_rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": 1,
+    "value": 0.0245,
+    "months": 12,
+    "basis": "국채 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 1,
+    "n_low": 0,
+    "n_available": 4,
+    "reason": ""
+   },
    "contributions": [
     {
      "block": "oversold",
@@ -2868,6 +3052,29 @@
      "f": "high"
     }
    },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 69.9729,
+    "vol_ratio": 1.2951,
+    "vol_indicator": "level_rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": -1,
+    "value": -0.0013,
+    "months": 12,
+    "basis": "국채 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 1,
+    "n_low": 0,
+    "n_available": 4,
+    "reason": ""
+   },
    "contributions": [
     {
      "block": "oversold",
@@ -3062,6 +3269,29 @@
      "v": "high",
      "f": "high"
     }
+   },
+   "staged_entry": {
+    "flag": false,
+    "oversold": 56.6323,
+    "vol_ratio": 1.4896,
+    "vol_indicator": "level_rv_ratio_20",
+    "reason": ""
+   },
+   "trend": {
+    "sign": -1,
+    "value": -0.0016,
+    "months": 12,
+    "basis": "국고 대비",
+    "reason": ""
+   },
+   "diffusion": {
+    "block": "oversold",
+    "high": 80.0,
+    "low": 20.0,
+    "n_high": 1,
+    "n_low": 0,
+    "n_available": 4,
+    "reason": ""
    },
    "contributions": [
     {

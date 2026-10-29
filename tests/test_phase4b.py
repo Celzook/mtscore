@@ -100,6 +100,10 @@ def test_conditional_indicator_in_profile_via_config(scoring_cfg):
     ("trend", "months", 1.5, "months"),
     ("trend", "cash_field", "", "cash_field"),
     ("trend", "cash_days_per_year", -1, "cash_days_per_year"),
+    ("diffusion", "high", 120, "diffusion.high"),
+    ("diffusion", "high", "80", "diffusion.high"),
+    ("diffusion", "low", float("nan"), "diffusion.low"),
+    ("diffusion", "low", 90, "diffusion.low < diffusion.high"),
 ])
 def test_display_config_values_rejected(mini_universe, mini_profiles, scoring_cfg, sec, key, val, msg):
     sc = copy.deepcopy(scoring_cfg)
@@ -108,7 +112,7 @@ def test_display_config_values_rejected(mini_universe, mini_profiles, scoring_cf
         build_config(mini_universe, mini_profiles, sc)
 
 
-@pytest.mark.parametrize("sec", ["staged_entry", "trend"])
+@pytest.mark.parametrize("sec", ["staged_entry", "trend", "diffusion"])
 def test_display_config_unknown_or_missing_key(mini_universe, mini_profiles, scoring_cfg, sec):
     sc = copy.deepcopy(scoring_cfg)
     sc[sec]["typo"] = 1
@@ -320,8 +324,9 @@ def test_real_universe_exempts_only_kr_corp():
     from mtscore import load_config
     cfg = load_config(Path(__file__).resolve().parents[1] / "config")
     exempt = {a.asset_id: a.trend_basis for a in cfg.universe if a.trend_cash == "none"}
-    assert exempt == {"KR_CORP": "국고 대비"}
-    assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id != "KR_CORP")
+    assert exempt == {"KR_CORP": "국고 대비", "US_HY": "국채 대비", "US_IG": "국채 대비"}   # P5-3 활성화 후
+    assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id not in exempt)
+    assert {a.asset_id for a in cfg.universe if a.trend_return} == {"US_HY", "US_IG"}
 
 
 # ---- P5-3. 추세 표시 전용 수익 지수(trend.return): 스프레드 −D×Δs + s 캐리, 국채 대비. 합성 데이터는 테스트 전용

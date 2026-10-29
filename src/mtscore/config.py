@@ -264,6 +264,7 @@ SCORING_KEYS = {
     "regime": {"threshold", "partial_label", "matrix"},
     "staged_entry": {"oversold_min", "vol_ratio_min", "vol_functions"},
     "trend": {"months", "cash_field", "cash_days_per_year"},
+    "diffusion": {"high", "low"},
     "currency_variant": None, "confirm_trigger": None, "backtest": None, "sub_block_agg": None,
 }
 
@@ -274,7 +275,7 @@ def _finite_num(v) -> bool:
 
 def validate_scoring(sc: dict) -> None:
     """scoring.yaml 검증: 알 수 없는 키, 백분위 방식·연수, 결측 규칙, 구간 순서, 국면 매트릭스, 통화 변형,
-    분할 진입 표시(staged_entry)·추세 표시(trend), 하위블록 집계(sub_block_agg)."""
+    분할 진입 표시(staged_entry)·추세 표시(trend)·확산 표시(diffusion), 하위블록 집계(sub_block_agg)."""
     bad = set(sc) - set(SCORING_KEYS)
     if bad:
         raise ConfigError(f"scoring.yaml 알 수 없는 키 {sorted(bad)} (허용 {sorted(SCORING_KEYS)})")
@@ -316,7 +317,7 @@ def validate_scoring(sc: dict) -> None:
                 raise ConfigError(f"regime.matrix[{i}].{k} 는 high·low·null ({row.get(k)!r})")
     if sc.get("currency_variant", "both") not in CURRENCY_VARIANTS:
         raise ConfigError(f"currency_variant 값 오류 {sc.get('currency_variant')!r} (허용 {CURRENCY_VARIANTS})")
-    for sec in ("staged_entry", "trend"):   # 표시 전용 섹션: 있으면 키를 모두 적어야 한다(엔진에 숨은 기본값 없음)
+    for sec in ("staged_entry", "trend", "diffusion"):   # 표시 전용 섹션: 있으면 키를 모두 적어야 한다(엔진에 숨은 기본값 없음)
         if sc.get(sec) and set(sc[sec]) != SCORING_KEYS[sec]:
             raise ConfigError(f"scoring.yaml {sec} 에 빠진 키 {sorted(SCORING_KEYS[sec] - set(sc[sec]))}")
     se = sc.get("staged_entry", {}) or {}
@@ -340,6 +341,12 @@ def validate_scoring(sc: dict) -> None:
         raise ConfigError(f"trend.cash_field 는 필드 이름 문자열 ({tr['cash_field']!r})")
     if "cash_days_per_year" in tr and not (_finite_num(tr["cash_days_per_year"]) and tr["cash_days_per_year"] > 0):
         raise ConfigError(f"trend.cash_days_per_year 는 양의 유한값 ({tr['cash_days_per_year']!r})")
+    df = sc.get("diffusion", {}) or {}
+    for k in ("high", "low"):
+        if k in df and not (_finite_num(df[k]) and 0 <= df[k] <= 100):
+            raise ConfigError(f"diffusion.{k} 는 0~100 숫자 ({df[k]!r})")
+    if "high" in df and "low" in df and not df["low"] < df["high"]:
+        raise ConfigError(f"diffusion.low < diffusion.high 이어야 함 (low={df['low']!r}, high={df['high']!r})")
     agg = sc.get("sub_block_agg")
     if agg is not None and not isinstance(agg, dict):
         raise ConfigError("sub_block_agg 는 {'block.sub_block': mean | min} 매핑")

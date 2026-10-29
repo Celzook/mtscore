@@ -23,7 +23,8 @@ from .data.schema import validate_panel
 
 log = logging.getLogger(__name__)
 
-SCHEMA_VERSION = "1.2"   # 1.1(2026-10-29): staged_entry·trend 표시 필드 추가 / 1.2: trend.basis(부호의 기준) 추가
+SCHEMA_VERSION = "1.3"   # 1.1(2026-10-29): staged_entry·trend 표시 필드 추가 / 1.2: trend.basis(부호의 기준) 추가
+#                           1.3(2026-10-29): diffusion(과매도 블록 확산 표시) 추가
 ENGINE_VERSION = "0.1.0"
 CALENDAR_FIELD_CANDIDATES = ("close", "yield", "spread")
 
@@ -45,6 +46,9 @@ class ScoreResult:
         staged_entry: asset_id 별 분할 진입 표시(flag·oversold·vol_ratio·vol_indicator·reason). 점수·국면에 영향 없음.
         trend: asset_id 별 추세 표시(value = TSMOM 초과수익, sign = ±1, months·reason, basis = 부호의 기준: 현금 대비 | 자산별 설정
             예 KR_CORP 국고 대비). 점수·국면에 쓰지 않음.
+        diffusion: asset_id 별 과매도 블록 확산 표시(block·high·low·n_high·n_low·n_available·reason). 기준일의 과매도 지표
+            점수(방향 반영, contributions 의 지표 행 — confluence 지표도 각각 1개) 중 ≥ high, ≤ low, 가용(결측 아님) 개수.
+            high·low 는 scoring.yaml diffusion. 점수·국면에 쓰지 않음.
     """
 
     as_of: pd.Timestamp
@@ -58,6 +62,7 @@ class ScoreResult:
     history: dict = field(default_factory=dict, repr=False)
     staged_entry: pd.DataFrame = field(default_factory=pd.DataFrame)
     trend: pd.DataFrame = field(default_factory=pd.DataFrame)
+    diffusion: pd.DataFrame = field(default_factory=pd.DataFrame)
 
     @property
     def ranking(self) -> pd.DataFrame:
@@ -97,6 +102,8 @@ class ScoreResult:
                 if aid in self.staged_entry.index else None,
                 "trend": {k: clean(self.trend.at[aid, k]) for k in self.trend.columns}
                 if aid in self.trend.index else None,
+                "diffusion": {k: clean(self.diffusion.at[aid, k]) for k in self.diffusion.columns}
+                if aid in self.diffusion.index else None,
                 "contributions": [{k: clean(v) for k, v in r.items()} for r in contrib.to_dict("records")],
                 "coverage": [{k: clean(v) for k, v in r.items()} for r in cov.to_dict("records")],
             })
@@ -315,7 +322,8 @@ class ScoringEngine:
         se_cfg = self.config.scoring.get("staged_entry")
         trend = self.trend_history(panel, list(hist), as_of)
         dates, stale, blk_rows, band_rows, rg_rows, contrib, cov = {}, {}, {}, {}, {}, [], []
-        se_rows, tr_rows = {}, {}
+        se_rows, tr_rows, df_rows = {}, {}, {}
+        df_cfg = self.config.scoring.get("diffusion")
         for aid, h in hist.items():
             cal = h.blocks.index
             cal = cal if req is None else cal[cal <= req]
@@ -343,6 +351,7 @@ class ScoringEngine:
                             "reason": "unavailable_at_as_of" if is_stale else
                             ("" if t not in tr.index else tr.at[t, "reason"])}
             rows_c = _contributions(aid, h, t)
+            df_rows[aid] = _diffusion(rows_c, df_cfg, is_stale)
             if is_stale:
                 for r_ in rows_c:
                     r_.update(weight_in_block=0.0, contribution=np.nan)
@@ -367,6 +376,7 @@ class ScoringEngine:
             history=hist,
             staged_entry=pd.DataFrame(se_rows).T[["flag", "oversold", "vol_ratio", "vol_indicator", "reason"]],
             trend=pd.DataFrame(tr_rows).T[["sign", "value", "months", "basis", "reason"]],
+            diffusion=pd.DataFrame(df_rows).T[list(DIFFUSION_COLUMNS)],
         )
 
 
@@ -589,6 +599,26 @@ def _staged_entry(h: AssetScores, t: pd.Timestamp, oversold: float, se_cfg: dict
     if row["flag"] is None:
         row["reason"] = "oversold_na" if np.isnan(oversold) else "vol_ratio_na"
     return row
+
+
+DIFFUSION_BLOCK = "oversold"   # 사용자 결정(2026-10-29): 확산 표시는 과매도 블록만
+DIFFUSION_COLUMNS = ("block", "high", "low", "n_high", "n_low", "n_available", "reason")
+
+
+def _diffusion(rows_c: list[dict], df_cfg: dict | None, is_stale: bool) -> dict:
+    """기준일 과매도 블록 확산 표시. rows_c 는 _contributions(기준일 지표 행, 지표마다 1행 — confluence 지표도 각각 1개)의
+    결과이고 score 는 방향 반영 점수다. n_high = score ≥ high, n_low = score ≤ low, n_available = score 결측 아님.
+    stale 이면 기준일에 가용한 지표가 없으므로 세 개수 모두 0(reason unavailable_at_as_of). 설정이 없으면 개수 null.
+    점수·국면에 쓰지 않는다(표시 전용)."""
+    row = {"block": DIFFUSION_BLOCK, "high": None, "low": None, "n_high": None, "n_low": None, "n_available": None}
+    if not df_cfg:
+        return {**row, "reason": "diffusion 설정 없음"}
+    hi, lo = float(df_cfg["high"]), float(df_cfg["low"])
+    row.update(high=hi, low=lo)
+    if is_stale:
+        return {**row, "n_high": 0, "n_low": 0, "n_available": 0, "reason": "unavailable_at_as_of"}
+    s = pd.Series([r["score"] for r in rows_c if r["block"] == DIFFUSION_BLOCK], dtype=float).dropna()
+    return {**row, "n_high": int((s >= hi).sum()), "n_low": int((s <= lo).sum()), "n_available": int(len(s)), "reason": ""}
 
 
 def _contributions(aid: str, h: AssetScores, t: pd.Timestamp) -> list[dict]:

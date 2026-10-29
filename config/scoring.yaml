@@ -36,6 +36,9 @@ trend:          # 추세 표시(사전 등록 B3) — TSMOM: 수익 지수 month
   months: 12                  # 달력월(lag_months, pct_change_months 와 같은 정의)
   cash_field: policy_rate     # 정책금리(%) 필드 — 없는 자산은 universe.yaml refs 로 빌린다(KRW: KTB10Y, USD: UST10Y)
   cash_days_per_year: 252     # 현금 일할 = 직전 자산 달력일 금리/100/252 복리(가정, duration_approx 캐리와 같은 관례)
+diffusion:      # 확산 표시(사용자 결정 2026-10-29, P5-1 확산 표시) — 과매도 블록만, 지표 점수(방향 반영) ≥ high 개수 / ≤ low 개수 / 가용 수. 점수·국면에 쓰지 않음
+  high: 80
+  low: 20
 currency_variant: both     # oversold_only | fundamental_only | both — Phase 3 비교 후 확정
 confirm_trigger: {enabled: false}   # 미구현 — 사용자 결정(2026-10-26): 나중에. 엔진은 이 키를 읽지 않는다
 backtest:

@@ -261,6 +261,9 @@ def main():
         lvl = ib["TRDPRC_1"].dropna()
         add(aid, "index_level", lvl.rename("value").reset_index().rename(columns={"Date": D}),
             f"lseg:.{ric} TRDPRC_1", "as_of = date", "총수익지수(TRTN_PRICE 와 동일 — Phase 2 확인)")
+        md = ib["MOD_DURTN"].dropna()
+        add(aid, "mod_durtn", md.rename("value").reset_index().rename(columns={"Date": D}),
+            f"lseg:.{ric} MOD_DURTN (iBoxx 수정듀레이션, 년)", "as_of = date", "추세 표시 trend.return(P5-3)의 D. 점수에 쓰지 않음")
         both = ib[["TRDPRC_1", "TRTN_PRICE"]].dropna()
         INFO[f"{aid}_tr_check"] = {"rows_both": int(len(both)),
                                    "max_abs_diff": float((both["TRDPRC_1"] - both["TRTN_PRICE"]).abs().max())}

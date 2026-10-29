@@ -37,9 +37,11 @@ KOSPI200,breadth_dec,refinitiv:KODEX200 보유종목 일봉 get_timeseries CLOSE
 US_HY,spread,lseg:.IBLUS0004 YLDTOMAT − UST 커브(1·2·3·5·7·10·30년 =RR) 평균만기(AVG_LIFE) 매칭,as_of = date,G-스프레드(%p). 사용자 결정 2026-10-28 A(가정: 만기 사이 선형 보간),4353,2010-01-04,2026-10-27
 US_HY,spread_dur_matched,lseg:.IBLUS0004 YLDTOMAT − 같은 수정듀레이션 액면 국채,as_of = date,비교용(점수에 쓰지 않음),4354,2010-01-04,2026-10-27
 US_HY,index_level,lseg:.IBLUS0004 TRDPRC_1,as_of = date,총수익지수(TRTN_PRICE 와 동일 — Phase 2 확인),4359,2009-12-28,2026-10-27
+US_HY,mod_durtn,"lseg:.IBLUS0004 MOD_DURTN (iBoxx 수정듀레이션, 년)",as_of = date,추세 표시 trend.return(P5-3)의 D. 점수에 쓰지 않음,4358,2009-12-28,2026-10-27
 US_IG,spread,lseg:.IBLUS0005 YLDTOMAT − UST 커브(1·2·3·5·7·10·30년 =RR) 평균만기(AVG_LIFE) 매칭,as_of = date,G-스프레드(%p). 사용자 결정 2026-10-28 A(가정: 만기 사이 선형 보간),4256,2010-01-04,2026-10-27
 US_IG,spread_dur_matched,lseg:.IBLUS0005 YLDTOMAT − 같은 수정듀레이션 액면 국채,as_of = date,비교용(점수에 쓰지 않음),4282,2010-01-04,2026-10-27
 US_IG,index_level,lseg:.IBLUS0005 TRDPRC_1,as_of = date,총수익지수(TRTN_PRICE 와 동일 — Phase 2 확인),4286,2009-12-28,2026-10-27
+US_IG,mod_durtn,"lseg:.IBLUS0005 MOD_DURTN (iBoxx 수정듀레이션, 년)",as_of = date,추세 표시 trend.return(P5-3)의 D. 점수에 쓰지 않음,4286,2009-12-28,2026-10-27
 SP500,vol_index,fred:VIXCLS,as_of = date,최신 빈티지(수정치) — 가정,4767,2008-01-02,2026-10-26
 SP500,vol_index_3m,fred:VXVCLS,as_of = date,최신 빈티지(수정치) — 가정,4734,2008-01-02,2026-10-26
 UST10Y,real_yield,fred:DFII10,as_of = 다음 미국 영업일(가정),최신 빈티지(수정치) — 가정,4707,2008-01-02,2026-10-26

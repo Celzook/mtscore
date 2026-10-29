@@ -1,4 +1,4 @@
-/home/infomax/Desktop/Infomax/_project/mtscore/scripts/phase2_build.py:173: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+scripts/phase2_build.py:173: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
   inv["as_of"] = inv[D] + pd.Timedelta(days=5)
 {
  "gold_rolls": {
@@ -154,6 +154,6 @@
   "lag_days_max": 140,
   "lag_days_p95": 99.0
  },
- "panel_rows": 149597,
- "build_seconds": 18.1
+ "panel_rows": 158241,
+ "build_seconds": 19.1
 }
