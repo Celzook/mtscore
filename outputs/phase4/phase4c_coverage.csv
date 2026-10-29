@@ -1,0 +1,7 @@
+variant,asset_id,indicator,first_raw,first_score,n_score_selection,n_score_confirmation,block_first_score_base,selection_meaningful(first_score<=2013-12-31)
+C1,GOLD,long_reversal_60m,2010-01-04,2013-01-04,1762,1716,2013-01-04,True
+C1,WTI,long_reversal_60m,2010-01-04,2013-01-04,1761,1716,2013-01-04,True
+C1,USDKRW,long_reversal_60m,2010-01-04,2013-01-04,1719,1681,2013-01-04,True
+C1,KTB10Y,long_reversal_60m,2010-01-04,2013-01-04,1723,1678,2013-01-04,True
+C1,UST10Y,long_reversal_60m,2010-01-04,2013-01-04,1748,1706,2013-01-04,True
+C2,USDKRW,rate_diff_level,2010-01-05,2013-01-07,1718,1681,2013-04-05,True

@@ -20,3 +20,4 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]   # 워크트리에서도 이 체크아웃의 src 를 쓴다(공유 venv 의 editable 설치가 다른 체크아웃을 가리킬 수 있음)

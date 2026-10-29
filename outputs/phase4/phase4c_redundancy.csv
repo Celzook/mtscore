@@ -1,0 +1,8 @@
+variant,asset_class,new,existing,note,assets,n_pairs,corr_selection_pooled,corr_GOLD,corr_WTI,over_cut,ic63_new,ic63_existing,candidate,over_cut_any_asset,corr_USDKRW,corr_KTB10Y,corr_UST10Y
+C1,commodity,long_reversal_60m,real_price_level,이 자산군에서 제외된 지표,,,,,,,,,,,,,
+C1,commodity,long_reversal_60m,real_price_level_spot,,"GOLD,WTI",3523.0,0.4040351866393626,0.49433419193701184,0.34497027934591584,False,0.07700719230819313,0.14308091241825024,,False,,,
+C1,fx,long_reversal_60m,reer_level,,USDKRW,1719.0,0.6004421540819511,,,False,-0.2631607775197961,0.1058855059763128,,False,0.6004421540819511,,
+C1,rates,long_reversal_60m,real_yield,,"KTB10Y,UST10Y",3471.0,0.11097989125050135,,,False,-0.0545723964949638,0.2601691089932173,,False,,-0.19918034084571482,0.5128968193716634
+C1,rates,long_reversal_60m,spread_to_policy,,"KTB10Y,UST10Y",3471.0,0.1075827780206923,,,False,-0.0545723964949638,0.035152490816219906,,False,,0.5628504555367635,0.15139258530178965
+C1,rates,long_reversal_60m,term_premium,,UST10Y,150.0,0.13477659736871175,,,False,-0.0545723964949638,0.21184408195919818,,False,,,0.13477659736871175
+C2,fx,rate_diff_level,rate_diff_chg_3m,,USDKRW,1656.0,0.569265586242833,,,False,0.12601515217226683,0.09400057849516498,,False,0.569265586242833,,

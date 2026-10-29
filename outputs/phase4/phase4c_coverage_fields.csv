@@ -1,0 +1,11 @@
+asset_id,field,source,rows,first,last,note
+GOLD,close_long,refinitiv:GCc1..GCc4 활성월 비율 백어저스트(2005~),5475,2005-01-03,2026-10-27,Phase 2 와 같은 규칙(gc_c1_month·gc_held_month(5)·continuous_from_nearbys)
+GOLD,close_long_m60,refinitiv:GCc1..GCc4 활성월 비율 백어저스트(2005~) (60 달력월 전 값),4234,2010-01-04,2026-10-27,t − 60개월 이전 마지막 관측(5영업일 넘게 오래되면 결측)
+WTI,close_long,refinitiv:CLc1/CLc2 ratio back-adjusted(2005~),5494,2005-01-03,2026-10-27,Phase 2 와 같은 규칙(cl_roll_dates·back_adjust_ratio(5))
+WTI,close_long_m60,refinitiv:CLc1/CLc2 ratio back-adjusted(2005~) (60 달력월 전 값),4235,2010-01-04,2026-10-27,t − 60개월 이전 마지막 관측(5영업일 넘게 오래되면 결측)
+KTB10Y,yield_long,refinitiv:KRTSY10Y=KQ(2005~),5396,2005-01-03,2026-10-27,
+KTB10Y,yield_long_m60,refinitiv:KRTSY10Y=KQ(2005~) (60 달력월 전 값),4150,2010-01-04,2026-10-27,t − 60개월 이전 마지막 관측(5영업일 넘게 오래되면 결측)
+UST10Y,yield_long,refinitiv:US10YT=RR(2005~),5483,2005-01-03,2026-10-27,
+UST10Y,yield_long_m60,refinitiv:US10YT=RR(2005~) (60 달력월 전 값),4208,2010-01-04,2026-10-27,t − 60개월 이전 마지막 관측(5영업일 넘게 오래되면 결측)
+USDKRW,reer_long,fred:RBKRBIS(2005~),259,2005-01-01,2026-07-01,"as_of = 기준월 1일 + 3개월(가정, Phase 2 와 같음). 최신 빈티지(수정치) — 가정"
+USDKRW,reer_long_m60,fred:RBKRBIS (60개월 전 기준월 값),259,2005-01-01,2026-07-01,같은 date·as_of 에 기준월 − 60개월 값(가정: 공표 시차 고정)

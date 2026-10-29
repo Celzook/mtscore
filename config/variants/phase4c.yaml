@@ -1,0 +1,22 @@
+# Phase 4 단계 C 변형 정의(사전 등록 docs/prereg_2026-10-29.md C1·C2). load_config 는 profiles/*.yaml 만 읽으므로
+# 이 파일은 기본 설정에 들어가지 않는다 — scripts/phase4_c.py 가 설정 사본의 프로파일에 붙여 변형을 만든다.
+# 하위블록: 사전 등록 C2 '기존 블록 구조는 그대로' 를 C1 에도 적용해 기존 하위블록에 넣는다(가정, 결과 보기 전 고정).
+long_months: 60          # 장기 반전 창(달력월). scripts/phase4c_build.py 가 *_m60 짝 필드를 만들 때 읽는다
+variants:
+  C1:   # 장기 반전(밸류). 입력은 장기 빌드 필드(*_long, *_long_m60)만 — 기존 지표 입력(2010~)은 그대로
+    commodity:
+      valuation.real_price:
+        # −(60개월 수익). 연속물 close_long 의 비율 − 1
+        - {name: long_reversal_60m, indicator: ratio_minus_one, direction: -, fields: [close_long, close_long_m60]}
+    fx:
+      valuation.reer:
+        # −(log REER 60개월 변화). 비율 − 1 은 로그 차분의 단조 변환이라 자기 역사 백분위가 같다
+        - {name: long_reversal_60m, indicator: ratio_minus_one, direction: -, fields: [reer_long, reer_long_m60]}
+    rates:
+      valuation.level:
+        # +(금리 60개월 변화, %p). Asness-Moskowitz-Pedersen 2013
+        - {name: long_reversal_60m, indicator: spread, direction: +, fields: [yield_long, yield_long_m60]}
+  C2:   # 캐리: 환율 금리차 수준
+    fx:
+      fundamental.macro:
+        - {name: rate_diff_level, indicator: level, direction: +, fields: [rate_diff]}

@@ -1,0 +1,11 @@
+variant,asset_id,existing_indicator_scores_identical,max_abs_diff_existing,other_blocks_identical,new_in_variant
+C1,GOLD,True,0.0,True,long_reversal_60m
+C1,WTI,True,0.0,True,long_reversal_60m
+C1,USDKRW,True,0.0,True,long_reversal_60m
+C1,KTB10Y,True,0.0,True,long_reversal_60m
+C1,UST10Y,True,0.0,True,long_reversal_60m
+C2,GOLD,True,0.0,True,
+C2,WTI,True,0.0,True,
+C2,USDKRW,True,0.0,True,rate_diff_level
+C2,KTB10Y,True,0.0,True,
+C2,UST10Y,True,0.0,True,
