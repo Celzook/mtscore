@@ -216,3 +216,164 @@
   stage: dash_2a
   trend: {cash: none, basis: 가격 기준}
   overrides: {exclude: [valuation, fundamental, spec_positioning]}
+# ── 대시보드 2단계 ② (2026-10-29): 팩터·섹터·우선주 20개. ①과 같은 방식(가격만, 과매도 블록, 부분판정·검증 전). 개별 종목(삼성전자·우)도 같은 지표를 쓴다(가정).
+- asset_id: F_DIV
+  name: 배당 (SCHD)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: F_MINVOL
+  name: 저변동성 (USMV)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: F_QUALITY
+  name: 퀄리티 (QUAL)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: F_VALUE
+  name: 가치 (VLUE)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: F_GROWTH
+  name: 성장 (IWF)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: F_MOM
+  name: 모멘텀 (MTUM)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: KR_DIV
+  name: 국내 고배당 (PLUS 고배당주)
+  asset_class: equity_index
+  currency: KRW
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_FIN_US
+  name: 미국 금융 (XLF)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_HC_US
+  name: 미국 헬스케어 (XLV)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_TECH_US
+  name: 미국 기술 (XLK)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_SEMI_US
+  name: 미국 반도체 (SOXX)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_ENERGY_US
+  name: 미국 에너지 (XLE)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: T_CLEAN
+  name: 클린에너지 (ICLN)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: T_INFRA
+  name: 미국 인프라 (PAVE)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_BANK_KR
+  name: 국내 은행 (KODEX 은행)
+  asset_class: equity_index
+  currency: KRW
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_SEMI_KR
+  name: 국내 반도체 (KODEX 반도체)
+  asset_class: equity_index
+  currency: KRW
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: S_HC_KR
+  name: 국내 헬스케어 (KODEX 헬스케어)
+  asset_class: equity_index
+  currency: KRW
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: SAMSUNG
+  name: 삼성전자
+  asset_class: equity_index
+  currency: KRW
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: SAMSUNG_PREF
+  name: 삼성전자우
+  asset_class: equity_index
+  currency: KRW
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}
+- asset_id: PFF
+  name: 미국 우선주 ETF (PFF)
+  asset_class: equity_index
+  currency: USD
+  return_field: close
+  stage: dash_2a
+  trend: {cash: none, basis: 가격 기준}
+  overrides: {exclude: [valuation, fundamental, breadth, flows, vol_index_level, vol_index_over_rv, vol_term_inversion, put_call, home_ccy_shock_20]}

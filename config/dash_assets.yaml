@@ -12,6 +12,27 @@ files:
     TAIEX: ^TWII
     AAXJ: AAXJ
     EEM: EEM
+    # 2단계 ② (2026-10-29): 팩터·섹터·우선주 20개
+    F_DIV: SCHD
+    F_MINVOL: USMV
+    F_QUALITY: QUAL
+    F_VALUE: VLUE
+    F_GROWTH: IWF
+    F_MOM: MTUM
+    KR_DIV: 161510.KS
+    S_FIN_US: XLF
+    S_HC_US: XLV
+    S_TECH_US: XLK
+    S_SEMI_US: SOXX
+    S_ENERGY_US: XLE
+    T_CLEAN: ICLN
+    T_INFRA: PAVE
+    S_BANK_KR: 091170.KS
+    S_SEMI_KR: 091160.KS
+    S_HC_KR: 266420.KS
+    SAMSUNG: 005930.KS
+    SAMSUNG_PREF: 005935.KS
+    PFF: PFF
   yf_daily.csv:
     USDJPY: usdjpy
     EURUSD: eurusd
