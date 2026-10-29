@@ -1,0 +1,2 @@
+asset_id,field,source,as_of_rule,note,rows,first,last
+KOSPI200,cape_bu,refinitiv:KODEX200 보유종목(결산 ≤2003 고정 집합) TR.F.NetIncAfterMinIntr·TR.CompanyMarketCap 바텀업 + ecos:901Y009,"as_of = 그달 집합 종목 시총 표본일 최댓값(월말); 연간 이익은 max(결산+90일, 공시일 다음 날)부터","민감도(점수 미사용). 현재 KOSPI200 구성종목(KODEX200 보유) 중 2003년 이전부터 연간 이익이 있는 종목 고정 — 생존편향(가정, 사전 등록 2026-10-29 §D-2)",204,2009-07-31,2026-09-30

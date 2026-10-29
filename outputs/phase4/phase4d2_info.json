@@ -1,0 +1,81 @@
+{
+ "set": {
+  "n_holdings": 201,
+  "n_with_ni": 200,
+  "n_members": 123,
+  "weight_share_pct": 86.48,
+  "eps_def_n": 97,
+  "eps_def_weight_pct": 82.5
+ },
+ "pit": {
+  "avail_src_share": {
+   "ann": 0.8427,
+   "ibes": 0.0893,
+   "lag_only": 0.068
+  },
+  "share_avail_after_fye90": 0.1872,
+  "fye_months": {
+   "12": 3314,
+   "3": 147,
+   "9": 17,
+   "6": 5
+  },
+  "firm_years": 3483
+ },
+ "coverage": {
+  "first": "2009-07-31",
+  "last": "2026-09-30",
+  "months": 204,
+  "n_used_first": 103,
+  "n_used_2013_01": 119,
+  "n_used_last": 123,
+  "mcap_share_used_min_from_2013": 0.9326
+ },
+ "proxy_check": {
+  "corr_dlog_ks200_vs_set_mcap_2011_": 0.9964
+ },
+ "magnitude": {
+  "cape_bu": {
+   "mean": 17.12,
+   "min": 10.84,
+   "50%": 15.66,
+   "max": 48.53
+  },
+  "pe_trailing_set": {
+   "mean": 15.1,
+   "min": 7.78,
+   "50%": 13.32,
+   "max": 33.58
+  },
+  "fwd_per": {
+   "mean": 9.76,
+   "min": 5.53,
+   "50%": 9.62,
+   "max": 14.03
+  },
+  "pbr": {
+   "mean": 1.12,
+   "min": 0.74,
+   "50%": 1.07,
+   "max": 2.72
+  },
+  "div_yield": {
+   "mean": 1.67,
+   "min": 0.73,
+   "50%": 1.68,
+   "max": 2.63
+  }
+ },
+ "cape_last": {
+  "date": "2026-09-30",
+  "value": 38.48,
+  "pe_trailing_set": 26.66
+ },
+ "cape_score_first": "2013-01-04",
+ "default_unchanged": {
+  "panel+cape_bu == panel": true,
+  "panel+cape_bu == outputs/phase2/score_history.csv.gz": true,
+  "rows": 34573
+ },
+ "seconds": 322.3
+}
