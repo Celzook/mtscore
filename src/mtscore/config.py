@@ -16,7 +16,10 @@ from .core.scoring import BLOCKS, SUB_BLOCK_AGGS
 log = logging.getLogger(__name__)
 
 KNOWN_ASSET_KEYS = {"asset_id", "name", "asset_class", "currency", "return_field", "calendar_field", "refs",
-                    "field_transforms", "overrides"}
+                    "field_transforms", "overrides", "trend"}
+TREND_ASSET_KEYS = {"cash", "basis"}
+TREND_CASH_MODES = ("subtract", "none")
+TREND_BASIS_DEFAULT = "현금 대비"
 FIELD_TRANSFORMS = ("reciprocal", "negate")
 OVERRIDE_KEYS = {"exclude", "weights", "params", "add"}
 PERCENTILE_METHODS = ("expanding", "rolling")
@@ -42,6 +45,8 @@ class AssetSpec:
     field_transforms: dict = field(default_factory=dict)  # field → reciprocal | negate
     overrides: dict = field(default_factory=dict)
     meta: dict = field(default_factory=dict)
+    trend_cash: str = "subtract"                 # 추세 표시의 현금 차감: subtract(기본) | none(수익 지수가 이미 초과수익 근사)
+    trend_basis: str = TREND_BASIS_DEFAULT       # 추세 부호의 기준 라벨(결과 trend.basis). none 이면 universe.yaml 이 적는다
 
 
 @dataclass
@@ -183,13 +188,40 @@ def _parse_asset(raw: dict) -> AssetSpec:
     bad = {k: v for k, v in tr.items() if v not in FIELD_TRANSFORMS}
     if bad:
         raise ConfigError(f"{raw['asset_id']}: field_transforms 값 오류 {bad} (허용 {FIELD_TRANSFORMS})")
+    trend_cash, trend_basis = _parse_asset_trend(raw)
     return AssetSpec(asset_id=str(raw["asset_id"]), name=str(raw.get("name", raw["asset_id"])),
                      asset_class=str(raw["asset_class"]), currency=str(raw.get("currency", "")),
                      return_field=str(raw.get("return_field", "close")),
                      calendar_field=str(raw["calendar_field"]) if raw.get("calendar_field") else None,
                      refs=refs, field_transforms=tr,
                      overrides=dict(raw.get("overrides") or {}),
-                     meta={k: v for k, v in raw.items() if k not in KNOWN_ASSET_KEYS})
+                     meta={k: v for k, v in raw.items() if k not in KNOWN_ASSET_KEYS},
+                     trend_cash=trend_cash, trend_basis=trend_basis)
+
+
+def _parse_asset_trend(raw: dict) -> tuple[str, str]:
+    """자산별 추세 표시 설정 `trend: {cash: subtract|none, basis: <라벨>}` 검증.
+    cash=none 이면 현금을 빼지 않으므로(수익 지수가 이미 초과수익 근사인 자산) 부호의 기준을 basis 로 적어야 한다."""
+    tr = raw.get("trend")
+    if tr is None:
+        return "subtract", TREND_BASIS_DEFAULT
+    aid = raw["asset_id"]
+    if not isinstance(tr, dict):
+        raise ConfigError(f"{aid}: trend 는 매핑 {{cash, basis}} ({tr!r})")
+    bad = set(tr) - TREND_ASSET_KEYS
+    if bad:
+        raise ConfigError(f"{aid}: trend 에 알 수 없는 키 {sorted(bad)} (허용 {sorted(TREND_ASSET_KEYS)})")
+    cash = tr.get("cash", "subtract")
+    if cash not in TREND_CASH_MODES:
+        raise ConfigError(f"{aid}: trend.cash 값 오류 {cash!r} (허용 {TREND_CASH_MODES})")
+    basis = tr.get("basis")
+    if cash == "none":
+        if not (isinstance(basis, str) and basis.strip()):
+            raise ConfigError(f"{aid}: trend.cash=none 이면 trend.basis(부호의 기준 라벨)를 적어야 함 ({basis!r})")
+        return cash, basis.strip()
+    if basis is not None:
+        raise ConfigError(f"{aid}: trend.basis 는 trend.cash=none 일 때만 쓴다 ({basis!r})")
+    return cash, TREND_BASIS_DEFAULT
 
 
 SCORING_KEYS = {

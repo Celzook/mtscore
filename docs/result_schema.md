@@ -1,10 +1,10 @@
-# ScoreResult JSON 스키마 (schema_version 1.1)
+# ScoreResult JSON 스키마 (schema_version 1.2)
 
-`ScoringEngine.score(...).to_json()`이 내는 문서 구조다. 필드를 추가하면 minor 버전(1.x)을 올리고(1.1: `staged_entry`·`trend` 추가, 2026-10-29), 필드의 의미나 형식을 바꾸면 major 버전을 올린다. 결측값은 모두 `null`이다(NaN을 쓰지 않는다).
+`ScoringEngine.score(...).to_json()`이 내는 문서 구조다. 필드를 추가하면 minor 버전(1.x)을 올리고(1.1: `staged_entry`·`trend` 추가, 2026-10-29 / 1.2: `trend.basis` 추가, 2026-10-29), 필드의 의미나 형식을 바꾸면 major 버전을 올린다. 결측값은 모두 `null`이다(NaN을 쓰지 않는다).
 
 ```json
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "engine_version": "0.1.0",
   "as_of": "YYYY-MM-DD",
   "note": "블록 점수는 자산별 자기 과거 분포 대비 백분위(0~100, 클수록 매수 매력)",
@@ -23,6 +23,7 @@
                        "reason": ""|"staged_entry 설정 없음"|"unavailable_at_as_of"|"no_vol_indicator"|
                                  "multiple_vol_indicators:<a,b>"|"oversold_na"|"vol_ratio_na"},
       "trend": {"sign": 1|-1|0|null, "value": float|null, "months": 12|null,
+                "basis": "현금 대비"|"국고 대비"|...|null,
                 "reason": ""|"trend 설정 없음"|"missing_field:<f>"|"return_index:<사유>"|"insufficient_history"|
                           "unavailable_at_as_of"},
       "contributions": [
@@ -57,5 +58,6 @@
 | `regime.display` | 부분판정이면 라벨 뒤에 `scoring.yaml regime.partial_label`을 붙인 표시용 문자열이다 |
 | `staged_entry` | 분할 진입 표시(1.1 추가, 사전 등록 B2). `flag`는 과매도 블록 점수 ≥ `scoring.yaml staged_entry.oversold_min`이고 변동성비 원시값 ≥ `vol_ratio_min`일 때 참이다. 변동성비는 계산 함수가 `staged_entry.vol_functions`에 있는 이 자산의 사용 지표(정확히 1개, 이름은 `vol_indicator`)의 원시값이다. 판정할 수 없으면 `flag`가 null이고 `reason`에 사유가 있다. **점수·국면에 영향이 없다**(표시 전용) |
 | `trend` | 추세 표시(1.1 추가, 사전 등록 B3). `value` = 수익 지수(백테스트 수익률 규칙: `close_tr`·`close`·`duration_approx`·USDKRW 역수)의 `trend.months` 달력월 수익 − 같은 구간 현금 수익(`trend.cash_field` 정책금리, 없는 자산은 `universe.yaml refs`, 직전일 금리/100/`cash_days_per_year` 복리, 가정). `sign`은 그 부호(±1, 정확히 0이면 0). 구간 안에 금리 결측일이 있거나 이력이 짧으면 null. **점수·국면 판정에 쓰지 않는다** |
+| `trend.basis` | 추세 부호의 기준(1.2 추가). 기본 `"현금 대비"`(위 설명대로 현금 수익을 뺌). `universe.yaml`의 자산 `trend: {cash: none, basis: ...}`이면 현금을 빼지 않고 그 라벨이 나간다 — 현재 KR_CORP는 수익 지수가 이미 국고 대비 초과수익 근사라서 `"국고 대비"`이며, 이때 `value`·`sign`은 현금이 아니라 같은 듀레이션 국고 대비 초과수익의 12개월 값이다. `trend` 설정이 없으면 null |
 
 자산 간 순위(`ScoreResult.ranking`)는 JSON에 넣지 않는다. 블록 점수가 자기 역사 대비 백분위이므로, 순위는 자기 역사 대비 극단성을 비교한 것이다.

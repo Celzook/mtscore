@@ -1,0 +1,4 @@
+[1] score_history 34,573행 Phase 2 와 정확히 동일
+[2] result JSON(trend·staged_entry·schema_version 제외) Phase 2 와 동일 (1.0 -> 1.2)
+[3a] KR_CORP 외 9개 자산 share_pos·n_days 가 phase4b_trend_coverage.csv 와 동일
+[3b] {"as_of": "2026-10-27", "n_days": 3809, "first_value_date": "2011-05-18", "share_pos_before": 0.0759, "share_pos_after": 0.8402, "sign_flip_days": 2897, "sign_flip_share": 0.7606, "mean_diff": 0.0208, "min_diff": 0.005, "max_diff": 0.035, "latest_before": -0.0272, "latest_after": -0.0016, "latest_trend_json": {"sign": -1, "value": -0.0016, "months": 12, "basis": "국고 대비", "reason": ""}, "other_assets_share_pos": {"KOSPI200": 0.5416, "SP500": 0.8441, "KTB10Y": 0.5699, "UST10Y": 0.5015, "USDKRW": 0.285, "GOLD": 0.5608, "WTI": 0.4342, "US_HY": 0.7986, "US_IG": 0.6707}}

@@ -239,3 +239,86 @@ def test_trend_does_not_change_scores(trend_setup, scoring_cfg, mini_profiles):
     pd.testing.assert_frame_equal(a.blocks, b.blocks)
     pd.testing.assert_frame_equal(a.regime, b.regime)
     assert b.trend.at["EQ", "reason"] == "trend 설정 없음" and b.staged_entry.at["EQ", "reason"] == "staged_entry 설정 없음"
+
+
+# ---- B3 보강. 현금 차감 면제(결정 4: KR_CORP 는 수익 지수가 이미 초과수익 근사) · trend.basis
+def _exempt_universe(**trend):
+    return [{"asset_id": "EQ", "asset_class": "equity_index", "refs": {"fx_home": "FX.close"}, "trend": trend},
+            {"asset_id": "FX", "asset_class": "equity_index"}]
+
+
+def test_trend_cash_none_skips_cash_and_labels_basis(mini_profiles, scoring_cfg):
+    close = synth_daily(seed=1)
+    rate = pd.Series(np.linspace(1.0, 2.5, len(close)), index=close.index)
+    base = [to_panel("EQ", "close", close), to_panel("FX", "close", synth_daily(seed=4, s0=1100.0, vol=0.005))]
+    with_rate = pd.concat([*base, to_panel("EQ", "policy_rate", rate)], ignore_index=True)
+    no_rate = pd.concat(base, ignore_index=True)
+    eng = ScoringEngine(build_config(_exempt_universe(cash="none", basis="국고 대비"), mini_profiles, scoring_cfg))
+    t = pd.Timestamp(T)
+    lag = close.index[close.index <= t - pd.DateOffset(months=12)][-1]
+    exp = close[t] / close[lag] - 1   # 현금을 빼지 않는다
+    for panel in (with_rate, no_rate):   # 금리 필드가 있어도 없어도 같은 값(현금 필드를 읽지 않는다)
+        tr = eng.score(panel, as_of=T).trend.loc["EQ"]
+        assert tr["value"] == pytest.approx(exp, rel=1e-12) and tr["reason"] == ""
+        assert tr["sign"] == int(np.sign(exp)) and tr["basis"] == "국고 대비"
+    # 면제가 없는 자산은 현금을 빼고 "현금 대비"
+    default = ScoringEngine(build_config(_exempt_universe(cash="subtract"), mini_profiles, scoring_cfg))
+    tr = default.score(with_rate, as_of=T).trend.loc["EQ"]
+    assert tr["basis"] == "현금 대비" and tr["value"] < exp   # 금리 > 0 이므로 현금 차감 후가 더 작다
+    d = {a["asset_id"]: a for a in eng.score(no_rate, as_of=T).to_dict()["assets"]}
+    assert d["EQ"]["trend"]["basis"] == "국고 대비" and d["FX"]["trend"]["basis"] == "현금 대비"
+    h = eng.trend_history(no_rate, ["EQ"])["EQ"]   # 이력 경로도 같은 규칙
+    assert h.at[t, "value"] == pytest.approx(exp, rel=1e-12)
+
+
+def test_trend_cash_none_does_not_change_scores(mini_profiles, scoring_cfg):
+    close = synth_daily(seed=1)
+    panel = pd.concat([to_panel("EQ", "close", close),
+                       to_panel("FX", "close", synth_daily(seed=4, s0=1100.0, vol=0.005))], ignore_index=True)
+    a = ScoringEngine(build_config(_exempt_universe(cash="none", basis="국고 대비"), mini_profiles, scoring_cfg))
+    b = ScoringEngine(build_config(_exempt_universe(cash="subtract"), mini_profiles, scoring_cfg))
+    ha, hb = a.score_history(panel)["EQ"], b.score_history(panel)["EQ"]
+    pd.testing.assert_frame_equal(ha.blocks, hb.blocks)
+    pd.testing.assert_frame_equal(ha.score, hb.score)
+    pd.testing.assert_frame_equal(a.score(panel, as_of=T).regime, b.score(panel, as_of=T).regime)
+
+
+def test_trend_basis_null_without_trend_config(mini_profiles, scoring_cfg):
+    sc = copy.deepcopy(scoring_cfg)
+    sc.pop("trend")
+    sc.pop("staged_entry")
+    eng = ScoringEngine(build_config(_exempt_universe(cash="none", basis="국고 대비"), mini_profiles, sc))
+    panel = pd.concat([to_panel("EQ", "close", synth_daily(seed=1)),
+                       to_panel("FX", "close", synth_daily(seed=4, s0=1100.0, vol=0.005))], ignore_index=True)
+    r = eng.score(panel, as_of=T)
+    assert r.trend.at["EQ", "reason"] == "trend 설정 없음" and r.trend.at["EQ", "basis"] is None
+
+
+@pytest.mark.parametrize("trend,msg", [
+    ({"cash": "none"}, "trend.basis"),                                  # none 인데 기준 라벨 없음
+    ({"cash": "none", "basis": ""}, "trend.basis"),
+    ({"cash": "none", "basis": 3}, "trend.basis"),
+    ({"cash": "subtract", "basis": "국고 대비"}, "trend.basis"),         # 현금을 빼는데 라벨만 바꾸는 것을 막는다
+    ({"cash": "zero", "basis": "x"}, "trend.cash"),
+    ({"cash": "none", "basis": "국고 대비", "typo": 1}, "알 수 없는 키"),
+    ({"basis": "국고 대비"}, "trend.basis"),                             # cash 생략 = subtract
+])
+def test_asset_trend_config_rejected(mini_profiles, scoring_cfg, trend, msg):
+    with pytest.raises(ConfigError, match=msg):
+        build_config(_exempt_universe(**trend), mini_profiles, scoring_cfg)
+
+
+def test_asset_trend_config_must_be_mapping(mini_profiles, scoring_cfg):
+    u = _exempt_universe()
+    u[0]["trend"] = "none"
+    with pytest.raises(ConfigError, match="매핑"):
+        build_config(u, mini_profiles, scoring_cfg)
+
+
+def test_real_universe_exempts_only_kr_corp():
+    from pathlib import Path
+    from mtscore import load_config
+    cfg = load_config(Path(__file__).resolve().parents[1] / "config")
+    exempt = {a.asset_id: a.trend_basis for a in cfg.universe if a.trend_cash == "none"}
+    assert exempt == {"KR_CORP": "국고 대비"}
+    assert all(a.trend_basis == "현금 대비" for a in cfg.universe if a.asset_id != "KR_CORP")

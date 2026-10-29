@@ -4,6 +4,8 @@
 #   refs: {이 자산에서 쓸 field: 다른자산ID.field}  — 다른 자산의 PIT 시계열을 그대로 빌려 쓴다(변환 전 원값)
 #         policy_rate 는 추세 표시(scoring.yaml trend)의 현금 금리용이다(점수 미사용, 2026-10-29)
 #   field_transforms: {field: reciprocal | negate}  — 이 자산 계산 직전에 적용
+#   trend: {cash: none, basis: <라벨>}  — 추세 표시(scoring.yaml trend)에서 현금을 빼지 않는다(수익 지수가 이미 초과수익 근사인 자산).
+#         basis 는 결과 trend.basis 로 나가는 부호의 기준 라벨(필수). 생략하면 현금을 빼고 기준은 "현금 대비"(2026-10-29 결정 4)
 #   overrides: {exclude: [지표명 | 블록 | 하위블록 | 블록.하위블록], weights: {지표명 | 블록.하위블록: w}, params: {지표명: {...}}}
 #   그 밖의 키는 meta 로 보존(엔진 계산에 쓰지 않음)
 - asset_id: KOSPI200
@@ -99,5 +101,6 @@
   return_field: duration_approx
   duration: 2.7
   return_yield_field: spread      # 가정: 스프레드(AA−3년 − 국고3년)로 −D×Δs + s 캐리 = 같은 듀레이션 국고 대비 초과수익 근사(총수익 아님)
+  trend: {cash: none, basis: 국고 대비}   # 수익 지수가 이미 국고 대비 초과수익 근사라 현금을 또 빼지 않는다(사용자 결정 2026-10-29 결정 4)
   refs: {equity_fwd_eps: KOSPI200.fwd_eps_12m, spread_high_grade: KR_CORP.spread, policy_rate: KTB10Y.policy_rate}   # spread_low_grade(BBB−−국고3년)는 자체 필드(KRCORP=KQ, 2010~ 확인 2026-10-28)
   overrides: {}

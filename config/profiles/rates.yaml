@@ -6,11 +6,11 @@ blocks:
       - {name: yield_chg_z_20, indicator: change_z, direction: +, fields: [yield], params: {window: 20}}
       - {name: yield_chg_z_60, indicator: change_z, direction: +, fields: [yield], params: {window: 60}}
       - {name: yield_disparity_60, indicator: level_disparity, direction: +, fields: [yield], params: {window: 60}}
-    confluence:   # 금리 볼린저 상단 근접 AND 금리 RSI 과열(= 채권 과매도) — scoring.yaml sub_block_agg: min(사용자 결정 2026-10-28)
+    confluence:   # 금리 볼린저 상단 근접 AND 금리 RSI 과열(= 채권 과매도) — scoring.yaml sub_block_agg: min(사용자 결정 2026-10-28) — 효과 미확인(Phase 3 §6-5, Phase 4 B — 2026-10-29 유지 결정)
       - {name: bb_pctb_20, indicator: bb_pctb, direction: +, fields: [yield], params: {window: 20, k: 2}}
       - {name: rsi_14, indicator: rsi, direction: +, fields: [yield], params: {window: 14}}   # 금리 수준의 차분으로 계산(가정: 금리 RSI 를 채권 가격 RSI 의 반대로 읽는다)
     volatility:
-      - {name: level_rv_ratio_20, indicator: level_rv_ratio, direction: +, fields: [yield], params: {window: 20}}   # 평소보다 높은 금리 변동성 = 기회(사용자 결정 2026-10-28, 가정: 미검증)
+      - {name: level_rv_ratio_20, indicator: level_rv_ratio, direction: +, fields: [yield], params: {window: 20}}   # 평소보다 높은 금리 변동성 = 기회(사용자 결정 2026-10-28, 가정: 미검증) — 효과 미확인(Phase 3 §6-5, Phase 4 B — 2026-10-29 유지 결정)
     positioning:
       - {name: futures_net_spec, indicator: positioning_z, direction: -, fields: [cot_net]}   # UST: CFTC / KTB: 미확인 → universe overrides 로 제외
   valuation:

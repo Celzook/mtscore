@@ -23,7 +23,7 @@ from .data.schema import validate_panel
 
 log = logging.getLogger(__name__)
 
-SCHEMA_VERSION = "1.1"   # 1.1(2026-10-29): staged_entry·trend 표시 필드 추가
+SCHEMA_VERSION = "1.2"   # 1.1(2026-10-29): staged_entry·trend 표시 필드 추가 / 1.2: trend.basis(부호의 기준) 추가
 ENGINE_VERSION = "0.1.0"
 CALENDAR_FIELD_CANDIDATES = ("close", "yield", "spread")
 
@@ -43,7 +43,8 @@ class ScoreResult:
         coverage: 지표별 사용/제외와 사유. available = 기준일에 점수가 있었는지.
         history: asset_id → AssetScores(일별 전체 이력). to_json 에는 넣지 않는다.
         staged_entry: asset_id 별 분할 진입 표시(flag·oversold·vol_ratio·vol_indicator·reason). 점수·국면에 영향 없음.
-        trend: asset_id 별 추세 표시(value = TSMOM 현금 대비 초과, sign = ±1, months·reason). 점수·국면에 쓰지 않음.
+        trend: asset_id 별 추세 표시(value = TSMOM 초과수익, sign = ±1, months·reason, basis = 부호의 기준: 현금 대비 | 자산별 설정
+            예 KR_CORP 국고 대비). 점수·국면에 쓰지 않음.
     """
 
     as_of: pd.Timestamp
@@ -230,6 +231,8 @@ class ScoringEngine:
 
         value = 수익 지수(return_index 규칙)의 trend.months 달력월 수익 − 같은 구간 현금 수익(core.backtest.tsmom_excess).
         현금 금리는 scoring.yaml trend.cash_field(자기 필드 또는 universe.yaml refs). sign = value 의 부호(±1, 0 이면 0).
+        universe.yaml 자산 trend.cash=none 이면 현금을 빼지 않는다(수익 지수가 이미 초과수익 근사, 예 KR_CORP) —
+        이 자산은 현금 필드도 필요 없다.
         as_of 를 주면 그 뒤에 알려진 행을 먼저 버린다(PIT, score_history 와 같은 규칙).
         값이 없으면 reason: trend 설정 없음 | missing_field:<f> | return_index:<사유> | insufficient_history."""
         p = validate_panel(panel)
@@ -246,8 +249,11 @@ class ScoringEngine:
                 out[aid] = frame.assign(reason="trend 설정 없음")
                 continue
             cf = tcfg["cash_field"]
-            ra, rf = asset.refs.get(cf, (aid, cf))
-            cash = self._field_series(p, ra, rf, cal)
+            if asset.trend_cash == "none":
+                cash = pd.Series(0.0, index=cal)   # 현금 0 → tsmom_excess 가 수익 지수 수익만 낸다(core 불변)
+            else:
+                ra, rf = asset.refs.get(cf, (aid, cf))
+                cash = self._field_series(p, ra, rf, cal)
             if cash is None or cash.notna().sum() == 0:
                 out[aid] = frame.assign(reason=f"missing_field:{cf}")
                 continue
@@ -298,6 +304,7 @@ class ScoringEngine:
             tv = np.nan if is_stale or t not in tr.index else tr.at[t, "value"]
             tr_rows[aid] = {"sign": None if np.isnan(tv) else int(np.sign(tv)), "value": tv,
                             "months": (self.config.scoring.get("trend") or {}).get("months"),
+                            "basis": self.config.asset(aid).trend_basis if self.config.scoring.get("trend") else None,
                             "reason": "unavailable_at_as_of" if is_stale else
                             ("" if t not in tr.index else tr.at[t, "reason"])}
             rows_c = _contributions(aid, h, t)
@@ -324,7 +331,7 @@ class ScoringEngine:
             coverage=pd.concat(cov, ignore_index=True) if cov else pd.DataFrame(),
             history=hist,
             staged_entry=pd.DataFrame(se_rows).T[["flag", "oversold", "vol_ratio", "vol_indicator", "reason"]],
-            trend=pd.DataFrame(tr_rows).T[["sign", "value", "months", "reason"]],
+            trend=pd.DataFrame(tr_rows).T[["sign", "value", "months", "basis", "reason"]],
         )
 
 

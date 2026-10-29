@@ -5,11 +5,11 @@ blocks:
     price:
       - {name: disparity_60, indicator: disparity, direction: -, fields: [close], params: {window: 60}}
       - {name: return_z_20, indicator: return_z, direction: -, fields: [close], params: {window: 20}}
-    confluence:   # 볼린저 하단 근접 AND 과매도 — scoring.yaml sub_block_agg: min(사용자 결정 2026-10-28)
+    confluence:   # 볼린저 하단 근접 AND 과매도 — scoring.yaml sub_block_agg: min(사용자 결정 2026-10-28) — 효과 미확인(Phase 3 §6-5, Phase 4 B — 2026-10-29 유지 결정)
       - {name: bb_pctb_20, indicator: bb_pctb, direction: -, fields: [close], params: {window: 20, k: 2}}
       - {name: rsi_14, indicator: rsi, direction: -, fields: [close], params: {window: 14}}
     volatility:
-      - {name: rv_ratio_20, indicator: rv_ratio, direction: +, fields: [close], params: {window: 20}}   # 평소보다 높은 변동성 = 기회(사용자 결정 2026-10-28, 가정: 미검증)
+      - {name: rv_ratio_20, indicator: rv_ratio, direction: +, fields: [close], params: {window: 20}}   # 평소보다 높은 변동성 = 기회(사용자 결정 2026-10-28, 가정: 미검증) — 효과 미확인(Phase 3 §6-5, Phase 4 B — 2026-10-29 유지 결정)
     positioning:
       - {name: spec_positioning, indicator: positioning_z, direction: -, fields: [cot_net]}
   valuation:

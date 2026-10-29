@@ -13,7 +13,7 @@ blocks:
       - {name: return_z_5, indicator: return_z, direction: -, fields: [close], params: {window: 5}}
       - {name: return_z_20, indicator: return_z, direction: -, fields: [close], params: {window: 20}}
       - {name: rsi_2, indicator: rsi, direction: -, fields: [close], params: {window: 2}}
-    confluence:   # 볼린저 하단 근접 AND 과매도 — scoring.yaml sub_block_agg: min(사용자 결정 2026-10-28)
+    confluence:   # 볼린저 하단 근접 AND 과매도 — scoring.yaml sub_block_agg: min(사용자 결정 2026-10-28) — 효과 미확인(Phase 3 §6-5, Phase 4 B — 2026-10-29 유지 결정)
       - {name: bb_pctb_20, indicator: bb_pctb, direction: -, fields: [close], params: {window: 20, k: 2}}
       - {name: rsi_14, indicator: rsi, direction: -, fields: [close], params: {window: 14}}   # price 에서 옮김(2026-10-28)
     breadth:  # 구성종목 집계는 어댑터가 field 로 공급(KOSPI200: pykrx 과거 구성종목)
@@ -27,7 +27,7 @@ blocks:
       - {name: vol_term_inversion, indicator: term_ratio, direction: +, fields: [vol_index, vol_index_3m]}
       - {name: put_call, indicator: level, direction: +, fields: [put_call], status: na_until_found}
       - {name: home_ccy_shock_20, indicator: shock_return, direction: +, fields: [fx_home], params: {window: 20}, flags: [currency]}
-      - {name: rv_ratio_20, indicator: rv_ratio, direction: +, fields: [close], params: {window: 20}}   # 평소보다 높은 변동성 = 패닉 = 기회(사용자 결정 2026-10-28, 가정: 미검증)
+      - {name: rv_ratio_20, indicator: rv_ratio, direction: +, fields: [close], params: {window: 20}}   # 평소보다 높은 변동성 = 패닉 = 기회(사용자 결정 2026-10-28, 가정: 미검증) — 효과 미확인(Phase 3 §6-5, Phase 4 B — 2026-10-29 유지 결정)
     flows:
       - {name: foreign_net_buy_intensity, indicator: flow_intensity, direction: -, fields: [foreign_net_buy]}
       - {name: inst_net_buy_intensity, indicator: flow_intensity, direction: -, fields: [inst_net_buy], status: na_until_found}   # 가정: 방향은 foreign_net_buy_intensity 와 같다(대량 순매도 = 과매도). 소스 pykrx 는 KRX 로그인 필요(2026-10-28)
