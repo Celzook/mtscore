@@ -1,0 +1,16 @@
+split,with,n_months,pearson_level,spearman_level
+all,pe_trailing_set,199,0.6213,0.5188
+all,fwd_per,199,-0.3534,-0.3920
+all,pbr,199,0.9825,0.9718
+all,div_yield,199,-0.5743,-0.6691
+select_2013_2019,pe_trailing_set,84,0.7477,0.6409
+select_2013_2019,fwd_per,84,-0.5687,-0.6076
+select_2013_2019,pbr,84,0.9436,0.9430
+select_2013_2019,div_yield,84,-0.6451,-0.5698
+confirm_2020_end,pe_trailing_set,81,0.6537,0.7165
+confirm_2020_end,fwd_per,81,-0.4380,-0.0502
+confirm_2020_end,pbr,81,0.9857,0.9825
+confirm_2020_end,div_yield,81,-0.9106,-0.8083
+all,score: 현행 밸류 블록(일별),3370,0.4547,0.4088
+select_2013_2019,score: 현행 밸류 블록(일별),1697,-0.0808,-0.0619
+confirm_2020_end,score: 현행 밸류 블록(일별),1673,0.6321,0.6641
