@@ -377,3 +377,34 @@ def equal_weight_rows(rows: pd.DataFrame) -> pd.DataFrame:
 def exclude_rows(rows: pd.DataFrame, rics: list[str]) -> pd.DataFrame:
     """특정 종목(예: 삼성전자·SK하이닉스)을 뺀 바텀업 행."""
     return rows[~rows["ric"].isin(rics)].reset_index(drop=True)
+
+
+# ---- 장기 반전용 과거 시점 값(Phase 4 C1 — 사전 등록 2026-10-29)
+# 엔진은 자산 달력(2010~) 이전 관측을 버리므로(to_calendar) 60개월 전 값을 엔진 안에서 만들 수 없다.
+# 그래서 같은 장기 계열에서 'n 달력월 전 값'을 짝 필드로 만들어 준다(분자·분모가 같은 빌드에서 나와야 백어저스트
+# 기준점이 바뀌어도 비율이 맞는다).
+def lag_months_daily(s: pd.Series, months: int, max_stale_bdays: int = 5) -> pd.Series:
+    """일별 계열(자기 관측일 색인) → 각 날짜 t 에 't − months 달력월' 이전 마지막 관측값.
+
+    core.indicators.price.lag_months 와 같은 규칙(그 시점 이전 마지막 관측)에, 엔진의 일별 유지 한도(5영업일)를
+    더했다: 고른 관측이 목표일보다 max_stale_bdays 영업일 넘게 오래되면 결측. t 이전 값만 쓰므로 PIT."""
+    s = s.dropna().sort_index()
+    idx = pd.DatetimeIndex(s.index)
+    target = idx - pd.DateOffset(months=months)
+    pos = idx.searchsorted(target, side="right") - 1
+    ok = pos >= 0
+    vals = np.where(ok, s.to_numpy(dtype=float)[np.clip(pos, 0, None)], np.nan)
+    picked = idx[np.clip(pos, 0, None)].values.astype("datetime64[D]")
+    age = np.busday_count(picked, target.values.astype("datetime64[D]"))
+    vals = np.where(ok & (age <= max_stale_bdays), vals, np.nan)
+    return pd.Series(vals, index=idx)
+
+
+def lag_months_exact(rows: pd.DataFrame, months: int) -> pd.DataFrame:
+    """월별 행(date = 기준월, value, as_of) → 같은 date·as_of 에 'date − months 기준월'의 값. 없는 달은 행을 만들지 않는다.
+
+    공표 시차가 고정(as_of = 기준월 + k)인 월별 계열에서는 엔진의 lag_months('지금 알려진 값 vs n개월 전에 알려진 값')와
+    같다. 가정: 공표 시차 고정."""
+    r = rows.sort_values("date").drop_duplicates("date", keep="last").set_index("date")
+    prev = r["value"].reindex(r.index - pd.DateOffset(months=months)).to_numpy()
+    return frame(r.index, prev, r["as_of"] if "as_of" in r.columns else None)

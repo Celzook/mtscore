@@ -1,0 +1,5 @@
+input,reference,rows,rows_ref,only_new,only_ref,mismatch_oversold,maxabs_oversold,mismatch_valuation,maxabs_valuation,mismatch_fundamental,maxabs_fundamental
+panel,outputs/phase2/score_history.csv.gz(round 4),34573,34573,0,0,0,0.0,0,0.0,0,0.0
+panel,data/processed/phase3_forward_returns.csv.gz(round 6),42118,42118,0,0,0,0.0,0,0.0,0,0.0
+panel+long,outputs/phase2/score_history.csv.gz(round 4),34573,34573,0,0,0,0.0,0,0.0,0,0.0
+panel+long,data/processed/phase3_forward_returns.csv.gz(round 6),42118,42118,0,0,0,0.0,0,0.0,0,0.0

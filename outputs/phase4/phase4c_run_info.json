@@ -1,0 +1,54 @@
+{
+ "seconds": 88.5,
+ "as_of_reproduce": "2026-10-27",
+ "primary_horizon": 63,
+ "periods": {
+  "selection": [
+   "2013-01-01",
+   "2019-12-31"
+  ],
+  "confirmation": [
+   "2020-01-01",
+   null
+  ]
+ },
+ "corr_cut": 0.9,
+ "placebo_shifts": 2000,
+ "placebo_seed_rule": "11 + 4000 + 10*class_idx + period_idx",
+ "classes": {
+  "commodity": [
+   "GOLD",
+   "WTI"
+  ],
+  "fx": [
+   "USDKRW"
+  ],
+  "rates": [
+   "KTB10Y",
+   "UST10Y"
+  ]
+ },
+ "long_months": 60,
+ "verdict": [
+  {
+   "asset_class": "commodity",
+   "variant": "C1",
+   "verdict": "채택"
+  },
+  {
+   "asset_class": "fx",
+   "variant": "C1",
+   "verdict": "기각"
+  },
+  {
+   "asset_class": "fx",
+   "variant": "C2",
+   "verdict": "채택"
+  },
+  {
+   "asset_class": "rates",
+   "variant": "C1",
+   "verdict": "기각"
+  }
+ ]
+}
